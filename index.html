@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pranav Rajagopal | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --accent-glow: rgba(99, 102, 241, 0.15);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.018;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #1a1a2e; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2a2a4e; }
+        ::selection { background: rgba(99,102,241,0.3); color: #fff; }
+
+        /* ── Utility ── */
+        .glass {
+            background: rgba(255,255,255,0.025);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .glass-strong {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #fff 0%, #c7d2fe 40%, #a5b4fc 60%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-glow {
+            text-shadow: 0 0 30px rgba(99,102,241,0.15), 0 0 80px rgba(99,102,241,0.08);
+        }
+        .section-divider {
+            height: 1px;
+            max-width: 56rem;
+            margin: 0 auto;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.12), transparent);
+        }
+
+        /* ── Scroll Reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+        .reveal-delay-6 { transition-delay: 0.6s; }
+
+        /* ── Keyframes ── */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.9; }
+        }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scroll-dot {
+            0%, 100% { opacity: 0.4; height: 4px; }
+            50% { opacity: 1; height: 10px; }
+        }
+        @keyframes bounce-scroll {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        @keyframes hero-text {
+            from { opacity: 0; transform: translateY(40px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ── Nav ── */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            transition: all 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
+            padding: 1.25rem 0;
+        }
+        .nav.scrolled {
+            padding: 0.75rem 0;
+            background: rgba(5,5,15,0.8);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+        .nav.hidden-nav { transform: translateY(-100%); }
+        .nav-inner {
+            max-width: 72rem; margin: 0 auto; padding: 0 1.5rem;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            font-size: 1.25rem; font-weight: 700;
+            text-decoration: none;
+            animation: fade-in-up 0.5s ease both;
+        }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-link {
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em;
+            color: rgba(255,255,255,0.35); text-decoration: none;
+            transition: color 0.3s; position: relative;
+            animation: fade-in-up 0.5s ease both;
+        }
+        .nav-link:hover { color: rgba(255,255,255,0.85); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px;
+            background: linear-gradient(90deg, var(--accent-light), #a78bfa);
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+        .mobile-toggle {
+            display: none; background: none; border: none;
+            cursor: pointer; width: 26px; height: 20px;
+            position: relative; z-index: 110;
+        }
+        .mobile-toggle span {
+            display: block; width: 100%; height: 1px;
+            background: rgba(255,255,255,0.5);
+            position: absolute; left: 0;
+            transition: all 0.3s;
+        }
+        .mobile-toggle span:nth-child(1) { top: 0; }
+        .mobile-toggle span:nth-child(2) { top: 50%; }
+        .mobile-toggle span:nth-child(3) { bottom: 0; }
+        .mobile-toggle.open span:nth-child(1) { top: 50%; transform: rotate(45deg); }
+        .mobile-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .mobile-toggle.open span:nth-child(3) { bottom: 50%; transform: rotate(-45deg); }
+        .mobile-menu {
+            display: none; flex-direction: column; gap: 1rem;
+            padding: 1.5rem; border-top: 1px solid rgba(255,255,255,0.04);
+            margin-top: 0.75rem;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a {
+            color: rgba(255,255,255,0.4); text-decoration: none;
+            font-size: 0.85rem; padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+        .mobile-menu a:hover { color: rgba(255,255,255,0.8); }
+
+        /* ── Hero ── */
+        .hero {
+            position: relative; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .hero-canvas {
+            position: absolute; inset: 0; opacity: 0.45;
+        }
+        .hero-canvas canvas { display: block; width: 100%; height: 100%; }
+        .hero-orb {
+            position: absolute; border-radius: 50%;
+            filter: blur(150px); pointer-events: none;
+        }
+        .hero-orb-1 {
+            top: 12%; left: -8%; width: 500px; height: 500px;
+            background: rgba(99,102,241,0.06);
+            animation: glow-pulse 5s ease-in-out infinite;
+        }
+        .hero-orb-2 {
+            bottom: 8%; right: -10%; width: 600px; height: 600px;
+            background: rgba(139,92,246,0.04);
+            animation: glow-pulse 5s ease-in-out infinite 2s;
+        }
+        .hero-orb-3 {
+            top: 45%; left: 45%; width: 800px; height: 800px;
+            transform: translate(-50%, -50%);
+            background: rgba(59,130,246,0.025);
+        }
+        .hero-grid {
+            position: absolute; inset: 0; opacity: 0.02; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 100px 100px;
+        }
+        .hero-content {
+            position: relative; z-index: 10; text-center;
+            padding: 0 1.5rem; max-width: 52rem;
+        }
+        .hero-tag {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem; margin-bottom: 2rem;
+            border-radius: 999px;
+            animation: hero-text 0.7s ease both 0.2s;
+        }
+        .hero-tag-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #34d399; position: relative;
+        }
+        .hero-tag-dot::after {
+            content: ''; position: absolute; inset: -3px;
+            border-radius: 50%; border: 1px solid #34d399;
+            animation: pulse-ring 2s ease-out infinite;
+        }
+        .hero-tag-text {
+            font-size: 0.65rem; text-transform: uppercase;
+            letter-spacing: 0.2em; color: rgba(255,255,255,0.35);
+        }
+        .hero-title {
+            font-size: clamp(2.8rem, 8vw, 7rem);
+            font-weight: 800; line-height: 1.05; margin-bottom: 1.5rem;
+            animation: hero-text 0.8s ease both 0.4s;
+        }
+        .hero-subtitle {
+            font-size: clamp(0.95rem, 2vw, 1.25rem);
+            color: rgba(255,255,255,0.35); max-width: 36rem;
+            margin: 0 auto 2.5rem; line-height: 1.7;
+            animation: hero-text 0.8s ease both 0.6s;
+        }
+        .hero-ctas {
+            display: flex; flex-wrap: wrap; gap: 1rem;
+            justify-content: center;
+            animation: hero-text 0.8s ease both 0.8s;
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.875rem 2rem; border-radius: 999px;
+            font-size: 0.85rem; text-decoration: none;
+            transition: all 0.35s; cursor: pointer; border: none;
+            font-family: inherit;
+        }
+        .btn-glass {
+            color: rgba(255,255,255,0.6);
+        }
+        .btn-glass:hover {
+            color: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.07);
+        }
+        .btn-glass svg {
+            transition: transform 0.3s;
+        }
+        .btn-glass:hover svg { transform: translateX(3px); }
+        .btn-accent {
+            background: rgba(99,102,241,0.12);
+            border: 1px solid rgba(99,102,241,0.18);
+            color: rgba(165,180,252,0.75);
+        }
+        .btn-accent:hover {
+            background: rgba(99,102,241,0.22);
+            color: rgba(199,210,254,0.9);
+            box-shadow: 0 0 25px rgba(99,102,241,0.12);
+        }
+        .scroll-indicator {
+            position: absolute; bottom: 2.5rem;
+            left: 50%; transform: translateX(-50%);
+            animation: fade-in-up 1s ease both 1.5s;
+        }
+        .scroll-mouse {
+            width: 22px; height: 34px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 999px; display: flex;
+            justify-content: center; padding-top: 8px;
+            animation: bounce-scroll 2.5s ease-in-out infinite;
+        }
+        .scroll-dot {
+            width: 2px; border-radius: 999px;
+            background: rgba(255,255,255,0.35);
+            animation: scroll-dot 2.5s ease-in-out infinite;
+        }
+
+        /* ── Sections ── */
+        .section {
+            position: relative; padding: 7rem 1.5rem;
+        }
+        .section-inner { max-width: 72rem; margin: 0 auto; }
+        .section-label {
+            font-size: 0.65rem; text-transform: uppercase;
+            letter-spacing: 0.3em; color: rgba(99,102,241,0.45);
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700; color: #fff; margin-bottom: 2rem;
+        }
+        .section-desc {
+            color: rgba(255,255,255,0.3); font-size: 1.05rem;
+            line-height: 1.75; max-width: 48rem;
+        }
+
+        /* ── Skills Grid ── */
+        .skills-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem; margin-top: 4rem;
+        }
+        .skill-card {
+            border-radius: 1rem; padding: 2rem; position: relative;
+            overflow: hidden; cursor: default;
+            transition: transform 0.35s ease, box-shadow 0.5s ease, border-color 0.4s;
+        }
+        .skill-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 30px rgba(99,102,241,0.06), 0 8px 32px rgba(0,0,0,0.4);
+        }
+        .skill-card-bg {
+            position: absolute; inset: 0;
+            opacity: 0; transition: opacity 0.5s;
+        }
+        .skill-card:hover .skill-card-bg { opacity: 1; }
+        .skill-icon {
+            color: rgba(255,255,255,0.25); margin-bottom: 1.25rem;
+            transition: color 0.3s;
+        }
+        .skill-card:hover .skill-icon { color: rgba(255,255,255,0.55); }
+        .skill-category {
+            font-size: 1.1rem; font-weight: 600;
+            color: rgba(255,255,255,0.75); margin-bottom: 1.25rem;
+            transition: color 0.3s;
+        }
+        .skill-card:hover .skill-category { color: #fff; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .skill-tag {
+            padding: 0.375rem 0.75rem; font-size: 0.7rem;
+            color: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+        .skill-card:hover .skill-tag {
+            border-color: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ── Goals ── */
+        .goals-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem; margin-top: 3rem;
+        }
+        .goal-card {
+            border-radius: 1rem; padding: 2rem;
+        }
+        .goal-label {
+            font-size: 0.65rem; text-transform: uppercase;
+            letter-spacing: 0.2em; color: rgba(99,102,241,0.45);
+            margin-bottom: 1rem;
+        }
+        .goal-text {
+            color: rgba(255,255,255,0.3); line-height: 1.7; font-size: 0.9rem;
+        }
+
+        /* ── Projects ── */
+        .projects-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.25rem; margin-top: 3.5rem;
+        }
+        .project-card {
+            border-radius: 1rem; padding: 2rem 2.5rem;
+            position: relative; overflow: hidden; cursor: pointer;
+            transition: transform 0.35s ease, box-shadow 0.5s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 35px rgba(99,102,241,0.06), 0 10px 40px rgba(0,0,0,0.4);
+        }
+        .project-card-bg {
+            position: absolute; inset: 0;
+            opacity: 0; transition: opacity 0.6s;
+        }
+        .project-card:hover .project-card-bg { opacity: 1; }
+        .project-accent-line {
+            position: absolute; top: 0; left: 2rem; right: 2rem;
+            height: 1px; opacity: 0; transition: opacity 0.5s;
+        }
+        .project-card:hover .project-accent-line { opacity: 1; }
+        .project-header {
+            display: flex; justify-content: space-between;
+            align-items: flex-start; margin-bottom: 1rem;
+            position: relative; z-index: 2;
+        }
+        .project-title {
+            font-size: 1.5rem; font-weight: 700;
+            color: rgba(255,255,255,0.75); transition: color 0.3s;
+        }
+        .project-card:hover .project-title { color: #fff; }
+        .project-arrow {
+            color: rgba(255,255,255,0.15); transition: all 0.3s;
+            flex-shrink: 0; margin-top: 4px;
+        }
+        .project-card:hover .project-arrow {
+            color: rgba(255,255,255,0.45);
+            transform: translate(2px, -2px);
+        }
+        .project-desc {
+            color: rgba(255,255,255,0.25); line-height: 1.65;
+            margin-bottom: 1.5rem; position: relative; z-index: 2;
+            font-size: 0.9rem; transition: color 0.3s;
+        }
+        .project-card:hover .project-desc { color: rgba(255,255,255,0.4); }
+        .project-tech {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            position: relative; z-index: 2;
+        }
+        .project-tech-tag {
+            padding: 0.3rem 0.7rem; font-size: 0.6rem;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 999px; transition: all 0.3s;
+        }
+        .project-card:hover .project-tech-tag {
+            color: rgba(255,255,255,0.45);
+            border-color: rgba(255,255,255,0.08);
+        }
+
+        /* ── Contact ── */
+        .contact-inner { max-width: 40rem; margin: 0 auto; }
+        .contact-header { text-align: center; margin-bottom: 3rem; }
+        .contact-form {
+            border-radius: 1rem; padding: 2.5rem;
+        }
+        .form-group { margin-bottom: 1.25rem; position: relative; }
+        .form-input {
+            width: 100%; padding: 1rem 1.25rem;
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 0.75rem; color: #fff;
+            font-size: 0.9rem; font-family: inherit;
+            transition: all 0.4s;
+        }
+        .form-input::placeholder { color: rgba(255,255,255,0.12); }
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(99,102,241,0.3);
+            background: rgba(255,255,255,0.04);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.06), 0 0 20px rgba(99,102,241,0.04);
+        }
+        textarea.form-input { resize: none; min-height: 140px; }
+        .submit-btn {
+            width: 100%; padding: 1rem; border: none; border-radius: 0.75rem;
+            font-size: 0.85rem; font-weight: 500; letter-spacing: 0.03em;
+            font-family: inherit; cursor: pointer;
+            background: linear-gradient(135deg, rgba(99,102,241,0.65), rgba(139,92,246,0.65));
+            color: #fff; transition: all 0.4s;
+        }
+        .submit-btn:hover {
+            box-shadow: 0 0 35px rgba(99,102,241,0.18);
+            background: linear-gradient(135deg, rgba(99,102,241,0.78), rgba(139,92,246,0.78));
+        }
+        .submit-btn:active { transform: scale(0.985); }
+        .submit-btn.sent {
+            background: rgba(52,211,153,0.15);
+            border: 1px solid rgba(52,211,153,0.2);
+            color: #6ee7b7;
+        }
+        .socials {
+            display: flex; justify-content: center; gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+        .social-link {
+            font-size: 0.65rem; text-transform: uppercase;
+            letter-spacing: 0.15em; color: rgba(255,255,255,0.15);
+            text-decoration: none; transition: color 0.3s;
+        }
+        .social-link:hover { color: rgba(255,255,255,0.45); }
+
+        /* ── Footer ── */
+        .footer {
+            padding: 2.5rem 1.5rem;
+        }
+        .footer-inner {
+            max-width: 72rem; margin: 0 auto;
+            display: flex; flex-wrap: wrap;
+            align-items: center; justify-content: space-between;
+            gap: 1rem;
+        }
+        .footer-text { font-size: 0.7rem; color: rgba(255,255,255,0.12); }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+            .section { padding: 5rem 1.25rem; }
+            .skills-grid, .projects-grid { grid-template-columns: 1fr; }
+            .project-card { padding: 1.75rem; }
+            .contact-form { padding: 1.75rem; }
+            .footer-inner { justify-content: center; text-align: center; }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel" data-type="module">
+const { useState, useEffect, useRef, useCallback } = React;
+
+// ────────────────────────────────────────────
+// Custom Hook: Scroll Reveal via IntersectionObserver
+// ────────────────────────────────────────────
+function useReveal(threshold = 0.15) {
+    const ref = useRef(null);
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const obs = new IntersectionObserver(
+            ([entry]) => { if (entry.isIntersecting) { el.classList.add('visible'); obs.unobserve(el); } },
+            { threshold }
+        );
+        obs.observe(el);
+        return () => obs.disconnect();
+    }, [threshold]);
+    return ref;
+}
+
+// ────────────────────────────────────────────
+// Three.js 3D Scene
+// ────────────────────────────────────────────
+function ThreeScene() {
+    const mountRef = useRef(null);
+
+    useEffect(() => {
+        const container = mountRef.current;
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+        camera.position.z = 7;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+        renderer.setClearColor(0x000000, 0);
+        container.appendChild(renderer.domElement);
+
+        // Lights
+        const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+        scene.add(ambient);
+        const point1 = new THREE.PointLight(0x6366f1, 0.5, 50);
+        point1.position.set(10, 10, 10);
+        scene.add(point1);
+        const point2 = new THREE.PointLight(0x8b5cf6, 0.25, 50);
+        point2.position.set(-10, -5, -10);
+        scene.add(point2);
+
+        // Wireframe Icosahedron
+        const icoGeo = new THREE.IcosahedronGeometry(2, 1);
+        const wireMat = new THREE.MeshStandardMaterial({
+            color: 0x818cf8, wireframe: true, transparent: true, opacity: 0.1
+        });
+        const wire = new THREE.Mesh(icoGeo, wireMat);
+        scene.add(wire);
+
+        const solidMat = new THREE.MeshStandardMaterial({
+            color: 0x6366f1, transparent: true, opacity: 0.02, side: THREE.DoubleSide
+        });
+        const solid = new THREE.Mesh(icoGeo, solidMat);
+        scene.add(solid);
+
+        // Torus ring
+        const torusGeo = new THREE.TorusGeometry(3, 0.006, 16, 120);
+        const torusMat = new THREE.MeshStandardMaterial({
+            color: 0x6366f1, transparent: true, opacity: 0.06
+        });
+        const torus = new THREE.Mesh(torusGeo, torusMat);
+        torus.rotation.x = Math.PI / 2;
+        scene.add(torus);
+
+        // Particles
+        const pCount = 100;
+        const pGeo = new THREE.BufferGeometry();
+        const positions = new Float32Array(pCount * 3);
+        for (let i = 0; i < pCount; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * 28;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 28;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 28;
+        }
+        pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const pMat = new THREE.PointsMaterial({
+            size: 0.03, color: 0xa5b4fc, transparent: true, opacity: 0.45, sizeAttenuation: true
+        });
+        const particles = new THREE.Points(pGeo, pMat);
+        scene.add(particles);
+
+        // Float offset
+        let floatOffset = 0;
+
+        // Animate
+        let animId;
+        function animate() {
+            animId = requestAnimationFrame(animate);
+            const t = performance.now() * 0.001;
+            wire.rotation.x = t * 0.08;
+            wire.rotation.y = t * 0.12;
+            solid.rotation.x = t * 0.08;
+            solid.rotation.y = t * 0.12;
+            torus.rotation.z = t * 0.03;
+
+            floatOffset = Math.sin(t * 0.6) * 0.4;
+            wire.position.y = floatOffset;
+            solid.position.y = floatOffset;
+            torus.position.y = floatOffset;
+
+            particles.rotation.y = t * 0.012;
+            particles.rotation.x = t * 0.006;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize
+        function onResize() {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+        window.addEventListener('resize', onResize);
+
+        return () => {
+            window.removeEventListener('resize', onResize);
+            cancelAnimationFrame(animId);
+            container.removeChild(renderer.domElement);
+            renderer.dispose();
+        };
+    }, []);
+
+    return <div ref={mountRef} className="hero-canvas" />;
+}
+
+// ────────────────────────────────────────────
+// Navbar
+// ────────────────────────────────────────────
+function Navbar() {
+    const [scrolled, setScrolled] = useState(false);
+    const [hidden, setHidden] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const lastScroll = useRef(0);
+
+    useEffect(() => {
+        function onScroll() {
+            const y = window.scrollY;
+            setScrolled(y > 50);
+            if (y > lastScroll.current && y > 150) {
+                setHidden(true);
+                setMobileOpen(false);
+            } else {
+                setHidden(false);
+            }
+            lastScroll.current = y;
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
+    const links = [
+        { name: 'Home', href: '#home' },
+        { name: 'About', href: '#about' },
+        { name: 'Projects', href: '#projects' },
+        { name: 'Contact', href: '#contact' },
+    ];
+
+    return (
+        <nav className={`nav ${scrolled ? 'scrolled' : ''} ${hidden ? 'hidden-nav' : ''}`}>
+            <div className="nav-inner">
+                <a href="#home" className="nav-logo gradient-text">PR.</a>
+                <div className="nav-links">
+                    {links.map((l, i) => (
+                        <a key={l.name} href={l.href} className="nav-link" style={{ animationDelay: `${0.1 + i * 0.1}s` }}>
+                            {l.name}
+                        </a>
+                    ))}
+                </div>
+                <button className={`mobile-toggle ${mobileOpen ? 'open' : ''}`} onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
+                    <span /><span /><span />
+                </button>
+            </div>
+            <div className={`mobile-menu ${mobileOpen ? 'open' : ''}`}>
+                {links.map(l => (
+                    <a key={l.name} href={l.href} onClick={() => setMobileOpen(false)}>{l.name}</a>
+                ))}
+            </div>
+        </nav>
+    );
+}
+
+// ────────────────────────────────────────────
+// Hero
+// ────────────────────────────────────────────
+function Hero() {
+    return (
+        <section id="home" className="hero">
+            <div className="hero-orb hero-orb-1" />
+            <div className="hero-orb hero-orb-2" />
+            <div className="hero-orb hero-orb-3" />
+            <ThreeScene />
+            <div className="hero-grid" />
+
+            <div className="hero-content">
+                <div className="hero-tag glass">
+                    <div className="hero-tag-dot" />
+                    <span className="hero-tag-text">Available for projects</span>
+                </div>
+
+                <h1 className="hero-title gradient-text text-glow">
+                    Pranav<br />Rajagopal
+                </h1>
+
+                <p className="hero-subtitle">
+                    16-year-old developer, creator &amp; innovator.<br />
+                    Building the future, one line of code at a time.
+                </p>
+
+                <div className="hero-ctas">
+                    <a href="#projects" className="btn btn-glass glass">
+                        View Projects
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                    <a href="#contact" className="btn btn-accent">Get in Touch</a>
+                </div>
+            </div>
+
+            <div className="scroll-indicator">
+                <div className="scroll-mouse">
+                    <div className="scroll-dot" />
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// ────────────────────────────────────────────
+// About
+// ────────────────────────────────────────────
+function About() {
+    const headerRef = useReveal();
+    const descRef = useReveal();
+
+    const skills = [
+        {
+            category: 'Frontend',
+            icon: (
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+            ),
+            items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+            bg: 'linear-gradient(135deg, rgba(59,130,246,0.08), rgba(99,102,241,0.08))',
+        },
+        {
+            category: 'Backend',
+            icon: (
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                </svg>
+            ),
+            items: ['Node.js', 'Python', 'PostgreSQL', 'REST APIs', 'GraphQL'],
+            bg: 'linear-gradient(135deg, rgba(52,211,153,0.08), rgba(45,212,191,0.08))',
+        },
+        {
+            category: 'Tools & More',
+            icon: (
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.573-1.066z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            ),
+            items: ['Git', 'Docker', 'Figma', 'Linux', 'AWS'],
+            bg: 'linear-gradient(135deg, rgba(168,85,247,0.08), rgba(236,72,153,0.08))',
+        },
+    ];
+
+    return (
+        <section id="about" className="section">
+            <div className="section-inner">
+                <div ref={headerRef} className="reveal">
+                    <p className="section-label">About Me</p>
+                    <h2 className="section-title">
+                        Crafting Digital <span className="gradient-text">Experiences</span>
+                    </h2>
+                </div>
+                <div ref={descRef} className="reveal reveal-delay-2">
+                    <p className="section-desc">
+                        I'm a 16-year-old passionate developer who thrives on turning ambitious ideas into 
+                        elegant, functional reality through code. From designing sleek web applications to 
+                        experimenting with AI and creative coding, I'm constantly pushing boundaries. My 
+                        mission is to build software that genuinely impacts people's lives — and to have 
+                        fun doing it.
+                    </p>
+                </div>
+
+                <div className="skills-grid">
+                    {skills.map((s, idx) => {
+                        const ref = useReveal();
+                        return (
+                            <div key={s.category} ref={ref} className={`reveal reveal-delay-${idx + 2} skill-card glass`}>
+                                <div className="skill-card-bg" style={{ background: s.bg }} />
+                                <div style={{ position: 'relative', zIndex: 2 }}>
+                                    <div className="skill-icon">{s.icon}</div>
+                                    <div className="skill-category">{s.category}</div>
+                                    <div className="skill-tags">
+                                        {s.items.map(item => (
+                                            <span key={item} className="skill-tag">{item}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+
+                <div className="goals-grid">
+                    {[
+                        {
+                            label: 'What Drives Me',
+                            text: "I believe technology should be both beautiful and purposeful. Every project I take on is an opportunity to learn something new and create something meaningful. Whether it's a pixel-perfect UI or an efficient algorithm, I care about the craft."
+                        },
+                        {
+                            label: "Where I'm Headed",
+                            text: "I'm working toward becoming a full-stack engineer with deep expertise in AI/ML and creative technology. Currently exploring computer science, building open-source tools, and collaborating on projects that challenge me to grow."
+                        },
+                    ].map((goal, idx) => {
+                        const ref = useReveal();
+                        return (
+                            <div key={goal.label} ref={ref} className={`reveal reveal-delay-${idx + 3} goal-card glass`}>
+                                <p className="goal-label">{goal.label}</p>
+                                <p className="goal-text">{goal.text}</p>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// ────────────────────────────────────────────
+// Projects
+// ────────────────────────────────────────────
+function Projects() {
+    const headerRef = useReveal();
+
+    const projects = [
+        {
+            title: 'NeuralSketch',
+            description: 'AI-powered tool that transforms rough sketches into polished digital artwork using deep learning models and style transfer.',
+            tech: ['Python', 'TensorFlow', 'React', 'FastAPI'],
+            gradient: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15))',
+            accent: '#818cf8',
+        },
+        {
+            title: 'EcoTrack',
+            description: 'Sustainability dashboard that helps users track and reduce their carbon footprint with real-time analytics and smart insights.',
+            tech: ['Next.js', 'TypeScript', 'D3.js', 'Supabase'],
+            gradient: 'linear-gradient(135deg, rgba(52,211,153,0.15), rgba(34,211,238,0.15))',
+            accent: '#34d399',
+        },
+        {
+            title: 'SynthWave',
+            description: 'Real-time audio visualizer with procedurally generated landscapes that dynamically react to music frequency and amplitude.',
+            tech: ['Three.js', 'Web Audio API', 'GLSL', 'React'],
+            gradient: 'linear-gradient(135deg, rgba(244,114,182,0.15), rgba(251,113,133,0.15))',
+            accent: '#f472b6',
+        },
+        {
+            title: 'DevFlow',
+            description: 'Developer productivity CLI tool that automates repetitive tasks, scaffolds projects, and streamlines Git workflows.',
+            tech: ['Rust', 'Node.js', 'CLI', 'GitHub API'],
+            gradient: 'linear-gradient(135deg, rgba(251,191,36,0.15), rgba(249,115,22,0.15))',
+            accent: '#fbbf24',
+        },
+    ];
+
+    return (
+        <section id="projects" className="section">
+            <div className="section-inner">
+                <div ref={headerRef} className="reveal">
+                    <p className="section-label">Projects</p>
+                    <h2 className="section-title">
+                        Things I've <span className="gradient-text">Built</span>
+                    </h2>
+                </div>
+
+                <div className="projects-grid">
+                    {projects.map((p, idx) => {
+                        const ref = useReveal();
+                        return (
+                            <div key={p.title} ref={ref} className={`reveal reveal-delay-${idx + 1} project-card glass`}>
+                                <div className="project-card-bg" style={{ background: p.gradient }} />
+                                <div className="project-accent-line" style={{ background: `linear-gradient(90deg, transparent, ${p.accent}40, transparent)` }} />
+
+                                <div className="project-header">
+                                    <h3 className="project-title">{p.title}</h3>
+                                    <svg className="project-arrow" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 17L17 7M17 7H7M17 7v10" />
+                                    </svg>
+                                </div>
+
+                                <p className="project-desc">{p.description}</p>
+
+                                <div className="project-tech">
+                                    {p.tech.map(t => (
+                                        <span key={t} className="project-tech-tag">{t}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// ────────────────────────────────────────────
+// Contact
+// ────────────────────────────────────────────
+function Contact() {
+    const headerRef = useReveal();
+    const formRef = useReveal();
+    const [submitted, setSubmitted] = useState(false);
+    const [focused, setFocused] = useState(null);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setSubmitted(true);
+        setTimeout(() => setSubmitted(false), 3000);
+    };
+
+    return (
+        <section id="contact" className="section">
+            <div className="contact-inner">
+                <div ref={headerRef} className="reveal contact-header">
+                    <p className="section-label">Contact</p>
+                    <h2 className="section-title">
+                        Let's <span className="gradient-text">Connect</span>
+                    </h2>
+                    <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.95rem' }}>
+                        Have an idea, a question, or just want to say hi? Drop me a message.
+                    </p>
+                </div>
+
+                <div ref={formRef} className="reveal reveal-delay-2">
+                    <form className="contact-form glass-strong" onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                name="name"
+                                required
+                                placeholder="Your Name"
+                                className="form-input"
+                                onFocus={() => setFocused('name')}
+                                onBlur={() => setFocused(null)}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="email"
+                                name="email"
+                                required
+                                placeholder="Your Email"
+                                className="form-input"
+                                onFocus={() => setFocused('email')}
+                                onBlur={() => setFocused(null)}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <textarea
+                                name="message"
+                                required
+                                rows="5"
+                                placeholder="Your Message"
+                                className="form-input"
+                                onFocus={() => setFocused('message')}
+                                onBlur={() => setFocused(null)}
+                            />
+                        </div>
+                        <button type="submit" className={`submit-btn ${submitted ? 'sent' : ''}`} disabled={submitted}>
+                            {submitted ? (
+                                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Message Sent!
+                                </span>
+                            ) : 'Send Message'}
+                        </button>
+                    </form>
+                </div>
+
+                <div className="socials" style={{ animation: 'fade-in-up 0.6s ease both 0.8s' }}>
+                    {['GitHub', 'LinkedIn', 'Twitter'].map(s => (
+                        <a key={s} href="#" className="social-link">{s}</a>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// ────────────────────────────────────────────
+// Footer
+// ────────────────────────────────────────────
+function Footer() {
+    const ref = useReveal();
+    return (
+        <footer className="footer">
+            <div className="section-divider" />
+            <div ref={ref} className="reveal footer-inner" style={{ marginTop: '2.5rem' }}>
+                <p className="footer-text">© {new Date().getFullYear()} Pranav Rajagopal. Built with passion.</p>
+                <p className="footer-text">Designed & Developed with React & Three.js</p>
+            </div>
+        </footer>
+    );
+}
+
+// ────────────────────────────────────────────
+// App
+// ────────────────────────────────────────────
+function App() {
+    return (
+        <>
+            <Navbar />
+            <main>
+                <Hero />
+                <div className="section-divider" />
+                <About />
+                <div className="section-divider" />
+                <Projects />
+                <div className="section-divider" />
+                <Contact />
+            </main>
+            <Footer />
+        </>
+    );
+}
+
+// ── Render ──
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+
+</body>
+</html>
