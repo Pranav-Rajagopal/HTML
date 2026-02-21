@@ -1,1247 +1,771 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pranav Rajagopal | Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--accent:#6366f1;--accent2:#8b5cf6;--pink:#ec4899;--blue:#3b82f6;--cyan:#22d3ee}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,sans-serif;background:#000;color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-body::after{content:'';position:fixed;inset:0;opacity:.015;pointer-events:none;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:#010}
-::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#6366f1,#8b5cf6);border-radius:10px}
-::selection{background:rgba(99,102,241,.3);color:#fff}
+  <!-- ===================== SEO & META ===================== -->
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="description" content="Pranav — 16‑year‑old developer portfolio. Cyberpunk hacker theme, React, Three.js, GSAP."/>
+  <meta name="keywords" content="Pranav,developer,portfolio,React,JavaScript,Python,Java,hacker,cyberpunk"/>
+  <meta name="author" content="Pranav"/>
+  <meta name="theme-color" content="#0a0a0a"/>
+  <meta property="og:title" content="Pranav | Developer Portfolio"/>
+  <meta property="og:description" content="16‑year‑old full‑stack developer portfolio"/>
+  <meta property="og:type" content="website"/>
+  <title>Pranav | Developer Portfolio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
 
-/* ── Intro Overlay ── */
-#intro-overlay{position:fixed;inset:0;z-index:10000;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity 1.2s cubic-bezier(.4,0,.2,1),visibility 1.2s}
-#intro-overlay.fade-out{opacity:0;visibility:hidden}
-#intro-overlay.hidden{display:none}
-#intro-canvas{position:absolute;inset:0}
-.skip-btn{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);font-size:.65rem;text-transform:uppercase;letter-spacing:.25em;color:rgba(255,255,255,.2);cursor:pointer;border:1px solid rgba(255,255,255,.06);padding:.5rem 1.5rem;border-radius:999px;transition:all .3s;z-index:10001;font-family:inherit;background:none;opacity:0;animation:fadeIn 1s ease 1.5s both}
-.skip-btn:hover{color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.15)}
-
-/* ── Star Canvas ── */
-#star-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-
-/* ── Nebula ── */
-.nebula{position:fixed;inset:0;pointer-events:none;z-index:0}
-.nebula-1{position:absolute;inset:-20%;background:radial-gradient(ellipse at 15% 50%,rgba(99,102,241,.1) 0%,transparent 55%);animation:nebDrift1 35s ease-in-out infinite alternate}
-.nebula-2{position:absolute;inset:-20%;background:radial-gradient(ellipse at 85% 25%,rgba(139,92,246,.07) 0%,transparent 50%);animation:nebDrift2 28s ease-in-out infinite alternate}
-.nebula-3{position:absolute;inset:-20%;background:radial-gradient(ellipse at 50% 85%,rgba(236,72,153,.05) 0%,transparent 45%);animation:nebDrift3 40s ease-in-out infinite alternate}
-.nebula-4{position:absolute;inset:-20%;background:radial-gradient(ellipse at 70% 60%,rgba(34,211,238,.04) 0%,transparent 40%);animation:nebDrift4 32s ease-in-out infinite alternate}
-@keyframes nebDrift1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(6%,-4%) scale(1.15)}}
-@keyframes nebDrift2{0%{transform:translate(0,0) scale(1.1)}100%{transform:translate(-5%,5%) scale(1)}}
-@keyframes nebDrift3{0%{transform:translate(0,0) scale(1)}100%{transform:translate(3%,-6%) scale(1.2)}}
-@keyframes nebDrift4{0%{transform:translate(0,0) scale(1.05)}100%{transform:translate(-4%,3%) scale(1.1)}}
-
-/* ── Shooting Stars ── */
-.shoot-star{position:fixed;height:1px;pointer-events:none;z-index:1;opacity:0}
-.shoot-star::before{content:'';position:absolute;width:80px;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.7),transparent);border-radius:0 50% 50% 0}
-.shoot-star::after{content:'';position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;left:0;top:-1.5px;box-shadow:0 0 6px 2px rgba(165,180,252,.5)}
-.ss1{top:12%;left:55%;transform:rotate(-35deg);animation:shootAnim 7s ease-in infinite 3s}
-.ss2{top:28%;left:75%;transform:rotate(-40deg);animation:shootAnim 9s ease-in infinite 6s}
-.ss3{top:60%;left:30%;transform:rotate(-30deg);animation:shootAnim 11s ease-in infinite 9s}
-.ss4{top:45%;left:90%;transform:rotate(-50deg);animation:shootAnim 8s ease-in infinite 12s}
-@keyframes shootAnim{0%{opacity:0;transform:rotate(-35deg) translate(0,0)}1%{opacity:.9}4%{opacity:0;transform:rotate(-35deg) translate(-350px,350px)}100%{opacity:0}}
-
-/* ── Glass ── */
-.glass{background:rgba(255,255,255,.02);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.05)}
-.glass-strong{background:rgba(255,255,255,.035);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,.06)}
-
-/* ── Text Effects ── */
-.gradient-text{background:linear-gradient(135deg,#fff 0%,#c7d2fe 30%,#a5b4fc 50%,#818cf8 70%,#c084fc 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.shimmer-text{background:linear-gradient(90deg,rgba(255,255,255,.85) 0%,#a5b4fc 20%,#c084fc 40%,rgba(255,255,255,.85) 60%,#818cf8 80%,rgba(255,255,255,.85) 100%);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 6s linear infinite}
-@keyframes shimmer{0%{background-position:0% center}100%{background-position:300% center}}
-.text-glow{text-shadow:0 0 40px rgba(99,102,241,.2),0 0 100px rgba(139,92,246,.1),0 0 200px rgba(99,102,241,.05)}
-.cosmic-glow{text-shadow:0 0 30px rgba(99,102,241,.25),0 0 60px rgba(139,92,246,.15),0 0 120px rgba(236,72,153,.08)}
-
-/* ── Letter Animation ── */
-.letter{display:inline-block;opacity:0;filter:blur(10px);transform:translateY(25px);animation:letterIn .6s cubic-bezier(.25,.46,.45,.94) forwards}
-.letter.space{width:.3em}
-@keyframes letterIn{to{opacity:1;filter:blur(0);transform:translateY(0)}}
-
-/* ── Section Divider ── */
-.section-divider{height:1px;max-width:56rem;margin:0 auto;background:linear-gradient(90deg,transparent,rgba(99,102,241,.12),rgba(139,92,246,.08),transparent)}
-
-/* ── Reveal ── */
-.reveal{opacity:0;transform:translateY(45px);transition:opacity .9s cubic-bezier(.25,.46,.45,.94),transform .9s cubic-bezier(.25,.46,.45,.94)}
-.reveal.vis{opacity:1;transform:translateY(0)}
-.rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}.rd5{transition-delay:.5s}.rd6{transition-delay:.6s}
-
-/* ── Cosmic Dust Reveal ── */
-.dust-reveal{position:relative;overflow:hidden}
-.dust-reveal::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(99,102,241,.03),transparent);opacity:0;transition:opacity .8s;pointer-events:none}
-.dust-reveal.vis::before{opacity:1}
-
-/* ── Nav ── */
-.nav{position:fixed;top:0;left:0;right:0;z-index:200;transition:all .45s cubic-bezier(.25,.46,.45,.94);padding:1.25rem 0}
-.nav.scrolled{padding:.7rem 0;background:rgba(0,0,8,.75);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-bottom:1px solid rgba(99,102,241,.06);box-shadow:0 4px 40px rgba(0,0,0,.4)}
-.nav.hide{transform:translateY(-100%)}
-.nav-inner{max-width:72rem;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-size:1.3rem;font-weight:800;text-decoration:none;position:relative}
-.nav-logo::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:.5;border-radius:1px}
-.nav-links{display:flex;gap:2rem}
-.nav-link{font-size:.68rem;text-transform:uppercase;letter-spacing:.18em;color:rgba(255,255,255,.3);text-decoration:none;transition:all .3s;position:relative}
-.nav-link:hover{color:rgba(255,255,255,.85);text-shadow:0 0 15px rgba(99,102,241,.3)}
-.nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s}
-.nav-link:hover::after{width:100%}
-.mob-toggle{display:none;background:none;border:none;cursor:pointer;width:26px;height:20px;position:relative;z-index:210}
-.mob-toggle span{display:block;width:100%;height:1px;background:rgba(255,255,255,.45);position:absolute;left:0;transition:all .3s}
-.mob-toggle span:nth-child(1){top:0}
-.mob-toggle span:nth-child(2){top:50%}
-.mob-toggle span:nth-child(3){bottom:0}
-.mob-toggle.open span:nth-child(1){top:50%;transform:rotate(45deg)}
-.mob-toggle.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.mob-toggle.open span:nth-child(3){bottom:50%;transform:rotate(-45deg)}
-.mob-menu{display:none;flex-direction:column;gap:1rem;padding:1.5rem;border-top:1px solid rgba(255,255,255,.04);margin-top:.75rem}
-.mob-menu.open{display:flex}
-.mob-menu a{color:rgba(255,255,255,.35);text-decoration:none;font-size:.85rem;padding:.5rem 0;transition:color .3s}
-.mob-menu a:hover{color:rgba(255,255,255,.7)}
-
-/* ── Hero ── */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.hero-3d{position:absolute;inset:0;z-index:1}
-.hero-orb{position:absolute;border-radius:50%;filter:blur(150px);pointer-events:none}
-.ho1{top:10%;left:-10%;width:600px;height:600px;background:rgba(99,102,241,.08);animation:glowP 6s ease-in-out infinite}
-.ho2{bottom:5%;right:-12%;width:700px;height:700px;background:rgba(139,92,246,.06);animation:glowP 6s ease-in-out infinite 2s}
-.ho3{top:40%;left:40%;width:900px;height:900px;transform:translate(-50%,-50%);background:rgba(59,130,246,.03)}
-.ho4{top:60%;left:20%;width:400px;height:400px;background:rgba(236,72,153,.04);animation:glowP 8s ease-in-out infinite 4s}
-@keyframes glowP{0%,100%{opacity:.5}50%{opacity:1}}
-.hero-grid{position:absolute;inset:0;opacity:.015;pointer-events:none;background-image:linear-gradient(rgba(99,102,241,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.15) 1px,transparent 1px);background-size:80px 80px}
-.hero-content{position:relative;z-index:10;text-align:center;padding:0 1.5rem;max-width:56rem}
-.hero-tag{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.2rem;margin-bottom:2rem;border-radius:999px;opacity:0;animation:fadeSlideUp .7s ease both}
-.hero-tag-dot{width:8px;height:8px;border-radius:50%;background:#34d399;position:relative}
-.hero-tag-dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1px solid rgba(52,211,153,.5);animation:pulseRing 2s ease-out infinite}
-@keyframes pulseRing{0%{transform:scale(1);opacity:.6}100%{transform:scale(2);opacity:0}}
-.hero-tag-text{font-size:.6rem;text-transform:uppercase;letter-spacing:.22em;color:rgba(255,255,255,.3)}
-.hero-title{font-size:clamp(3rem,9vw,7.5rem);font-weight:900;line-height:1.02;margin-bottom:1.5rem}
-.hero-sub{font-size:clamp(.95rem,2vw,1.2rem);color:rgba(255,255,255,.3);max-width:34rem;margin:0 auto 2.5rem;line-height:1.75;opacity:0;animation:fadeSlideUp .8s ease .8s both}
-.hero-ctas{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;opacity:0;animation:fadeSlideUp .8s ease 1s both}
-@keyframes fadeSlideUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.scroll-ind{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);opacity:0;animation:fadeIn 1s ease 1.5s both}
-.scroll-mouse{width:22px;height:34px;border:1px solid rgba(255,255,255,.1);border-radius:999px;display:flex;justify-content:center;padding-top:8px;animation:bounceScr 2.5s ease-in-out infinite}
-.scroll-dot{width:2px;border-radius:999px;background:rgba(165,180,252,.5);animation:scrDot 2.5s ease-in-out infinite}
-@keyframes bounceScr{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
-@keyframes scrDot{0%,100%{opacity:.3;height:4px}50%{opacity:1;height:10px}}
-
-/* ── Buttons ── */
-.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2rem;border-radius:999px;font-size:.85rem;text-decoration:none;cursor:pointer;border:none;font-family:inherit;transition:all .35s cubic-bezier(.25,.46,.45,.94);position:relative;overflow:hidden}
-.btn-glass{color:rgba(255,255,255,.55)}
-.btn-glass:hover{color:#fff;background:rgba(255,255,255,.06);box-shadow:0 0 30px rgba(99,102,241,.1)}
-.btn-glass svg{transition:transform .3s}
-.btn-glass:hover svg{transform:translateX(3px)}
-.btn-cosmic{background:linear-gradient(135deg,rgba(99,102,241,.5),rgba(139,92,246,.5));color:#fff;box-shadow:0 0 20px rgba(99,102,241,.15)}
-.btn-cosmic:hover{box-shadow:0 0 40px rgba(99,102,241,.3),0 0 80px rgba(139,92,246,.15);transform:translateY(-1px)}
-.btn-cosmic::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);opacity:0;transition:opacity .3s}
-.btn-cosmic:hover::before{opacity:1}
-/* Magnetic wrapper */
-.magnetic-wrap{display:inline-block;transition:transform .3s cubic-bezier(.25,.46,.45,.94)}
-
-/* ── Particle Burst (on click) ── */
-.burst-particle{position:absolute;width:3px;height:3px;border-radius:50%;pointer-events:none;z-index:999}
-@keyframes burstOut{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--bx),var(--by)) scale(0)}}
-
-/* ── Section ── */
-.section{position:relative;padding:7rem 1.5rem}
-.section-inner{max-width:72rem;margin:0 auto}
-.section-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.35em;color:rgba(99,102,241,.45);margin-bottom:1rem}
-.section-title{font-size:clamp(2rem,5vw,3.2rem);font-weight:700;color:#fff;margin-bottom:2rem}
-.section-desc{color:rgba(255,255,255,.28);font-size:1rem;line-height:1.8;max-width:48rem}
-.section-underline{display:block;width:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--pink));border-radius:2px;margin-top:.5rem;transition:width .8s cubic-bezier(.25,.46,.45,.94) .3s}
-.reveal.vis .section-underline{width:80px}
-
-/* ── Skills ── */
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-top:3.5rem}
-.skill-card{border-radius:1.2rem;padding:2rem;position:relative;overflow:hidden;cursor:default;transition:transform .4s ease,box-shadow .5s}
-.skill-card:hover{transform:translateY(-8px);box-shadow:0 0 40px rgba(99,102,241,.08),0 10px 40px rgba(0,0,0,.5)}
-.skill-card-bg{position:absolute;inset:0;opacity:0;transition:opacity .5s}
-.skill-card:hover .skill-card-bg{opacity:1}
-.skill-icon{color:rgba(255,255,255,.2);margin-bottom:1.25rem;transition:color .3s}
-.skill-card:hover .skill-icon{color:rgba(255,255,255,.6)}
-.skill-cat{font-size:1.1rem;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:1.25rem;transition:all .3s}
-.skill-card:hover .skill-cat{color:#fff;text-shadow:0 0 15px rgba(99,102,241,.2)}
-.skill-tags{display:flex;flex-wrap:wrap;gap:.5rem}
-.skill-tag{padding:.4rem .75rem;font-size:.65rem;color:rgba(255,255,255,.3);background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.04);border-radius:.5rem;transition:all .3s}
-.skill-card:hover .skill-tag{border-color:rgba(99,102,241,.15);color:rgba(255,255,255,.55);background:rgba(99,102,241,.05)}
-
-/* ── Goals ── */
-.goals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-top:3rem}
-.goal-card{border-radius:1.2rem;padding:2rem;position:relative;overflow:hidden}
-.goal-card::before{content:'';position:absolute;top:0;left:2rem;right:2rem;height:1px;background:linear-gradient(90deg,transparent,rgba(99,102,241,.15),transparent)}
-.goal-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.22em;color:rgba(99,102,241,.4);margin-bottom:1rem}
-.goal-text{color:rgba(255,255,255,.28);line-height:1.75;font-size:.88rem}
-
-/* ── Projects ── */
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.25rem;margin-top:3.5rem}
-.project-card{border-radius:1.2rem;padding:2.25rem 2.5rem;position:relative;overflow:hidden;cursor:pointer;transition:transform .4s ease,box-shadow .5s}
-.project-card:hover{transform:translateY(-10px);box-shadow:0 0 40px rgba(99,102,241,.08),0 12px 50px rgba(0,0,0,.5)}
-.project-card-bg{position:absolute;inset:0;opacity:0;transition:opacity .6s}
-.project-card:hover .project-card-bg{opacity:1}
-.project-accent{position:absolute;top:0;left:2.5rem;right:2.5rem;height:1px;opacity:0;transition:opacity .5s}
-.project-card:hover .project-accent{opacity:1}
-/* Glow border on hover */
-.project-card::after{content:'';position:absolute;inset:-1px;border-radius:1.2rem;background:linear-gradient(135deg,transparent,rgba(99,102,241,.15),transparent);opacity:0;transition:opacity .5s;z-index:-1}
-.project-card:hover::after{opacity:1}
-.project-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;position:relative;z-index:2}
-.project-name{font-size:1.5rem;font-weight:700;color:rgba(255,255,255,.7);transition:all .3s}
-.project-card:hover .project-name{color:#fff;text-shadow:0 0 20px rgba(99,102,241,.2)}
-.project-arrow{color:rgba(255,255,255,.12);transition:all .3s;flex-shrink:0;margin-top:4px}
-.project-card:hover .project-arrow{color:rgba(255,255,255,.5);transform:translate(2px,-2px)}
-.project-desc{color:rgba(255,255,255,.22);line-height:1.7;margin-bottom:1.5rem;position:relative;z-index:2;font-size:.88rem;transition:color .3s}
-.project-card:hover .project-desc{color:rgba(255,255,255,.4)}
-.project-tech{display:flex;flex-wrap:wrap;gap:.5rem;position:relative;z-index:2}
-.ptag{padding:.3rem .7rem;font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.2);background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.04);border-radius:999px;transition:all .3s}
-.project-card:hover .ptag{color:rgba(255,255,255,.5);border-color:rgba(99,102,241,.15);background:rgba(99,102,241,.05)}
-
-/* ── Contact ── */
-.contact-inner{max-width:40rem;margin:0 auto}
-.contact-header{text-align:center;margin-bottom:3rem}
-.contact-form{border-radius:1.2rem;padding:2.5rem}
-.form-group{margin-bottom:1.25rem;position:relative}
-.form-input{width:100%;padding:1rem 1.25rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:.75rem;color:#fff;font-size:.88rem;font-family:inherit;transition:all .4s}
-.form-input::placeholder{color:rgba(255,255,255,.1)}
-.form-input:focus{outline:none;border-color:rgba(99,102,241,.35);background:rgba(255,255,255,.04);box-shadow:0 0 0 3px rgba(99,102,241,.08),0 0 30px rgba(99,102,241,.06)}
-textarea.form-input{resize:none;min-height:140px}
-.submit-btn{width:100%;padding:1rem;border:none;border-radius:.75rem;font-size:.85rem;font-weight:500;letter-spacing:.03em;font-family:inherit;cursor:pointer;background:linear-gradient(135deg,rgba(99,102,241,.6),rgba(139,92,246,.6));color:#fff;transition:all .4s;position:relative;overflow:hidden}
-.submit-btn:hover{box-shadow:0 0 40px rgba(99,102,241,.2),0 0 80px rgba(139,92,246,.1)}
-.submit-btn:active{transform:scale(.985)}
-.submit-btn.sent{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.2);color:#6ee7b7}
-.submit-btn::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 60%);opacity:0;transition:opacity .3s}
-.submit-btn:hover::before{opacity:1}
-.socials{display:flex;justify-content:center;gap:1.5rem;margin-top:2.5rem}
-.social-link{font-size:.62rem;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.12);text-decoration:none;transition:all .3s}
-.social-link:hover{color:rgba(165,180,252,.5);text-shadow:0 0 10px rgba(99,102,241,.2)}
-
-/* ── Footer ── */
-.footer{padding:2.5rem 1.5rem}
-.footer-inner{max-width:72rem;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
-.footer-text{font-size:.68rem;color:rgba(255,255,255,.1)}
-
-/* ── Responsive ── */
-@media(max-width:768px){
-.nav-links{display:none}
-.mob-toggle{display:block}
-.section{padding:5rem 1.25rem}
-.skills-grid,.projects-grid{grid-template-columns:1fr}
-.project-card{padding:1.75rem}
-.contact-form{padding:1.75rem}
-.footer-inner{justify-content:center;text-align:center}
-}
-@media(min-width:769px){.mob-menu{display:none!important}}
-</style>
+  <!-- ===================== STYLES ===================== -->
+  <style>
+    /* ---------- CSS Variables ---------- */
+    :root{
+      --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;
+      --text:#e0e0e0;--text2:#a0a0a0;
+      --green:#00ff41;--cyan:#00d4ff;--red:#ff0040;--purple:#b000ff;--yellow:#ffdd00;
+      --glass:rgba(255,255,255,.05);--glass-border:rgba(255,255,255,.08);
+      --font-h:'Orbitron',sans-serif;--font-b:'Rajdhani',sans-serif;--font-m:'Share Tech Mono',monospace;
+    }
+    /* ---------- Reset ---------- */
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--green) var(--bg)}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--green);border-radius:3px}
+    body{font-family:var(--font-b);background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
+    a{color:inherit;text-decoration:none}
+    /* ---------- Loading Screen ---------- */
+    #loading-screen{position:fixed;inset:0;z-index:100000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s ease}
+    #loading-screen.loaded{opacity:0;visibility:hidden}
+    .loader-title{font-family:var(--font-m);color:var(--green);font-size:1rem;letter-spacing:.3em;margin-bottom:2rem;animation:flicker-load 1.5s infinite}
+    .loader-bar-wrap{width:280px;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-bottom:1rem}
+    .loader-bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--cyan));border-radius:2px;transition:width .2s}
+    .loader-percent{font-family:var(--font-m);color:var(--green);font-size:2.5rem;text-shadow:0 0 20px var(--green)}
+    @keyframes flicker-load{0%,100%{opacity:1}50%{opacity:.4}}
+    /* ---------- Cursor Glow ---------- */
+    #cursor-glow{position:fixed;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,65,.12) 0%,transparent 70%);pointer-events:none;z-index:99998;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .3s,height .3s}
+    #cursor-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--green);pointer-events:none;z-index:99999;transform:translate(-50%,-50%);box-shadow:0 0 10px var(--green);transition:transform .1s}
+    @media(hover:none){#cursor-glow,#cursor-dot{display:none}body{cursor:auto}}
+    /* ---------- Ripple ---------- */
+    .ripple-effect{position:fixed;width:20px;height:20px;border-radius:50%;border:2px solid var(--green);transform:translate(-50%,-50%) scale(0);animation:ripple-anim .6s ease-out forwards;pointer-events:none;z-index:99997}
+    @keyframes ripple-anim{to{transform:translate(-50%,-50%) scale(20);opacity:0}}
+    /* ---------- Three.js Canvas ---------- */
+    #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+    /* ---------- Root ---------- */
+    #root{position:relative;z-index:1;opacity:0;transition:opacity .6s ease}
+    #root.visible{opacity:1}
+    /* ---------- Navigation — Horizontal ---------- */
+    .nav-h{position:fixed;top:0;left:0;right:0;height:60px;display:flex;align-items:center;justify-content:center;gap:1.6rem;z-index:5000;background:rgba(10,10,10,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(0,255,65,.12);transition:opacity .5s,transform .5s;padding:0 1.5rem}
+    .nav-h.hidden{opacity:0;transform:translateY(-100%);pointer-events:none}
+    .nav-h .brand{font-family:var(--font-h);font-weight:700;color:var(--green);font-size:1.1rem;margin-right:auto;text-shadow:0 0 8px rgba(0,255,65,.4)}
+    .nav-h a.nl{font-family:var(--font-m);font-size:.82rem;color:var(--text2);padding:.4rem .8rem;border-radius:4px;transition:color .3s,background .3s,text-shadow .3s}
+    .nav-h a.nl:hover{color:var(--green);background:rgba(0,255,65,.08);text-shadow:0 0 8px var(--green)}
+    .sound-btn{background:none;border:1px solid var(--glass-border);color:var(--text2);font-size:1.1rem;padding:.35rem .6rem;border-radius:6px;cursor:none;transition:all .3s;margin-left:auto}
+    .sound-btn:hover,.sound-btn.on{border-color:var(--green);color:var(--green);box-shadow:0 0 12px rgba(0,255,65,.25)}
+    /* ---------- Navigation — Sidebar ---------- */
+    .nav-s{position:fixed;top:0;left:0;width:62px;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;z-index:5000;background:rgba(10,10,10,.88);backdrop-filter:blur(18px);border-right:1px solid rgba(0,255,65,.12);transform:translateX(-100%);transition:transform .7s cubic-bezier(.68,-.55,.265,1.55);padding:1rem 0}
+    .nav-s.show{transform:translateX(0)}
+    .nav-s .sl{width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-family:var(--font-h);font-size:.65rem;font-weight:700;color:var(--text2);border-radius:8px;border:1px solid transparent;transition:all .5s cubic-bezier(.68,-.55,.265,1.55);position:relative}
+    .nav-s .sl:hover{color:var(--green);border-color:var(--green);box-shadow:0 0 12px rgba(0,255,65,.3);transform:rotate(360deg) scale(1.15)}
+    .nav-s .sl .tooltip{position:absolute;left:calc(100% + 12px);background:var(--bg2);color:var(--green);font-family:var(--font-m);font-size:.7rem;padding:.3rem .7rem;border-radius:4px;white-space:nowrap;opacity:0;transform:translateX(-8px);transition:all .3s;pointer-events:none;border:1px solid rgba(0,255,65,.2)}
+    .nav-s .sl:hover .tooltip{opacity:1;transform:translateX(0)}
+    .nav-s .sl.spin-in{animation:spin-in .6s cubic-bezier(.68,-.55,.265,1.55) forwards}
+    @keyframes spin-in{0%{transform:rotate(0) scale(.3);opacity:0}100%{transform:rotate(360deg) scale(1);opacity:1}}
+    /* ---------- Sections Common ---------- */
+    section{min-height:100vh;padding:6rem 2rem;position:relative}
+    .section-title{font-family:var(--font-h);font-size:clamp(1.5rem,4vw,2.5rem);color:#fff;text-align:center;margin-bottom:3rem;text-shadow:0 0 15px rgba(0,255,65,.3)}
+    .section-title span{color:var(--green)}
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
+    .reveal.shown{opacity:1;transform:translateY(0)}
+    /* ---------- Hero ---------- */
+    #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(180deg,#0a0a0a 0%,#111 50%,#1a1a1a 100%)}
+    .matrix-canvas{position:absolute;inset:0;z-index:1;opacity:.25;pointer-events:none}
+    .scanline-overlay{position:absolute;inset:0;z-index:2;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px);pointer-events:none;animation:scanline-scroll 8s linear infinite}
+    @keyframes scanline-scroll{0%{background-position:0 0}100%{background-position:0 100px}}
+    .hero-content{position:relative;z-index:3;text-align:center}
+    /* Glitch Text */
+    .glitch{position:relative;font-family:var(--font-h);font-size:clamp(3rem,12vw,8rem);font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.08em;line-height:1;cursor:none;user-select:none}
+    .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
+    .glitch::before{color:var(--red);z-index:-1;animation:glitch-r .4s cubic-bezier(.25,.46,.45,.94) both infinite}
+    .glitch::after{color:var(--cyan);z-index:-2;animation:glitch-b .4s cubic-bezier(.25,.46,.45,.94) reverse both infinite}
+    @keyframes glitch-r{0%{clip-path:inset(40% 0 61% 0);transform:translate(-3px,-1px)}20%{clip-path:inset(92% 0 1% 0);transform:translate(2px,3px)}40%{clip-path:inset(43% 0 1% 0);transform:translate(-2px,-3px)}60%{clip-path:inset(25% 0 58% 0);transform:translate(3px,1px)}80%{clip-path:inset(54% 0 7% 0);transform:translate(-3px,2px)}100%{clip-path:inset(58% 0 43% 0);transform:translate(2px,-2px)}}
+    @keyframes glitch-b{0%{clip-path:inset(65% 0 13% 0);transform:translate(3px,2px)}20%{clip-path:inset(79% 0 3% 0);transform:translate(-2px,-1px)}40%{clip-path:inset(48% 0 35% 0);transform:translate(1px,2px)}60%{clip-path:inset(15% 0 65% 0);transform:translate(-1px,-2px)}80%{clip-path:inset(37% 0 29% 0);transform:translate(2px,1px)}100%{clip-path:inset(2% 0 72% 0);transform:translate(-2px,3px)}}
+    .hero-sub{font-family:var(--font-m);font-size:clamp(.9rem,2vw,1.3rem);color:var(--green);margin-top:1.5rem;text-shadow:0 0 10px rgba(0,255,65,.4);overflow:hidden;white-space:nowrap;border-right:2px solid var(--green);animation:blink-caret .75s step-end infinite}
+    @keyframes blink-caret{50%{border-color:transparent}}
+    .hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:3}
+    .hero-scroll svg{width:28px;animation:bounce-arrow 2s ease infinite}
+    @keyframes bounce-arrow{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(10px);opacity:1}}
+    /* ---------- About ---------- */
+    #about{background:linear-gradient(180deg,#1a1a1a 0%,#111 100%)}
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:1000px;margin:0 auto;align-items:center}
+    .about-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:2.5rem;backdrop-filter:blur(12px);transition:transform .4s,box-shadow .4s}
+    .about-card:hover{transform:translateY(-6px);box-shadow:0 0 30px rgba(0,255,65,.12)}
+    .about-card h3{font-family:var(--font-h);color:var(--green);font-size:1.1rem;margin-bottom:1rem}
+    .about-card p{font-size:1.05rem;line-height:1.7;color:var(--text2)}
+    .about-card p strong{color:var(--cyan)}
+    .about-visual{display:flex;align-items:center;justify-content:center}
+    .about-visual svg{max-width:260px;width:100%}
+    .svg-ring{fill:none;stroke-width:.8;opacity:.3}
+    /* ---------- Skills ---------- */
+    #skills{background:linear-gradient(180deg,#111 0%,#0f0f0f 100%)}
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
+    .skill-item{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:1.5rem;backdrop-filter:blur(8px);transition:transform .3s,box-shadow .3s}
+    .skill-item:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 0 20px rgba(0,255,65,.1)}
+    .skill-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}
+    .skill-name{font-family:var(--font-h);font-size:.85rem;color:#fff}
+    .skill-pct{font-family:var(--font-m);font-size:.85rem;color:var(--green)}
+    .skill-bar{width:100%;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+    .skill-fill{height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--cyan));box-shadow:0 0 10px var(--green);transition:width 1.5s cubic-bezier(.22,1,.36,1)}
+    .skill-fill.animate{width:var(--w)}
+    /* ---------- Anime ---------- */
+    #anime{background:linear-gradient(180deg,#0f0f0f 0%,#111 100%)}
+    .anime-cards{display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;max-width:1100px;margin:0 auto}
+    .anime-card{width:300px;background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;overflow:hidden;backdrop-filter:blur(10px);transition:transform .4s,box-shadow .4s}
+    .anime-card:hover{transform:translateY(-10px) rotateX(3deg);box-shadow:0 20px 50px rgba(0,255,65,.12)}
+    .anime-card.featured{width:100%;max-width:680px;display:grid;grid-template-columns:1fr 1fr}
+    .anime-img{height:200px;background:linear-gradient(135deg,#1a0a0a,#2a1a0a,#0a1a2a);display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative;overflow:hidden}
+    .anime-card.featured .anime-img{height:100%;min-height:280px}
+    .anime-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(10,10,10,.9));pointer-events:none}
+    .anime-info{padding:1.5rem}
+    .anime-info h3{font-family:var(--font-h);font-size:1.1rem;color:#fff;margin-bottom:.6rem}
+    .anime-info p{font-size:.95rem;color:var(--text2);line-height:1.6}
+    .anime-tag{display:inline-block;font-family:var(--font-m);font-size:.7rem;padding:.2rem .6rem;border:1px solid var(--green);color:var(--green);border-radius:4px;margin:.3rem .2rem 0 0}
+    /* ---------- Projects ---------- */
+    #projects{background:linear-gradient(180deg,#111 0%,#151515 100%)}
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;max-width:1100px;margin:0 auto}
+    .project-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:2rem;backdrop-filter:blur(10px);position:relative;overflow:hidden;transition:transform .4s,box-shadow .4s}
+    .project-card::before{content:'';position:absolute;inset:-2px;border-radius:17px;background:conic-gradient(from 0deg,var(--green),var(--cyan),var(--purple),var(--green));z-index:-1;opacity:0;transition:opacity .5s;animation:border-spin 4s linear infinite}
+    .project-card:hover::before{opacity:.6}
+    .project-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,255,65,.1)}
+    @keyframes border-spin{to{transform:rotate(360deg)}}
+    .project-card::after{content:'';position:absolute;inset:1px;background:var(--bg2);border-radius:15px;z-index:-1}
+    .project-card h3{font-family:var(--font-h);font-size:1rem;color:#fff;margin-bottom:.8rem}
+    .project-card p{font-size:.95rem;color:var(--text2);line-height:1.6;margin-bottom:1rem}
+    .project-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+    .project-tags span{font-family:var(--font-m);font-size:.68rem;padding:.2rem .5rem;background:rgba(0,255,65,.08);color:var(--green);border-radius:4px;border:1px solid rgba(0,255,65,.15)}
+    /* ---------- Contact ---------- */
+    #contact{background:linear-gradient(180deg,#151515 0%,#1a1a1a 50%,#222 100%)}
+    .contact-form{max-width:500px;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem}
+    .form-group{position:relative}
+    .form-group input,.form-group textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:1rem 1.2rem;color:#fff;font-family:var(--font-b);font-size:1rem;outline:none;transition:border-color .3s,box-shadow .3s;resize:vertical}
+    .form-group textarea{min-height:120px}
+    .form-group input:focus,.form-group textarea:focus{border-color:var(--green);box-shadow:0 0 20px rgba(0,255,65,.15)}
+    .form-group label{position:absolute;top:1rem;left:1.2rem;color:var(--text2);font-size:.95rem;transition:all .3s;pointer-events:none;font-family:var(--font-m)}
+    .form-group input:focus~label,.form-group input:not(:placeholder-shown)~label,.form-group textarea:focus~label,.form-group textarea:not(:placeholder-shown)~label{top:-.6rem;left:.8rem;font-size:.7rem;color:var(--green);background:var(--bg2);padding:0 .4rem}
+    .submit-btn{font-family:var(--font-h);font-size:.95rem;padding:1rem 2rem;background:transparent;border:1px solid var(--green);color:var(--green);border-radius:10px;cursor:none;position:relative;overflow:hidden;transition:all .4s;letter-spacing:.1em}
+    .submit-btn:hover{background:var(--green);color:var(--bg);box-shadow:0 0 30px rgba(0,255,65,.35)}
+    .submit-btn::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,.15);border-radius:50%;transform:translate(-50%,-50%);transition:width .6s,height .6s}
+    .submit-btn:active::before{width:400px;height:400px}
+    /* ---------- Footer ---------- */
+    footer{text-align:center;padding:2.5rem;font-family:var(--font-m);font-size:.8rem;color:var(--text2);border-top:1px solid rgba(255,255,255,.05);background:#0a0a0a}
+    footer .heart{color:var(--red);animation:pulse-heart 1.5s infinite}
+    @keyframes pulse-heart{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+    /* ---------- Lottie ---------- */
+    lottie-player{max-width:200px;margin:0 auto}
+    /* ---------- Mobile Nav Hamburger ---------- */
+    .hamburger{display:none;position:fixed;top:12px;right:16px;z-index:6000;background:rgba(10,10,10,.8);border:1px solid var(--glass-border);border-radius:8px;padding:8px 10px;cursor:none}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--green);margin:4px 0;transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+    .mobile-menu{position:fixed;inset:0;z-index:5500;background:rgba(10,10,10,.96);backdrop-filter:blur(20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transform:translateY(-100%);transition:transform .5s ease}
+    .mobile-menu.open{transform:translateY(0)}
+    .mobile-menu a{font-family:var(--font-h);font-size:1.3rem;color:var(--text);transition:color .3s}
+    .mobile-menu a:hover{color:var(--green)}
+    /* ---------- Responsive ---------- */
+    @media(max-width:900px){
+      .about-grid{grid-template-columns:1fr}
+      .anime-card.featured{grid-template-columns:1fr}
+      .anime-card.featured .anime-img{height:200px}
+    }
+    @media(max-width:768px){
+      section{padding:5rem 1.2rem}
+      .nav-h,.nav-s{display:none!important}
+      .hamburger{display:block}
+      .projects-grid,.skills-grid{grid-template-columns:1fr}
+    }
+    @media(min-width:769px){.hamburger,.mobile-menu{display:none!important}}
+    /* ---------- Utility Animations ---------- */
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    @keyframes glow-pulse{0%,100%{box-shadow:0 0 5px var(--green)}50%{box-shadow:0 0 25px var(--green),0 0 50px rgba(0,255,65,.3)}}
+  </style>
 </head>
+
 <body>
+  <!-- ===================== LOADING SCREEN ===================== -->
+  <div id="loading-screen" role="status" aria-label="Loading">
+    <div class="loader-title">INITIALIZING SYSTEM...</div>
+    <div class="loader-bar-wrap"><div class="loader-bar-fill" id="loader-fill"></div></div>
+    <div class="loader-percent" id="loader-percent">0%</div>
+  </div>
+  <!-- Inline loader script — runs immediately -->
+  <script>
+    (function(){
+      var p=0,pEl=document.getElementById('loader-percent'),fEl=document.getElementById('loader-fill'),ls=document.getElementById('loading-screen');
+      function tick(){p+=Math.random()*8+2;if(p>92)p=92;pEl.textContent=Math.floor(p)+'%';fEl.style.width=p+'%';if(p<92)requestAnimationFrame(tick)}
+      tick();
+      window.addEventListener('load',function(){
+        p=100;pEl.textContent='100%';fEl.style.width='100%';
+        setTimeout(function(){ls.classList.add('loaded');document.getElementById('root').classList.add('visible')},600);
+      });
+      setTimeout(function(){if(!ls.classList.contains('loaded')){ls.classList.add('loaded');document.getElementById('root').classList.add('visible')}},12000);
+    })();
+  </script>
 
-<!-- Intro Overlay -->
-<div id="intro-overlay">
-    <canvas id="intro-canvas"></canvas>
-    <button class="skip-btn" id="skip-btn">Skip Intro</button>
-</div>
+  <!-- ===================== CURSOR GLOW ===================== -->
+  <div id="cursor-glow"></div>
+  <div id="cursor-dot"></div>
 
-<!-- Star Field Background -->
-<canvas id="star-canvas"></canvas>
+  <!-- ===================== THREE.JS CANVAS ===================== -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-<!-- Nebula Overlays -->
-<div class="nebula">
-    <div class="nebula-1"></div>
-    <div class="nebula-2"></div>
-    <div class="nebula-3"></div>
-    <div class="nebula-4"></div>
-</div>
+  <!-- ===================== REACT ROOT ===================== -->
+  <div id="root"></div>
+  <noscript><p style="color:#fff;text-align:center;padding:4rem">Please enable JavaScript to view this portfolio.</p></noscript>
 
-<!-- Shooting Stars -->
-<div class="shoot-star ss1"></div>
-<div class="shoot-star ss2"></div>
-<div class="shoot-star ss3"></div>
-<div class="shoot-star ss4"></div>
+  <!-- ===================== CDN SCRIPTS ===================== -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script crossorigin src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 
-<div id="root"></div>
+  <!-- ===================== VANILLA JS — Three.js, Cursor, Sound, Ripple ===================== -->
+  <script>
+    /* ---- Three.js Particle Wave with Custom Shader ---- */
+    (function initThree(){
+      try{
+        var canvas=document.getElementById('bg-canvas');
+        var scene=new THREE.Scene();
+        var camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,1000);
+        var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:false});
+        renderer.setSize(innerWidth,innerHeight);
+        renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 
-<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-<script type="text/babel">
-const {useState,useEffect,useRef,useCallback,useMemo} = React;
-
-// ══════════════════════════════════════════
-// UTILITIES
-// ══════════════════════════════════════════
-const isMob = () => window.innerWidth < 768;
-const lerp = (a,b,t) => a + (b - a) * t;
-const easeOutCubic = t => 1 - Math.pow(1-t, 3);
-const easeInOutQuart = t => t < .5 ? 8*t*t*t*t : 1 - Math.pow(-2*t+2,4)/2;
-
-function createGlowSprite(){
-    const c = document.createElement('canvas');
-    c.width = 64; c.height = 64;
-    const ctx = c.getContext('2d');
-    const g = ctx.createRadialGradient(32,32,0,32,32,32);
-    g.addColorStop(0,'rgba(255,255,255,1)');
-    g.addColorStop(.15,'rgba(220,210,255,.8)');
-    g.addColorStop(.4,'rgba(150,140,255,.3)');
-    g.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,64,64);
-    return new THREE.CanvasTexture(c);
-}
-
-// ══════════════════════════════════════════
-// STAR FIELD BACKGROUND (Canvas 2D)
-// ══════════════════════════════════════════
-function initStarField(){
-    const canvas = document.getElementById('star-canvas');
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let w, h, stars = [];
-    
-    function resize(){
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-        generateStars();
-    }
-    
-    function generateStars(){
-        const count = isMob() ? 180 : 400;
-        stars = [];
-        for(let i=0;i<count;i++){
-            stars.push({
-                x: Math.random()*w,
-                y: Math.random()*h,
-                r: Math.random()*1.4 + .2,
-                baseOp: Math.random()*.6 + .2,
-                speed: Math.random()*2.5 + .5,
-                phase: Math.random()*Math.PI*2,
-                hue: 220 + Math.random()*40,
-            });
+        var COUNT=80;
+        var pos=[];
+        for(var x=0;x<COUNT;x++) for(var z=0;z<COUNT;z++){
+          pos.push((x-COUNT/2)*.6, 0, (z-COUNT/2)*.6);
         }
-    }
-    
-    function render(time){
-        ctx.clearRect(0,0,w,h);
-        const t = time * .001;
-        stars.forEach(s => {
-            const twinkle = Math.sin(t * s.speed + s.phase);
-            const op = s.baseOp * (.45 + .55 * twinkle);
-            const r = s.r * (.75 + .25 * twinkle);
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, r, 0, Math.PI*2);
-            ctx.fillStyle = `hsla(${s.hue},60%,85%,${op})`;
-            ctx.fill();
-            if(s.r > .9){
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, r*3.5, 0, Math.PI*2);
-                ctx.fillStyle = `hsla(${s.hue},70%,80%,${op*.08})`;
-                ctx.fill();
-            }
-        });
-        requestAnimationFrame(render);
-    }
-    
-    resize();
-    window.addEventListener('resize', resize);
-    requestAnimationFrame(render);
-}
+        var geo=new THREE.BufferGeometry();
+        geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
 
-// ══════════════════════════════════════════
-// SATURN INTRO ANIMATION
-// ══════════════════════════════════════════
-function initSaturnIntro(onComplete){
-    const canvas = document.getElementById('intro-canvas');
-    if(!canvas) return;
-    
-    const w = canvas.width = window.innerWidth;
-    const h = canvas.height = window.innerHeight;
-    
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, w/h, .1, 100);
-    camera.position.z = 9;
-    camera.position.y = 1;
-    
-    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
-    renderer.setSize(w,h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
-    renderer.setClearColor(0x000000,1);
-    
-    const sprite = createGlowSprite();
-    
-    const mob = isMob();
-    const bodyCount = mob ? 350 : 900;
-    const ringCount = mob ? 180 : 500;
-    const dustCount = mob ? 80 : 200;
-    const total = bodyCount + ringCount + dustCount;
-    
-    const startPos = new Float32Array(total*3);
-    const targetPos = new Float32Array(total*3);
-    const curPos = new Float32Array(total*3);
-    const colors = new Float32Array(total*3);
-    const speeds = new Float32Array(total);
-    
-    // Generate start positions (scattered sphere)
-    for(let i=0;i<total;i++){
-        const r = 8 + Math.random()*12;
-        const theta = Math.random()*Math.PI*2;
-        const phi = Math.acos(2*Math.random()-1);
-        startPos[i*3] = r*Math.sin(phi)*Math.cos(theta);
-        startPos[i*3+1] = r*Math.sin(phi)*Math.sin(theta);
-        startPos[i*3+2] = r*Math.cos(phi);
-        curPos[i*3]=startPos[i*3]; curPos[i*3+1]=startPos[i*3+1]; curPos[i*3+2]=startPos[i*3+2];
-        speeds[i] = .6 + Math.random()*.7;
-    }
-    
-    // Body particles → sphere
-    for(let i=0;i<bodyCount;i++){
-        const r = 1.3 + (Math.random()-.5)*.15;
-        const theta = Math.random()*Math.PI*2;
-        const phi = Math.acos(2*Math.random()-1);
-        targetPos[i*3] = r*Math.sin(phi)*Math.cos(theta);
-        targetPos[i*3+1] = r*Math.sin(phi)*Math.sin(theta);
-        targetPos[i*3+2] = r*Math.cos(phi);
-        // Warm golden
-        colors[i*3] = .82+Math.random()*.18;
-        colors[i*3+1] = .6+Math.random()*.25;
-        colors[i*3+2] = .25+Math.random()*.35;
-    }
-    
-    // Ring particles → tilted ring
-    const ringTilt = .35;
-    for(let i=bodyCount;i<bodyCount+ringCount;i++){
-        const angle = Math.random()*Math.PI*2;
-        const rr = 2.0 + Math.random()*1.5;
-        const cx = Math.cos(angle)*rr;
-        const cy = (Math.random()-.5)*.06;
-        const cz = Math.sin(angle)*rr;
-        targetPos[i*3] = cx;
-        targetPos[i*3+1] = cy*Math.cos(ringTilt) - cz*Math.sin(ringTilt);
-        targetPos[i*3+2] = cy*Math.sin(ringTilt) + cz*Math.cos(ringTilt);
-        // Cool blue-lavender
-        colors[i*3] = .65+Math.random()*.35;
-        colors[i*3+1] = .65+Math.random()*.35;
-        colors[i*3+2] = .85+Math.random()*.15;
-    }
-    
-    // Dust → stay floating
-    for(let i=bodyCount+ringCount;i<total;i++){
-        targetPos[i*3] = (Math.random()-.5)*14;
-        targetPos[i*3+1] = (Math.random()-.5)*14;
-        targetPos[i*3+2] = (Math.random()-.5)*14;
-        colors[i*3]=.55; colors[i*3+1]=.55; colors[i*3+2]=.75;
-    }
-    
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(curPos, 3));
-    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-    
-    const mat = new THREE.PointsMaterial({
-        size: mob?.04:.035,
-        map: sprite,
-        transparent: true,
-        opacity: 0,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        vertexColors: true,
-        sizeAttenuation: true,
-    });
-    
-    const particles = new THREE.Points(geo, mat);
-    scene.add(particles);
-    
-    // Glow sphere
-    const glowGeo = new THREE.SphereGeometry(1.8, 32, 32);
-    const glowMat = new THREE.MeshBasicMaterial({
-        color: 0xffa858,
-        transparent: true,
-        opacity: 0,
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide,
-    });
-    const glow = new THREE.Mesh(glowGeo, glowMat);
-    scene.add(glow);
-    
-    // Second glow (larger, cooler)
-    const glow2Mat = new THREE.MeshBasicMaterial({
-        color: 0x6366f1,
-        transparent: true,
-        opacity: 0,
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide,
-    });
-    const glow2 = new THREE.Mesh(new THREE.SphereGeometry(2.5, 24, 24), glow2Mat);
-    scene.add(glow2);
-    
-    // Ambient
-    scene.add(new THREE.AmbientLight(0x111128, 1));
-    const pLight = new THREE.PointLight(0xffa040, 0, 25);
-    scene.add(pLight);
-    
-    const startTime = performance.now();
-    const duration = 5200;
-    let done = false;
-    
-    function animate(){
-        if(done) return;
-        const elapsed = performance.now() - startTime;
-        const p = Math.min(elapsed/duration, 1);
-        
-        // Opacity phases
-        if(p < .12) mat.opacity = p/.12;
-        else if(p < .68) mat.opacity = 1;
-        else mat.opacity = Math.max(0, 1 - (p-.68)/.32);
-        
-        // Position
-        const pos = geo.attributes.position.array;
-        if(p < .55){
-            const t = easeOutCubic(Math.min(p/.55, 1));
-            for(let i=0;i<total;i++){
-                const s = speeds[i];
-                const lt = Math.min(t*s*1.4, 1);
-                pos[i*3]   = lerp(startPos[i*3],   targetPos[i*3],   lt);
-                pos[i*3+1] = lerp(startPos[i*3+1], targetPos[i*3+1], lt);
-                pos[i*3+2] = lerp(startPos[i*3+2], targetPos[i*3+2], lt);
-            }
-        } else if(p < .68){
-            for(let i=0;i<total;i++){
-                pos[i*3]=targetPos[i*3]; pos[i*3+1]=targetPos[i*3+1]; pos[i*3+2]=targetPos[i*3+2];
-            }
-        } else {
-            const t = easeInOutQuart((p-.68)/.32);
-            for(let i=0;i<total;i++){
-                pos[i*3]   = lerp(targetPos[i*3],   targetPos[i*3]*4,   t);
-                pos[i*3+1] = lerp(targetPos[i*3+1], targetPos[i*3+1]*4, t);
-                pos[i*3+2] = lerp(targetPos[i*3+2], targetPos[i*3+2]*4, t);
-            }
-        }
-        geo.attributes.position.needsUpdate = true;
-        
-        // Glow
-        if(p > .3 && p < .8){
-            const gp = p < .55 ? (p-.3)/.25 : 1 - (p-.55)/.25;
-            const eg = easeOutCubic(Math.max(0, Math.min(gp, 1)));
-            glowMat.opacity = eg*.05;
-            glow2Mat.opacity = eg*.03;
-            pLight.intensity = eg*2.5;
-        } else {
-            glowMat.opacity = 0;
-            glow2Mat.opacity = 0;
-            pLight.intensity = 0;
-        }
-        
-        // Rotate
-        particles.rotation.y += .004;
-        glow.rotation.y = particles.rotation.y;
-        glow2.rotation.y = particles.rotation.y;
-        
-        // Float
-        const floatY = Math.sin(elapsed*.0008)*.3;
-        particles.position.y = floatY;
-        glow.position.y = floatY;
-        glow2.position.y = floatY;
-        
-        renderer.render(scene, camera);
-        
-        if(p < 1) requestAnimationFrame(animate);
-        else { done = true; onComplete(); }
-    }
-    
-    animate();
-    
-    const handleResize = () => {
-        const w2 = window.innerWidth, h2 = window.innerHeight;
-        camera.aspect = w2/h2;
-        camera.updateProjectionMatrix();
-        renderer.setSize(w2,h2);
-    };
-    window.addEventListener('resize', handleResize);
-    
-    return () => {
-        done = true;
-        window.removeEventListener('resize', handleResize);
-        renderer.dispose();
-    };
-}
-
-// ══════════════════════════════════════════
-// HOOKS
-// ══════════════════════════════════════════
-function useReveal(threshold=.12){
-    const ref = useRef(null);
-    useEffect(()=>{
-        const el = ref.current;
-        if(!el) return;
-        const obs = new IntersectionObserver(
-            ([e])=>{ if(e.isIntersecting){ el.classList.add('vis'); obs.unobserve(el); }},
-            {threshold}
-        );
-        obs.observe(el);
-        return ()=>obs.disconnect();
-    },[threshold]);
-    return ref;
-}
-
-function useParallax(){
-    const [offset, setOffset] = useState(0);
-    useEffect(()=>{
-        const onScroll = () => setOffset(window.scrollY);
-        window.addEventListener('scroll', onScroll, {passive:true});
-        return ()=>window.removeEventListener('scroll', onScroll);
-    },[]);
-    return offset;
-}
-
-// ══════════════════════════════════════════
-// ANIMATED TEXT (Letter-by-letter)
-// ══════════════════════════════════════════
-function AnimatedLetters({text, delay=0, className=''}){
-    return (
-        <span className={className}>
-            {text.split('').map((ch, i) => (
-                <span
-                    key={i}
-                    className={`letter ${ch===' '?'space':''}`}
-                    style={{animationDelay:`${delay + i*.045}s`}}
-                >
-                    {ch === ' ' ? '\u00A0' : ch}
-                </span>
-            ))}
-        </span>
-    );
-}
-
-// ══════════════════════════════════════════
-// MAGNETIC BUTTON
-// ══════════════════════════════════════════
-function MagneticButton({children, href, className='', onClick}){
-    const wrapRef = useRef(null);
-    
-    const handleMove = useCallback((e)=>{
-        const el = wrapRef.current;
-        if(!el || isMob()) return;
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width/2;
-        const y = e.clientY - rect.top - rect.height/2;
-        el.style.transform = `translate(${x*.25}px, ${y*.25}px)`;
-    },[]);
-    
-    const handleLeave = useCallback(()=>{
-        const el = wrapRef.current;
-        if(el) el.style.transform = 'translate(0,0)';
-    },[]);
-    
-    const handleClick = useCallback((e)=>{
-        // Particle burst
-        const rect = e.currentTarget.getBoundingClientRect();
-        const cx = rect.left + rect.width/2;
-        const cy = rect.top + rect.height/2;
-        for(let i=0;i<12;i++){
-            const p = document.createElement('div');
-            p.className = 'burst-particle';
-            const angle = (Math.PI*2/12)*i;
-            const dist = 40+Math.random()*40;
-            const bx = Math.cos(angle)*dist;
-            const by = Math.sin(angle)*dist;
-            const hue = 240+Math.random()*60;
-            p.style.cssText = `left:${cx}px;top:${cy}px;background:hsl(${hue},70%,70%);box-shadow:0 0 6px hsl(${hue},70%,60%);--bx:${bx}px;--by:${by}px;animation:burstOut .6s ease-out forwards;position:fixed;`;
-            document.body.appendChild(p);
-            setTimeout(()=>p.remove(),700);
-        }
-        if(onClick) onClick(e);
-    },[onClick]);
-    
-    const Tag = href ? 'a' : 'button';
-    const props = href ? {href} : {type:'button'};
-    
-    return (
-        <div ref={wrapRef} className="magnetic-wrap" onMouseMove={handleMove} onMouseLeave={handleLeave}>
-            <Tag {...props} className={className} onClick={handleClick}>
-                {children}
-            </Tag>
-        </div>
-    );
-}
-
-// ══════════════════════════════════════════
-// ENHANCED 3D SCENE (Hero)
-// ══════════════════════════════════════════
-function CosmicScene(){
-    const mountRef = useRef(null);
-    
-    useEffect(()=>{
-        const container = mountRef.current;
-        if(!container) return;
-        
-        const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x000005, .04);
-        
-        const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, .1, 100);
-        camera.position.z = 7;
-        
-        const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-        renderer.setClearColor(0x000000, 0);
-        container.appendChild(renderer.domElement);
-        
-        // Lights
-        scene.add(new THREE.AmbientLight(0x222244, .5));
-        const pL1 = new THREE.PointLight(0x6366f1, .7, 30);
-        pL1.position.set(8,8,8);
-        scene.add(pL1);
-        const pL2 = new THREE.PointLight(0x8b5cf6, .4, 30);
-        pL2.position.set(-8,-4,-8);
-        scene.add(pL2);
-        const pL3 = new THREE.PointLight(0xec4899, .25, 25);
-        pL3.position.set(0,10,-5);
-        scene.add(pL3);
-        
-        const mainGroup = new THREE.Group();
-        scene.add(mainGroup);
-        
-        // Wireframe Icosahedron
-        const icoGeo = new THREE.IcosahedronGeometry(2, 1);
-        const wireMat = new THREE.MeshStandardMaterial({
-            color: 0x818cf8, wireframe:true, transparent:true, opacity:.12
+        /* WebGL Shader Material */
+        var mat=new THREE.ShaderMaterial({
+          vertexShader:[
+            'uniform float uTime;',
+            'varying float vY;',
+            'void main(){',
+            '  vec3 p=position;',
+            '  p.y=sin(p.x*.35+uTime)*1.2+cos(p.z*.28+uTime*.7)*.9;',
+            '  vY=p.y;',
+            '  vec4 mv=modelViewMatrix*vec4(p,1.0);',
+            '  gl_Position=projectionMatrix*mv;',
+            '  gl_PointSize=2.5*(200.0/-mv.z);',
+            '}'
+          ].join('\n'),
+          fragmentShader:[
+            'varying float vY;',
+            'void main(){',
+            '  float d=length(gl_PointCoord-vec2(.5));',
+            '  if(d>.5)discard;',
+            '  vec3 g=vec3(0.,.98,.255);',
+            '  vec3 c=vec3(0.,.83,1.);',
+            '  vec3 col=mix(g,c,vY*.25+.5);',
+            '  gl_FragColor=vec4(col,(1.-d*2.)*.55);',
+            '}'
+          ].join('\n'),
+          uniforms:{uTime:{value:0}},
+          transparent:true,
+          blending:THREE.AdditiveBlending,
+          depthWrite:false
         });
-        const wire = new THREE.Mesh(icoGeo, wireMat);
-        mainGroup.add(wire);
-        
-        const solidMat = new THREE.MeshStandardMaterial({
-            color: 0x6366f1, transparent:true, opacity:.015, side: THREE.DoubleSide
-        });
-        mainGroup.add(new THREE.Mesh(icoGeo, solidMat));
-        
-        // Glow shells (bloom simulation)
-        [
-            {s:1.15, c:0x6366f1, o:.025},
-            {s:1.4, c:0x8b5cf6, o:.015},
-            {s:1.8, c:0x6366f1, o:.008},
-        ].forEach(({s,c,o})=>{
-            const m = new THREE.Mesh(
-                new THREE.IcosahedronGeometry(2*s, 1),
-                new THREE.MeshBasicMaterial({
-                    color:c, transparent:true, opacity:o,
-                    blending: THREE.AdditiveBlending, side: THREE.BackSide
-                })
-            );
-            mainGroup.add(m);
-        });
-        
-        // Torus ring
-        const torusMat = new THREE.MeshStandardMaterial({
-            color: 0x818cf8, transparent:true, opacity:.06
-        });
-        const torus = new THREE.Mesh(new THREE.TorusGeometry(3,.006,16,128), torusMat);
-        torus.rotation.x = Math.PI/2;
-        mainGroup.add(torus);
-        
-        // Second ring
-        const torus2 = new THREE.Mesh(
-            new THREE.TorusGeometry(3.5,.004,16,128),
-            new THREE.MeshStandardMaterial({color:0xc084fc, transparent:true, opacity:.03})
-        );
-        torus2.rotation.x = Math.PI/2.5;
-        torus2.rotation.z = .3;
-        mainGroup.add(torus2);
-        
-        // Particles around object
-        const mob = isMob();
-        const pCount = mob ? 80 : 180;
-        const pGeo = new THREE.BufferGeometry();
-        const pPositions = new Float32Array(pCount*3);
-        const pColors = new Float32Array(pCount*3);
-        for(let i=0;i<pCount;i++){
-            pPositions[i*3]   = (Math.random()-.5)*22;
-            pPositions[i*3+1] = (Math.random()-.5)*22;
-            pPositions[i*3+2] = (Math.random()-.5)*22;
-            const hue = Math.random();
-            if(hue < .33){ pColors[i*3]=.4; pColors[i*3+1]=.4; pColors[i*3+2]=.95; }
-            else if(hue < .66){ pColors[i*3]=.55; pColors[i*3+1]=.36; pColors[i*3+2]=.96; }
-            else { pColors[i*3]=.7; pColors[i*3+1]=.7; pColors[i*3+2]=1; }
-        }
-        pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
-        pGeo.setAttribute('color', new THREE.BufferAttribute(pColors, 3));
-        
-        const pMat = new THREE.PointsMaterial({
-            size: mob?.025:.02,
-            transparent:true, opacity:.55,
-            blending: THREE.AdditiveBlending,
-            sizeAttenuation:true, vertexColors:true,
-            map: createGlowSprite(), depthWrite:false,
-        });
-        const pts = new THREE.Points(pGeo, pMat);
+        var pts=new THREE.Points(geo,mat);
         scene.add(pts);
-        
-        // Close-orbit particles
-        const orbitCount = mob ? 30 : 60;
-        const orbitGeo = new THREE.BufferGeometry();
-        const orbitPos = new Float32Array(orbitCount*3);
-        const orbitData = [];
-        for(let i=0;i<orbitCount;i++){
-            const angle = Math.random()*Math.PI*2;
-            const r = 2.5+Math.random()*2;
-            const yOff = (Math.random()-.5)*2;
-            orbitData.push({angle, r, yOff, speed: .15+Math.random()*.3});
-            orbitPos[i*3] = Math.cos(angle)*r;
-            orbitPos[i*3+1] = yOff;
-            orbitPos[i*3+2] = Math.sin(angle)*r;
-        }
-        orbitGeo.setAttribute('position', new THREE.BufferAttribute(orbitPos, 3));
-        const orbitMat = new THREE.PointsMaterial({
-            size:.03, color:0xa5b4fc, transparent:true, opacity:.4,
-            blending: THREE.AdditiveBlending, map:createGlowSprite(), depthWrite:false,
-        });
-        const orbitPts = new THREE.Points(orbitGeo, orbitMat);
-        mainGroup.add(orbitPts);
-        
-        // Mouse tracking
-        let mouseX = 0, mouseY = 0, targetRX = 0, targetRY = 0;
-        const onMouseMove = (e) => {
-            mouseX = (e.clientX/window.innerWidth - .5)*2;
-            mouseY = (e.clientY/window.innerHeight - .5)*2;
-        };
-        window.addEventListener('mousemove', onMouseMove);
-        
-        let animId;
+        camera.position.set(0,18,28);
+        camera.lookAt(0,0,0);
+
+        var mouseX=0;
+        document.addEventListener('mousemove',function(e){mouseX=(e.clientX/innerWidth-.5)*2});
+
         function animate(){
-            animId = requestAnimationFrame(animate);
-            const t = performance.now()*.001;
-            
-            // Auto rotation
-            wire.rotation.x = t*.06;
-            wire.rotation.y = t*.09;
-            
-            // Mouse tilt
-            targetRX = mouseY*.25;
-            targetRY = mouseX*.25;
-            mainGroup.rotation.x += (targetRX - mainGroup.rotation.x)*.04;
-            mainGroup.rotation.y += (targetRY - mainGroup.rotation.y)*.04;
-            
-            // Float
-            mainGroup.position.y = Math.sin(t*.5)*.35;
-            
-            // Torus rotation
-            torus.rotation.z = t*.02;
-            torus2.rotation.z = -t*.015;
-            
-            // Background particles
-            pts.rotation.y = t*.01;
-            pts.rotation.x = t*.005;
-            
-            // Orbit particles
-            const oPos = orbitGeo.attributes.position.array;
-            for(let i=0;i<orbitCount;i++){
-                const d = orbitData[i];
-                d.angle += d.speed*.01;
-                oPos[i*3] = Math.cos(d.angle)*d.r;
-                oPos[i*3+1] = d.yOff + Math.sin(t*d.speed)*.2;
-                oPos[i*3+2] = Math.sin(d.angle)*d.r;
-            }
-            orbitGeo.attributes.position.needsUpdate = true;
-            
-            // Pulsing light
-            pL1.intensity = .5 + Math.sin(t*.8)*.2;
-            pL3.intensity = .15 + Math.sin(t*1.2)*.1;
-            
-            renderer.render(scene, camera);
+          requestAnimationFrame(animate);
+          mat.uniforms.uTime.value=performance.now()*.001;
+          pts.rotation.y+=.0008;
+          camera.position.x+=(mouseX*5-camera.position.x)*.02;
+          camera.lookAt(0,0,0);
+          renderer.render(scene,camera);
         }
         animate();
-        
-        const onResize = () => {
-            camera.aspect = container.clientWidth/container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        };
-        window.addEventListener('resize', onResize);
-        
-        return ()=>{
-            window.removeEventListener('resize', onResize);
-            window.removeEventListener('mousemove', onMouseMove);
-            cancelAnimationFrame(animId);
-            if(container.contains(renderer.domElement)) container.removeChild(renderer.domElement);
-            renderer.dispose();
-        };
-    },[]);
-    
-    return <div ref={mountRef} className="hero-3d" />;
-}
 
-// ══════════════════════════════════════════
-// NAVBAR
-// ══════════════════════════════════════════
-function Navbar(){
-    const [scrolled, setScrolled] = useState(false);
-    const [hidden, setHidden] = useState(false);
-    const [mobOpen, setMobOpen] = useState(false);
-    const lastY = useRef(0);
-    
-    useEffect(()=>{
-        const onScroll = ()=>{
-            const y = window.scrollY;
-            setScrolled(y>50);
-            if(y>lastY.current && y>150){ setHidden(true); setMobOpen(false); }
-            else setHidden(false);
-            lastY.current = y;
-        };
-        window.addEventListener('scroll', onScroll, {passive:true});
-        return ()=>window.removeEventListener('scroll', onScroll);
-    },[]);
-    
-    const links = [{n:'Home',h:'#home'},{n:'About',h:'#about'},{n:'Projects',h:'#projects'},{n:'Contact',h:'#contact'}];
-    
-    return (
-        <nav className={`nav ${scrolled?'scrolled':''} ${hidden?'hide':''}`}>
-            <div className="nav-inner">
-                <a href="#home" className="nav-logo shimmer-text">PR.</a>
-                <div className="nav-links">
-                    {links.map(l=>(
-                        <a key={l.n} href={l.h} className="nav-link">{l.n}</a>
-                    ))}
-                </div>
-                <button className={`mob-toggle ${mobOpen?'open':''}`} onClick={()=>setMobOpen(!mobOpen)} aria-label="Menu">
-                    <span/><span/><span/>
-                </button>
-            </div>
-            <div className={`mob-menu ${mobOpen?'open':''}`}>
-                {links.map(l=><a key={l.n} href={l.h} onClick={()=>setMobOpen(false)}>{l.n}</a>)}
-            </div>
-        </nav>
-    );
-}
+        window.addEventListener('resize',function(){
+          camera.aspect=innerWidth/innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(innerWidth,innerHeight);
+        });
+      }catch(e){console.warn('Three.js init error:',e)}
+    })();
 
-// ══════════════════════════════════════════
-// HERO
-// ══════════════════════════════════════════
-function Hero({visible}){
-    const scrollY = useParallax();
-    
-    return (
-        <section id="home" className="hero">
-            <div className="hero-orb ho1"/>
-            <div className="hero-orb ho2"/>
-            <div className="hero-orb ho3"/>
-            <div className="hero-orb ho4"/>
-            {visible && <CosmicScene />}
-            <div className="hero-grid" style={{transform:`translateY(${scrollY*.1}px)`}} />
-            
-            <div className="hero-content" style={{transform:`translateY(${scrollY*.25}px)`,opacity:Math.max(0, 1 - scrollY/600)}}>
-                {visible && <>
-                    <div className="hero-tag glass">
-                        <div className="hero-tag-dot"/>
-                        <span className="hero-tag-text">Available for projects</span>
-                    </div>
-                    
-                    <h1 className="hero-title text-glow">
-                        <AnimatedLetters text="Pranav" delay={0.3} className="shimmer-text" />
-                        <br/>
-                        <AnimatedLetters text="Rajagopal" delay={0.6} className="shimmer-text" />
-                    </h1>
-                    
-                    <p className="hero-sub">
-                        16-year-old developer, creator &amp; innovator.<br/>
-                        Building the future, one line of code at a time.
-                    </p>
-                    
-                    <div className="hero-ctas">
-                        <MagneticButton href="#projects" className="btn btn-glass glass">
-                            View Projects
-                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                            </svg>
-                        </MagneticButton>
-                        <MagneticButton href="#contact" className="btn btn-cosmic">
-                            Get in Touch
-                        </MagneticButton>
-                    </div>
-                </>}
-            </div>
-            
-            <div className="scroll-ind">
-                <div className="scroll-mouse">
-                    <div className="scroll-dot"/>
-                </div>
-            </div>
-        </section>
-    );
-}
+    /* ---- Cursor Glow ---- */
+    (function(){
+      var glow=document.getElementById('cursor-glow'),dot=document.getElementById('cursor-dot');
+      var gx=0,gy=0,dx=0,dy=0;
+      document.addEventListener('mousemove',function(e){gx=e.clientX;gy=e.clientY;dot.style.left=gx+'px';dot.style.top=gy+'px'});
+      function lerp(){
+        dx+=(gx-dx)*.08;dy+=(gy-dy)*.08;
+        glow.style.left=dx+'px';glow.style.top=dy+'px';
+        requestAnimationFrame(lerp);
+      }
+      lerp();
+    })();
 
-// ══════════════════════════════════════════
-// ABOUT
-// ══════════════════════════════════════════
-function About(){
-    const hRef = useReveal();
-    const dRef = useReveal();
-    
-    const skills = [
-        {
-            cat:'Frontend',
-            icon:<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>,
-            items:['React','Next.js','TypeScript','Tailwind CSS','Framer Motion'],
-            bg:'linear-gradient(135deg,rgba(59,130,246,.08),rgba(99,102,241,.08))',
-        },
-        {
-            cat:'Backend',
-            icon:<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>,
-            items:['Node.js','Python','PostgreSQL','REST APIs','GraphQL'],
-            bg:'linear-gradient(135deg,rgba(52,211,153,.08),rgba(34,211,238,.08))',
-        },
-        {
-            cat:'Tools & More',
-            icon:<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.573-1.066z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>,
-            items:['Git','Docker','Figma','Linux','AWS'],
-            bg:'linear-gradient(135deg,rgba(168,85,247,.08),rgba(236,72,153,.08))',
-        },
-    ];
-    
-    return (
-        <section id="about" className="section dust-reveal">
-            <div className="section-inner">
-                <div ref={hRef} className="reveal">
-                    <p className="section-label cosmic-glow">About Me</p>
-                    <h2 className="section-title">
-                        Crafting Digital <span className="shimmer-text" style={{fontWeight:700}}>Experiences</span>
-                    </h2>
-                    <span className="section-underline"/>
-                </div>
-                <div ref={dRef} className="reveal rd2">
-                    <p className="section-desc">
-                        I'm a 16-year-old passionate developer who thrives on turning ambitious ideas into
-                        elegant, functional reality through code. From designing sleek web applications to
-                        experimenting with AI and creative coding, I'm constantly pushing boundaries. My
-                        mission is to build software that genuinely impacts people's lives — and to have
-                        fun doing it.
-                    </p>
-                </div>
-                
-                <div className="skills-grid">
-                    {skills.map((s,idx)=>{
-                        const ref = useReveal();
-                        return (
-                            <div key={s.cat} ref={ref} className={`reveal rd${idx+2} skill-card glass`}>
-                                <div className="skill-card-bg" style={{background:s.bg}}/>
-                                <div style={{position:'relative',zIndex:2}}>
-                                    <div className="skill-icon">{s.icon}</div>
-                                    <div className="skill-cat">{s.cat}</div>
-                                    <div className="skill-tags">
-                                        {s.items.map(it=><span key={it} className="skill-tag">{it}</span>)}
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-                
-                <div className="goals-grid">
-                    {[
-                        {label:'What Drives Me',text:"I believe technology should be both beautiful and purposeful. Every project I take on is an opportunity to learn something new and create something meaningful. Whether it's a pixel-perfect UI or an efficient algorithm, I care about the craft."},
-                        {label:"Where I'm Headed",text:"I'm working toward becoming a full-stack engineer with deep expertise in AI/ML and creative technology. Currently exploring computer science, building open-source tools, and collaborating on projects that challenge me to grow."},
-                    ].map((g,i)=>{
-                        const ref = useReveal();
-                        return (
-                            <div key={g.label} ref={ref} className={`reveal rd${i+4} goal-card glass`}>
-                                <p className="goal-label">{g.label}</p>
-                                <p className="goal-text">{g.text}</p>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        </section>
-    );
-}
+    /* ---- Ripple Click ---- */
+    document.addEventListener('click',function(e){
+      var r=document.createElement('div');r.className='ripple-effect';
+      r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';
+      document.body.appendChild(r);
+      setTimeout(function(){r.remove()},650);
+    });
 
-// ══════════════════════════════════════════
-// PROJECTS
-// ══════════════════════════════════════════
-function Projects(){
-    const hRef = useReveal();
-    
-    const projects = [
-        {title:'NeuralSketch',desc:'AI-powered tool that transforms rough sketches into polished digital artwork using deep learning models and style transfer.',tech:['Python','TensorFlow','React','FastAPI'],gradient:'linear-gradient(135deg,rgba(99,102,241,.12),rgba(139,92,246,.12))',accent:'#818cf8'},
-        {title:'EcoTrack',desc:'Sustainability dashboard that helps users track and reduce their carbon footprint with real-time analytics and smart insights.',tech:['Next.js','TypeScript','D3.js','Supabase'],gradient:'linear-gradient(135deg,rgba(52,211,153,.12),rgba(34,211,238,.12))',accent:'#34d399'},
-        {title:'SynthWave',desc:'Real-time audio visualizer with procedurally generated landscapes that dynamically react to music frequency and amplitude.',tech:['Three.js','Web Audio API','GLSL','React'],gradient:'linear-gradient(135deg,rgba(244,114,182,.12),rgba(251,113,133,.12))',accent:'#f472b6'},
-        {title:'DevFlow',desc:'Developer productivity CLI tool that automates repetitive tasks, scaffolds projects, and streamlines Git workflows.',tech:['Rust','Node.js','CLI','GitHub API'],gradient:'linear-gradient(135deg,rgba(251,191,36,.12),rgba(249,115,22,.12))',accent:'#fbbf24'},
-    ];
-    
-    return (
-        <section id="projects" className="section dust-reveal">
-            <div className="section-inner">
-                <div ref={hRef} className="reveal">
-                    <p className="section-label cosmic-glow">Projects</p>
-                    <h2 className="section-title">
-                        Things I've <span className="shimmer-text" style={{fontWeight:700}}>Built</span>
-                    </h2>
-                    <span className="section-underline"/>
-                </div>
-                
-                <div className="projects-grid">
-                    {projects.map((p,idx)=>{
-                        const ref = useReveal();
-                        return (
-                            <div key={p.title} ref={ref} className={`reveal rd${idx+1} project-card glass`}>
-                                <div className="project-card-bg" style={{background:p.gradient}}/>
-                                <div className="project-accent" style={{background:`linear-gradient(90deg,transparent,${p.accent}40,transparent)`}}/>
-                                <div className="project-head">
-                                    <h3 className="project-name">{p.title}</h3>
-                                    <svg className="project-arrow" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 17L17 7M17 7H7M17 7v10"/>
-                                    </svg>
-                                </div>
-                                <p className="project-desc">{p.desc}</p>
-                                <div className="project-tech">
-                                    {p.tech.map(t=><span key={t} className="ptag">{t}</span>)}
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        </section>
-    );
-}
-
-// ══════════════════════════════════════════
-// CONTACT
-// ══════════════════════════════════════════
-function Contact(){
-    const hRef = useReveal();
-    const fRef = useReveal();
-    const [submitted, setSubmitted] = useState(false);
-    
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setSubmitted(true);
-        setTimeout(()=>setSubmitted(false),3000);
+    /* ---- Sound Manager ---- */
+    window.SoundMgr={
+      enabled:false,ctx:null,
+      init:function(){try{this.ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}},
+      play:function(freq,dur){
+        if(!this.enabled||!this.ctx)return;
+        try{
+          var o=this.ctx.createOscillator(),g=this.ctx.createGain();
+          o.connect(g);g.connect(this.ctx.destination);
+          o.frequency.value=freq;o.type='sine';
+          g.gain.value=.04;o.start();
+          g.gain.exponentialRampToValueAtTime(.0001,this.ctx.currentTime+(dur||.1));
+          o.stop(this.ctx.currentTime+(dur||.1));
+        }catch(e){}
+      },
+      hover:function(){this.play(1200,.06)},
+      click:function(){this.play(800,.12)},
+      toggle:function(){this.enabled=!this.enabled;if(this.enabled&&!this.ctx)this.init();return this.enabled}
     };
-    
-    return (
-        <section id="contact" className="section dust-reveal">
-            <div className="contact-inner">
-                <div ref={hRef} className="reveal contact-header">
-                    <p className="section-label cosmic-glow">Contact</p>
-                    <h2 className="section-title">
-                        Let's <span className="shimmer-text" style={{fontWeight:700}}>Connect</span>
-                    </h2>
-                    <span className="section-underline" style={{margin:'0.5rem auto 0'}}/>
-                    <p style={{color:'rgba(255,255,255,.22)',fontSize:'.92rem',marginTop:'1rem'}}>
-                        Have an idea, a question, or just want to say hi? Drop me a message.
-                    </p>
-                </div>
-                
-                <div ref={fRef} className="reveal rd2">
-                    <form className="contact-form glass-strong" onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <input type="text" required placeholder="Your Name" className="form-input"/>
-                        </div>
-                        <div className="form-group">
-                            <input type="email" required placeholder="Your Email" className="form-input"/>
-                        </div>
-                        <div className="form-group">
-                            <textarea required rows="5" placeholder="Your Message" className="form-input"/>
-                        </div>
-                        <MagneticButton className={`submit-btn ${submitted?'sent':''}`} onClick={submitted?undefined:undefined}>
-                            {submitted ? (
-                                <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'.5rem'}}>
-                                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/></svg>
-                                    Message Sent!
-                                </span>
-                            ) : 'Send Message'}
-                        </MagneticButton>
-                    </form>
-                </div>
-                
-                <div className="socials" style={{opacity:0,animation:'fadeIn .6s ease .8s both'}}>
-                    {['GitHub','LinkedIn','Twitter'].map(s=>(
-                        <a key={s} href="#" className="social-link">{s}</a>
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
-}
+  </script>
 
-// ══════════════════════════════════════════
-// FOOTER
-// ══════════════════════════════════════════
-function Footer(){
-    const ref = useReveal();
-    return (
-        <footer className="footer">
-            <div className="section-divider"/>
-            <div ref={ref} className="reveal footer-inner" style={{marginTop:'2.5rem'}}>
-                <p className="footer-text">© {new Date().getFullYear()} Pranav Rajagopal. Built with passion & stardust.</p>
-                <p className="footer-text">React · Three.js · Cosmic Design</p>
-            </div>
-        </footer>
-    );
-}
+  <!-- ===================== REACT APP ===================== -->
+  <script type="text/babel">
+    const {useState,useEffect,useRef,useCallback}=React;
 
-// ══════════════════════════════════════════
-// APP
-// ══════════════════════════════════════════
-function App(){
-    const [introComplete, setIntroComplete] = useState(false);
-    const [contentVisible, setContentVisible] = useState(false);
-    const cleanupRef = useRef(null);
-    
-    useEffect(()=>{
-        // Init star field
-        initStarField();
-        
-        // Init Saturn intro
-        const finishIntro = () => {
-            const overlay = document.getElementById('intro-overlay');
-            if(overlay){
-                overlay.classList.add('fade-out');
-                setTimeout(()=>{
-                    overlay.classList.add('hidden');
-                    setIntroComplete(true);
-                    setContentVisible(true);
-                },1200);
-            }
+    /* ====== NAV LINKS DATA ====== */
+    const NAV=[
+      {id:'hero',label:'Home',icon:'H'},
+      {id:'about',label:'About',icon:'A'},
+      {id:'skills',label:'Skills',icon:'S'},
+      {id:'anime',label:'Anime',icon:'ア'},
+      {id:'projects',label:'Projects',icon:'P'},
+      {id:'contact',label:'Contact',icon:'C'}
+    ];
+
+    /* ====== NAVIGATION COMPONENT ====== */
+    const Navigation=()=>{
+      const [sidebar,setSidebar]=useState(false);
+      const [spinKeys,setSpinKeys]=useState(0);
+      const [mobileOpen,setMobileOpen]=useState(false);
+      const [soundOn,setSoundOn]=useState(false);
+
+      useEffect(()=>{
+        const hero=document.getElementById('hero');
+        if(!hero)return;
+        const obs=new IntersectionObserver(([e])=>{
+          const show=!e.isIntersecting;
+          setSidebar(prev=>{
+            if(prev!==show&&show) setSpinKeys(k=>k+1);
+            return show;
+          });
+        },{threshold:.15});
+        obs.observe(hero);
+        return ()=>obs.disconnect();
+      },[]);
+
+      const go=(id)=>{
+        document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+        SoundMgr.click();
+        setMobileOpen(false);
+      };
+
+      const toggleSound=()=>{
+        const on=SoundMgr.toggle();
+        setSoundOn(on);
+      };
+
+      return <>
+        {/* Horizontal Nav */}
+        <nav className={`nav-h${sidebar?' hidden':''}`} role="navigation" aria-label="Main navigation">
+          <span className="brand" onClick={()=>go('hero')}>{'<Pranav/>'}</span>
+          {NAV.map(n=><a key={n.id} className="nl" href={'#'+n.id}
+            onClick={e=>{e.preventDefault();go(n.id)}}
+            onMouseEnter={()=>SoundMgr.hover()}>{n.label}</a>)}
+          <button className={`sound-btn${soundOn?' on':''}`} onClick={toggleSound} aria-label="Toggle sound">
+            {soundOn?'🔊':'🔇'}
+          </button>
+        </nav>
+
+        {/* Sidebar Nav */}
+        <nav className={`nav-s${sidebar?' show':''}`} role="navigation" aria-label="Sidebar navigation">
+          {NAV.map((n,i)=><a key={n.id+spinKeys} className={`sl${sidebar?' spin-in':''}`}
+            style={{animationDelay:i*.07+'s'}}
+            href={'#'+n.id} onClick={e=>{e.preventDefault();go(n.id)}}
+            onMouseEnter={()=>SoundMgr.hover()}>
+            {n.icon}<span className="tooltip">{n.label}</span>
+          </a>)}
+          <button className={`sound-btn${soundOn?' on':''}`} onClick={toggleSound} aria-label="Toggle sound"
+            style={{marginTop:'1rem',fontSize:'.9rem',padding:'.35rem .5rem',borderRadius:'8px'}}>
+            {soundOn?'🔊':'🔇'}
+          </button>
+        </nav>
+
+        {/* Mobile Hamburger */}
+        <button className={`hamburger${mobileOpen?' open':''}`} onClick={()=>setMobileOpen(o=>!o)} aria-label="Menu">
+          <span/><span/><span/>
+        </button>
+        <div className={`mobile-menu${mobileOpen?' open':''}`}>
+          {NAV.map(n=><a key={n.id} href={'#'+n.id}
+            onClick={e=>{e.preventDefault();go(n.id)}}>{n.label}</a>)}
+          <button className={`sound-btn${soundOn?' on':''}`} onClick={toggleSound} style={{marginTop:'1rem'}}>
+            {soundOn?'🔊':'🔇'}
+          </button>
+        </div>
+      </>;
+    };
+
+    /* ====== MATRIX RAIN (Canvas API) ====== */
+    const MatrixRain=()=>{
+      const ref=useRef(null);
+      useEffect(()=>{
+        const c=ref.current;if(!c)return;
+        const ctx=c.getContext('2d');
+        const resize=()=>{c.width=c.offsetWidth;c.height=c.offsetHeight};
+        resize();window.addEventListener('resize',resize);
+        const chars='アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ0123456789ABCDEF<>/{}';
+        const fs=15,cols=Math.floor(c.width/fs);
+        const drops=Array(cols).fill(0);
+        const id=setInterval(()=>{
+          ctx.fillStyle='rgba(0,0,0,.06)';ctx.fillRect(0,0,c.width,c.height);
+          ctx.fillStyle='#00ff41';ctx.font=fs+'px monospace';
+          for(let i=0;i<drops.length;i++){
+            ctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*fs,drops[i]*fs);
+            if(drops[i]*fs>c.height&&Math.random()>.975)drops[i]=0;
+            drops[i]++;
+          }
+        },55);
+        return ()=>{clearInterval(id);window.removeEventListener('resize',resize)};
+      },[]);
+      return <canvas ref={ref} className="matrix-canvas" aria-hidden="true"/>;
+    };
+
+    /* ====== HERO SECTION ====== */
+    const Hero=()=>{
+      const glitchRef=useRef(null);
+      const [subText,setSubText]=useState('');
+      const fullSub='16-Year-Old Developer | Coder | Creator';
+
+      /* Typing effect */
+      useEffect(()=>{
+        let i=0,tid;
+        const type=()=>{if(i<=fullSub.length){setSubText(fullSub.slice(0,i));i++;tid=setTimeout(type,60)}};
+        const delay=setTimeout(type,1200);
+        return ()=>{clearTimeout(delay);clearTimeout(tid)};
+      },[]);
+
+      /* Random glitch flicker via JS timing */
+      useEffect(()=>{
+        const el=glitchRef.current;if(!el)return;
+        const flicker=()=>{
+          el.style.textShadow=`${(Math.random()-.5)*8}px ${(Math.random()-.5)*6}px 0 rgba(255,0,64,.6),
+            ${(Math.random()-.5)*8}px ${(Math.random()-.5)*6}px 0 rgba(0,212,255,.6)`;
+          el.style.transform=`skew(${(Math.random()-.5)*3}deg)`;
+          setTimeout(()=>{
+            el.style.textShadow='0 0 20px rgba(0,255,65,.35)';
+            el.style.transform='skew(0)';
+          },60+Math.random()*80);
         };
-        
-        cleanupRef.current = initSaturnIntro(finishIntro);
-        
-        // Skip button
-        const skipBtn = document.getElementById('skip-btn');
-        if(skipBtn){
-            skipBtn.addEventListener('click', ()=>{
-                if(cleanupRef.current) cleanupRef.current();
-                finishIntro();
-            });
-        }
-        
-        return ()=>{
-            if(cleanupRef.current) cleanupRef.current();
-        };
-    },[]);
-    
-    return (
-        <>
-            <Navbar />
-            <main>
-                <Hero visible={contentVisible} />
-                <div className="section-divider" />
-                <About />
-                <div className="section-divider" />
-                <Projects />
-                <div className="section-divider" />
-                <Contact />
-            </main>
-            <Footer />
-        </>
+        const id=setInterval(flicker,2500+Math.random()*3000);
+        return ()=>clearInterval(id);
+      },[]);
+
+      return <section id="hero" aria-label="Hero">
+        <MatrixRain/>
+        <div className="scanline-overlay" aria-hidden="true"/>
+        <div className="hero-content">
+          <h1 className="glitch" data-text="PRANAV" ref={glitchRef}>PRANAV</h1>
+          <p className="hero-sub" aria-label="Subtitle">{subText}</p>
+        </div>
+        <div className="hero-scroll" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2" strokeLinecap="round">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+        </div>
+      </section>;
+    };
+
+    /* ====== ANIMATED SVG DECORATION ====== */
+    const SvgDecor=()=>(
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="about-visual" aria-hidden="true">
+        <circle cx="100" cy="100" r="80" className="svg-ring" stroke="#00ff41">
+          <animate attributeName="r" values="72;82;72" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values=".15;.35;.15" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="100" r="60" className="svg-ring" stroke="#00d4ff">
+          <animate attributeName="r" values="55;65;55" dur="5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values=".1;.25;.1" dur="5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="100" r="40" className="svg-ring" stroke="#b000ff">
+          <animate attributeName="r" values="36;44;36" dur="3.5s" repeatCount="indefinite"/>
+        </circle>
+        {/* Code brackets */}
+        <path d="M65 75 L45 100 L65 125" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" opacity=".7">
+          <animate attributeName="stroke-dasharray" values="0,200;200,0" dur="2s" fill="freeze"/>
+        </path>
+        <path d="M135 75 L155 100 L135 125" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" opacity=".7">
+          <animate attributeName="stroke-dasharray" values="0,200;200,0" dur="2s" fill="freeze"/>
+        </path>
+        <text x="100" y="106" textAnchor="middle" fill="#00ff41" fontFamily="Orbitron" fontSize="18" fontWeight="700" opacity=".8">P</text>
+      </svg>
     );
-}
 
-// ── Mount ──
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
-</script>
+    /* ====== ABOUT SECTION ====== */
+    const About=()=>(
+      <section id="about" aria-label="About Me">
+        <h2 className="section-title reveal"><span>{'< '}</span>About Me<span>{' />'}</span></h2>
+        <div className="about-grid">
+          <div className="about-card reveal">
+            <h3>Who Am I?</h3>
+            <p>I'm <strong>Pranav</strong>, a <strong>16‑year‑old developer</strong> driven by curiosity and a love for building things that live on the internet. I started coding at 13 and never looked back.</p>
+            <p style={{marginTop:'1rem'}}>My goal is to become a <strong>full‑stack engineer</strong> who blends clean code with jaw‑dropping UI. When I'm not coding, I'm watching anime or exploring open‑source.</p>
+            {/* Lottie animation — coding theme */}
+            <div style={{marginTop:'1.5rem'}}>
+              <lottie-player
+                src="https://lottie.host/f3e14c0d-431b-4922-91e2-e451bf44344b/KKBBMs1cBi.json"
+                background="transparent" speed="1" style={{width:'160px',height:'160px'}} loop autoplay
+              ></lottie-player>
+            </div>
+          </div>
+          <div className="about-visual reveal" style={{animationDelay:'.2s'}}>
+            <SvgDecor/>
+          </div>
+        </div>
+      </section>
+    );
 
+    /* ====== SKILLS SECTION ====== */
+    const SKILLS=[
+      {name:'HTML5',pct:95,color:'#e44d26'},
+      {name:'CSS3',pct:90,color:'#264de4'},
+      {name:'JavaScript',pct:88,color:'#f7df1e'},
+      {name:'React',pct:82,color:'#61dafb'},
+      {name:'Python',pct:80,color:'#3776ab'},
+      {name:'Java',pct:75,color:'#f89820'},
+      {name:'Node.js',pct:70,color:'#68a063'},
+      {name:'Git & GitHub',pct:78,color:'#f05032'}
+    ];
+
+    const Skills=()=>{
+      const ref=useRef(null);
+      const [animate,setAnimate]=useState(false);
+
+      useEffect(()=>{
+        const el=ref.current;if(!el)return;
+        const obs=new IntersectionObserver(([e])=>{if(e.isIntersecting)setAnimate(true)},{threshold:.25});
+        obs.observe(el);
+        return ()=>obs.disconnect();
+      },[]);
+
+      return <section id="skills" ref={ref} aria-label="Skills">
+        <h2 className="section-title reveal"><span>{'{ '}</span>Skills<span>{' }'}</span></h2>
+        <div className="skills-grid">
+          {SKILLS.map((s,i)=>(
+            <div key={s.name} className="skill-item reveal" style={{transitionDelay:i*.08+'s'}}>
+              <div className="skill-header">
+                <span className="skill-name">{s.name}</span>
+                <span className="skill-pct">{s.pct}%</span>
+              </div>
+              <div className="skill-bar">
+                <div className={`skill-fill${animate?' animate':''}`}
+                  style={{'--w':s.pct+'%',transitionDelay:(.3+i*.12)+'s',background:`linear-gradient(90deg,${s.color},var(--cyan))`}}/>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>;
+    };
+
+    /* ====== ANIME SECTION ====== */
+    const Anime=()=>(
+      <section id="anime" aria-label="Anime">
+        <h2 className="section-title reveal"><span>⛩ </span>Anime<span> ⛩</span></h2>
+        <div className="anime-cards">
+          {/* Featured — One Piece */}
+          <div className="anime-card featured reveal">
+            <div className="anime-img" style={{background:'linear-gradient(135deg,#b71c1c 0%,#e65100 40%,#0d47a1 100%)'}}>
+              <span style={{zIndex:1,fontSize:'5rem',filter:'drop-shadow(0 0 15px rgba(0,0,0,.6))'}}>🏴‍☠️</span>
+            </div>
+            <div className="anime-info">
+              <h3>One Piece</h3>
+              <p>The greatest adventure ever told. Monkey D. Luffy's journey to become King of the Pirates is an epic of friendship, dreams, and unbreakable will. 1000+ episodes and I'm still hooked.</p>
+              <div style={{marginTop:'.8rem'}}>
+                <span className="anime-tag">Adventure</span>
+                <span className="anime-tag">Shōnen</span>
+                <span className="anime-tag">10/10</span>
+                <span className="anime-tag">Ongoing</span>
+              </div>
+            </div>
+          </div>
+          {/* Extra cards */}
+          {[
+            {emoji:'⚔️',title:'Attack on Titan',desc:'A dark, gripping masterpiece about humanity\'s fight for survival.',tags:['Action','Dark Fantasy'],bg:'linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)'},
+            {emoji:'👊',title:'Jujutsu Kaisen',desc:'Curses, sorcery, and unreal fight choreography. Modern shōnen at its finest.',tags:['Supernatural','Action'],bg:'linear-gradient(135deg,#1a0a2e,#2d1b69,#11998e)'}
+          ].map(a=>(
+            <div key={a.title} className="anime-card reveal">
+              <div className="anime-img" style={{background:a.bg}}>
+                <span style={{zIndex:1,fontSize:'3.5rem'}}>{a.emoji}</span>
+              </div>
+              <div className="anime-info">
+                <h3>{a.title}</h3>
+                <p>{a.desc}</p>
+                <div style={{marginTop:'.6rem'}}>{a.tags.map(t=><span key={t} className="anime-tag">{t}</span>)}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+
+    /* ====== PROJECTS SECTION ====== */
+    const PROJECTS=[
+      {title:'CryptoTracker CLI',desc:'A Python command‑line tool that fetches live cryptocurrency prices, plots sparklines in the terminal, and sends price alerts.',tags:['Python','API','CLI']},
+      {title:'DevBoard',desc:'A React dashboard for developers — integrates GitHub stats, to‑do lists, and a Pomodoro timer in one clean interface.',tags:['React','JavaScript','CSS Grid']},
+      {title:'SortViz',desc:'An interactive sorting‑algorithm visualizer built with vanilla JS and Canvas API. Supports Bubble, Merge, Quick & Radix sort.',tags:['JavaScript','Canvas','Algorithms']},
+      {title:'ChatSocket',desc:'Real‑time chat app with rooms, typing indicators, and message history. Built with Node.js, Socket.io and a Java backend experiment.',tags:['Node.js','Java','WebSockets']}
+    ];
+
+    const Projects=()=>(
+      <section id="projects" aria-label="Projects">
+        <h2 className="section-title reveal"><span>{'// '}</span>Projects</h2>
+        <div className="projects-grid">
+          {PROJECTS.map((p,i)=>(
+            <article key={p.title} className="project-card reveal" style={{transitionDelay:i*.1+'s'}}
+              onMouseEnter={()=>SoundMgr.hover()}>
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+              <div className="project-tags">{p.tags.map(t=><span key={t}>{t}</span>)}</div>
+            </article>
+          ))}
+        </div>
+      </section>
+    );
+
+    /* ====== CONTACT SECTION ====== */
+    const Contact=()=>{
+      const [sent,setSent]=useState(false);
+      const handleSubmit=e=>{e.preventDefault();setSent(true);SoundMgr.click();setTimeout(()=>setSent(false),3000)};
+
+      return <section id="contact" aria-label="Contact">
+        <h2 className="section-title reveal"><span>{'> '}</span>Contact</h2>
+        <form className="contact-form reveal" onSubmit={handleSubmit} autoComplete="off">
+          <div className="form-group">
+            <input type="text" id="c-name" placeholder=" " required aria-label="Name"/>
+            <label htmlFor="c-name">Name</label>
+          </div>
+          <div className="form-group">
+            <input type="email" id="c-email" placeholder=" " required aria-label="Email"/>
+            <label htmlFor="c-email">Email</label>
+          </div>
+          <div className="form-group">
+            <textarea id="c-msg" placeholder=" " required aria-label="Message"/>
+            <label htmlFor="c-msg">Message</label>
+          </div>
+          <button type="submit" className="submit-btn">
+            {sent?'✓  SENT':'TRANSMIT  →'}
+          </button>
+        </form>
+      </section>;
+    };
+
+    /* ====== FOOTER ====== */
+    const Footer=()=>(
+      <footer>
+        Built with <span className="heart">♥</span> by Pranav &nbsp;|&nbsp; React · Three.js · GSAP &nbsp;|&nbsp; © {new Date().getFullYear()}
+      </footer>
+    );
+
+    /* ====== APP ROOT ====== */
+    const App=()=>{
+
+      /* Scroll‑triggered reveals via IntersectionObserver */
+      useEffect(()=>{
+        const obs=new IntersectionObserver((entries)=>{
+          entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('shown')});
+        },{threshold:.12});
+        document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+        return ()=>obs.disconnect();
+      });
+
+      /* GSAP parallax & scroll animations */
+      useEffect(()=>{
+        if(typeof gsap==='undefined')return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* Parallax on hero content */
+        gsap.to('.hero-content',{
+          yPercent:40,ease:'none',
+          scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}
+        });
+
+        /* Section title entrance */
+        gsap.utils.toArray('.section-title').forEach(t=>{
+          gsap.from(t,{
+            opacity:0,y:50,duration:1,ease:'power3.out',
+            scrollTrigger:{trigger:t,start:'top 85%',toggleActions:'play none none none'}
+          });
+        });
+
+        /* Stagger project cards */
+        gsap.utils.toArray('.project-card').forEach((c,i)=>{
+          gsap.from(c,{
+            opacity:0,y:60,rotation:2,duration:.8,delay:i*.1,ease:'power3.out',
+            scrollTrigger:{trigger:c,start:'top 88%'}
+          });
+        });
+
+        /* Stagger skill items */
+        gsap.utils.toArray('.skill-item').forEach((s,i)=>{
+          gsap.from(s,{
+            opacity:0,x:-40,duration:.7,delay:i*.07,ease:'power2.out',
+            scrollTrigger:{trigger:s,start:'top 90%'}
+          });
+        });
+
+        /* Anime cards */
+        gsap.utils.toArray('.anime-card').forEach((c,i)=>{
+          gsap.from(c,{
+            opacity:0,scale:.9,duration:.8,delay:i*.12,ease:'back.out(1.4)',
+            scrollTrigger:{trigger:c,start:'top 88%'}
+          });
+        });
+      },[]);
+
+      return <>
+        <Navigation/>
+        <main>
+          <Hero/>
+          <About/>
+          <Skills/>
+          <Anime/>
+          <Projects/>
+          <Contact/>
+        </main>
+        <Footer/>
+      </>;
+    };
+
+    /* ====== RENDER ====== */
+    const root=ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App/>);
+  </script>
 </body>
 </html>
