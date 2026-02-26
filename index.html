@@ -1,771 +1,875 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ===================== SEO & META ===================== -->
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <meta name="description" content="Pranav — 16‑year‑old developer portfolio. Cyberpunk hacker theme, React, Three.js, GSAP."/>
-  <meta name="keywords" content="Pranav,developer,portfolio,React,JavaScript,Python,Java,hacker,cyberpunk"/>
-  <meta name="author" content="Pranav"/>
-  <meta name="theme-color" content="#0a0a0a"/>
-  <meta property="og:title" content="Pranav | Developer Portfolio"/>
-  <meta property="og:description" content="16‑year‑old full‑stack developer portfolio"/>
-  <meta property="og:type" content="website"/>
-  <title>Pranav | Developer Portfolio</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After-Me</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;color:#333;overflow-x:hidden}
+        button{cursor:pointer;border:none;font-family:inherit}
+        input,textarea,select{font-family:inherit}
+        a{color:inherit;text-decoration:none}
+        #root{min-height:100vh}
 
-  <!-- ===================== STYLES ===================== -->
-  <style>
-    /* ---------- CSS Variables ---------- */
-    :root{
-      --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;
-      --text:#e0e0e0;--text2:#a0a0a0;
-      --green:#00ff41;--cyan:#00d4ff;--red:#ff0040;--purple:#b000ff;--yellow:#ffdd00;
-      --glass:rgba(255,255,255,.05);--glass-border:rgba(255,255,255,.08);
-      --font-h:'Orbitron',sans-serif;--font-b:'Rajdhani',sans-serif;--font-m:'Share Tech Mono',monospace;
-    }
-    /* ---------- Reset ---------- */
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--green) var(--bg)}
-    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--green);border-radius:3px}
-    body{font-family:var(--font-b);background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
-    a{color:inherit;text-decoration:none}
-    /* ---------- Loading Screen ---------- */
-    #loading-screen{position:fixed;inset:0;z-index:100000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s ease}
-    #loading-screen.loaded{opacity:0;visibility:hidden}
-    .loader-title{font-family:var(--font-m);color:var(--green);font-size:1rem;letter-spacing:.3em;margin-bottom:2rem;animation:flicker-load 1.5s infinite}
-    .loader-bar-wrap{width:280px;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-bottom:1rem}
-    .loader-bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--cyan));border-radius:2px;transition:width .2s}
-    .loader-percent{font-family:var(--font-m);color:var(--green);font-size:2.5rem;text-shadow:0 0 20px var(--green)}
-    @keyframes flicker-load{0%,100%{opacity:1}50%{opacity:.4}}
-    /* ---------- Cursor Glow ---------- */
-    #cursor-glow{position:fixed;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,65,.12) 0%,transparent 70%);pointer-events:none;z-index:99998;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .3s,height .3s}
-    #cursor-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--green);pointer-events:none;z-index:99999;transform:translate(-50%,-50%);box-shadow:0 0 10px var(--green);transition:transform .1s}
-    @media(hover:none){#cursor-glow,#cursor-dot{display:none}body{cursor:auto}}
-    /* ---------- Ripple ---------- */
-    .ripple-effect{position:fixed;width:20px;height:20px;border-radius:50%;border:2px solid var(--green);transform:translate(-50%,-50%) scale(0);animation:ripple-anim .6s ease-out forwards;pointer-events:none;z-index:99997}
-    @keyframes ripple-anim{to{transform:translate(-50%,-50%) scale(20);opacity:0}}
-    /* ---------- Three.js Canvas ---------- */
-    #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-    /* ---------- Root ---------- */
-    #root{position:relative;z-index:1;opacity:0;transition:opacity .6s ease}
-    #root.visible{opacity:1}
-    /* ---------- Navigation — Horizontal ---------- */
-    .nav-h{position:fixed;top:0;left:0;right:0;height:60px;display:flex;align-items:center;justify-content:center;gap:1.6rem;z-index:5000;background:rgba(10,10,10,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(0,255,65,.12);transition:opacity .5s,transform .5s;padding:0 1.5rem}
-    .nav-h.hidden{opacity:0;transform:translateY(-100%);pointer-events:none}
-    .nav-h .brand{font-family:var(--font-h);font-weight:700;color:var(--green);font-size:1.1rem;margin-right:auto;text-shadow:0 0 8px rgba(0,255,65,.4)}
-    .nav-h a.nl{font-family:var(--font-m);font-size:.82rem;color:var(--text2);padding:.4rem .8rem;border-radius:4px;transition:color .3s,background .3s,text-shadow .3s}
-    .nav-h a.nl:hover{color:var(--green);background:rgba(0,255,65,.08);text-shadow:0 0 8px var(--green)}
-    .sound-btn{background:none;border:1px solid var(--glass-border);color:var(--text2);font-size:1.1rem;padding:.35rem .6rem;border-radius:6px;cursor:none;transition:all .3s;margin-left:auto}
-    .sound-btn:hover,.sound-btn.on{border-color:var(--green);color:var(--green);box-shadow:0 0 12px rgba(0,255,65,.25)}
-    /* ---------- Navigation — Sidebar ---------- */
-    .nav-s{position:fixed;top:0;left:0;width:62px;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;z-index:5000;background:rgba(10,10,10,.88);backdrop-filter:blur(18px);border-right:1px solid rgba(0,255,65,.12);transform:translateX(-100%);transition:transform .7s cubic-bezier(.68,-.55,.265,1.55);padding:1rem 0}
-    .nav-s.show{transform:translateX(0)}
-    .nav-s .sl{width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-family:var(--font-h);font-size:.65rem;font-weight:700;color:var(--text2);border-radius:8px;border:1px solid transparent;transition:all .5s cubic-bezier(.68,-.55,.265,1.55);position:relative}
-    .nav-s .sl:hover{color:var(--green);border-color:var(--green);box-shadow:0 0 12px rgba(0,255,65,.3);transform:rotate(360deg) scale(1.15)}
-    .nav-s .sl .tooltip{position:absolute;left:calc(100% + 12px);background:var(--bg2);color:var(--green);font-family:var(--font-m);font-size:.7rem;padding:.3rem .7rem;border-radius:4px;white-space:nowrap;opacity:0;transform:translateX(-8px);transition:all .3s;pointer-events:none;border:1px solid rgba(0,255,65,.2)}
-    .nav-s .sl:hover .tooltip{opacity:1;transform:translateX(0)}
-    .nav-s .sl.spin-in{animation:spin-in .6s cubic-bezier(.68,-.55,.265,1.55) forwards}
-    @keyframes spin-in{0%{transform:rotate(0) scale(.3);opacity:0}100%{transform:rotate(360deg) scale(1);opacity:1}}
-    /* ---------- Sections Common ---------- */
-    section{min-height:100vh;padding:6rem 2rem;position:relative}
-    .section-title{font-family:var(--font-h);font-size:clamp(1.5rem,4vw,2.5rem);color:#fff;text-align:center;margin-bottom:3rem;text-shadow:0 0 15px rgba(0,255,65,.3)}
-    .section-title span{color:var(--green)}
-    .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
-    .reveal.shown{opacity:1;transform:translateY(0)}
-    /* ---------- Hero ---------- */
-    #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(180deg,#0a0a0a 0%,#111 50%,#1a1a1a 100%)}
-    .matrix-canvas{position:absolute;inset:0;z-index:1;opacity:.25;pointer-events:none}
-    .scanline-overlay{position:absolute;inset:0;z-index:2;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px);pointer-events:none;animation:scanline-scroll 8s linear infinite}
-    @keyframes scanline-scroll{0%{background-position:0 0}100%{background-position:0 100px}}
-    .hero-content{position:relative;z-index:3;text-align:center}
-    /* Glitch Text */
-    .glitch{position:relative;font-family:var(--font-h);font-size:clamp(3rem,12vw,8rem);font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.08em;line-height:1;cursor:none;user-select:none}
-    .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
-    .glitch::before{color:var(--red);z-index:-1;animation:glitch-r .4s cubic-bezier(.25,.46,.45,.94) both infinite}
-    .glitch::after{color:var(--cyan);z-index:-2;animation:glitch-b .4s cubic-bezier(.25,.46,.45,.94) reverse both infinite}
-    @keyframes glitch-r{0%{clip-path:inset(40% 0 61% 0);transform:translate(-3px,-1px)}20%{clip-path:inset(92% 0 1% 0);transform:translate(2px,3px)}40%{clip-path:inset(43% 0 1% 0);transform:translate(-2px,-3px)}60%{clip-path:inset(25% 0 58% 0);transform:translate(3px,1px)}80%{clip-path:inset(54% 0 7% 0);transform:translate(-3px,2px)}100%{clip-path:inset(58% 0 43% 0);transform:translate(2px,-2px)}}
-    @keyframes glitch-b{0%{clip-path:inset(65% 0 13% 0);transform:translate(3px,2px)}20%{clip-path:inset(79% 0 3% 0);transform:translate(-2px,-1px)}40%{clip-path:inset(48% 0 35% 0);transform:translate(1px,2px)}60%{clip-path:inset(15% 0 65% 0);transform:translate(-1px,-2px)}80%{clip-path:inset(37% 0 29% 0);transform:translate(2px,1px)}100%{clip-path:inset(2% 0 72% 0);transform:translate(-2px,3px)}}
-    .hero-sub{font-family:var(--font-m);font-size:clamp(.9rem,2vw,1.3rem);color:var(--green);margin-top:1.5rem;text-shadow:0 0 10px rgba(0,255,65,.4);overflow:hidden;white-space:nowrap;border-right:2px solid var(--green);animation:blink-caret .75s step-end infinite}
-    @keyframes blink-caret{50%{border-color:transparent}}
-    .hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:3}
-    .hero-scroll svg{width:28px;animation:bounce-arrow 2s ease infinite}
-    @keyframes bounce-arrow{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(10px);opacity:1}}
-    /* ---------- About ---------- */
-    #about{background:linear-gradient(180deg,#1a1a1a 0%,#111 100%)}
-    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:1000px;margin:0 auto;align-items:center}
-    .about-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:2.5rem;backdrop-filter:blur(12px);transition:transform .4s,box-shadow .4s}
-    .about-card:hover{transform:translateY(-6px);box-shadow:0 0 30px rgba(0,255,65,.12)}
-    .about-card h3{font-family:var(--font-h);color:var(--green);font-size:1.1rem;margin-bottom:1rem}
-    .about-card p{font-size:1.05rem;line-height:1.7;color:var(--text2)}
-    .about-card p strong{color:var(--cyan)}
-    .about-visual{display:flex;align-items:center;justify-content:center}
-    .about-visual svg{max-width:260px;width:100%}
-    .svg-ring{fill:none;stroke-width:.8;opacity:.3}
-    /* ---------- Skills ---------- */
-    #skills{background:linear-gradient(180deg,#111 0%,#0f0f0f 100%)}
-    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
-    .skill-item{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:1.5rem;backdrop-filter:blur(8px);transition:transform .3s,box-shadow .3s}
-    .skill-item:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 0 20px rgba(0,255,65,.1)}
-    .skill-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}
-    .skill-name{font-family:var(--font-h);font-size:.85rem;color:#fff}
-    .skill-pct{font-family:var(--font-m);font-size:.85rem;color:var(--green)}
-    .skill-bar{width:100%;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
-    .skill-fill{height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--cyan));box-shadow:0 0 10px var(--green);transition:width 1.5s cubic-bezier(.22,1,.36,1)}
-    .skill-fill.animate{width:var(--w)}
-    /* ---------- Anime ---------- */
-    #anime{background:linear-gradient(180deg,#0f0f0f 0%,#111 100%)}
-    .anime-cards{display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;max-width:1100px;margin:0 auto}
-    .anime-card{width:300px;background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;overflow:hidden;backdrop-filter:blur(10px);transition:transform .4s,box-shadow .4s}
-    .anime-card:hover{transform:translateY(-10px) rotateX(3deg);box-shadow:0 20px 50px rgba(0,255,65,.12)}
-    .anime-card.featured{width:100%;max-width:680px;display:grid;grid-template-columns:1fr 1fr}
-    .anime-img{height:200px;background:linear-gradient(135deg,#1a0a0a,#2a1a0a,#0a1a2a);display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative;overflow:hidden}
-    .anime-card.featured .anime-img{height:100%;min-height:280px}
-    .anime-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(10,10,10,.9));pointer-events:none}
-    .anime-info{padding:1.5rem}
-    .anime-info h3{font-family:var(--font-h);font-size:1.1rem;color:#fff;margin-bottom:.6rem}
-    .anime-info p{font-size:.95rem;color:var(--text2);line-height:1.6}
-    .anime-tag{display:inline-block;font-family:var(--font-m);font-size:.7rem;padding:.2rem .6rem;border:1px solid var(--green);color:var(--green);border-radius:4px;margin:.3rem .2rem 0 0}
-    /* ---------- Projects ---------- */
-    #projects{background:linear-gradient(180deg,#111 0%,#151515 100%)}
-    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;max-width:1100px;margin:0 auto}
-    .project-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:2rem;backdrop-filter:blur(10px);position:relative;overflow:hidden;transition:transform .4s,box-shadow .4s}
-    .project-card::before{content:'';position:absolute;inset:-2px;border-radius:17px;background:conic-gradient(from 0deg,var(--green),var(--cyan),var(--purple),var(--green));z-index:-1;opacity:0;transition:opacity .5s;animation:border-spin 4s linear infinite}
-    .project-card:hover::before{opacity:.6}
-    .project-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,255,65,.1)}
-    @keyframes border-spin{to{transform:rotate(360deg)}}
-    .project-card::after{content:'';position:absolute;inset:1px;background:var(--bg2);border-radius:15px;z-index:-1}
-    .project-card h3{font-family:var(--font-h);font-size:1rem;color:#fff;margin-bottom:.8rem}
-    .project-card p{font-size:.95rem;color:var(--text2);line-height:1.6;margin-bottom:1rem}
-    .project-tags{display:flex;flex-wrap:wrap;gap:.4rem}
-    .project-tags span{font-family:var(--font-m);font-size:.68rem;padding:.2rem .5rem;background:rgba(0,255,65,.08);color:var(--green);border-radius:4px;border:1px solid rgba(0,255,65,.15)}
-    /* ---------- Contact ---------- */
-    #contact{background:linear-gradient(180deg,#151515 0%,#1a1a1a 50%,#222 100%)}
-    .contact-form{max-width:500px;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem}
-    .form-group{position:relative}
-    .form-group input,.form-group textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:1rem 1.2rem;color:#fff;font-family:var(--font-b);font-size:1rem;outline:none;transition:border-color .3s,box-shadow .3s;resize:vertical}
-    .form-group textarea{min-height:120px}
-    .form-group input:focus,.form-group textarea:focus{border-color:var(--green);box-shadow:0 0 20px rgba(0,255,65,.15)}
-    .form-group label{position:absolute;top:1rem;left:1.2rem;color:var(--text2);font-size:.95rem;transition:all .3s;pointer-events:none;font-family:var(--font-m)}
-    .form-group input:focus~label,.form-group input:not(:placeholder-shown)~label,.form-group textarea:focus~label,.form-group textarea:not(:placeholder-shown)~label{top:-.6rem;left:.8rem;font-size:.7rem;color:var(--green);background:var(--bg2);padding:0 .4rem}
-    .submit-btn{font-family:var(--font-h);font-size:.95rem;padding:1rem 2rem;background:transparent;border:1px solid var(--green);color:var(--green);border-radius:10px;cursor:none;position:relative;overflow:hidden;transition:all .4s;letter-spacing:.1em}
-    .submit-btn:hover{background:var(--green);color:var(--bg);box-shadow:0 0 30px rgba(0,255,65,.35)}
-    .submit-btn::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,.15);border-radius:50%;transform:translate(-50%,-50%);transition:width .6s,height .6s}
-    .submit-btn:active::before{width:400px;height:400px}
-    /* ---------- Footer ---------- */
-    footer{text-align:center;padding:2.5rem;font-family:var(--font-m);font-size:.8rem;color:var(--text2);border-top:1px solid rgba(255,255,255,.05);background:#0a0a0a}
-    footer .heart{color:var(--red);animation:pulse-heart 1.5s infinite}
-    @keyframes pulse-heart{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-    /* ---------- Lottie ---------- */
-    lottie-player{max-width:200px;margin:0 auto}
-    /* ---------- Mobile Nav Hamburger ---------- */
-    .hamburger{display:none;position:fixed;top:12px;right:16px;z-index:6000;background:rgba(10,10,10,.8);border:1px solid var(--glass-border);border-radius:8px;padding:8px 10px;cursor:none}
-    .hamburger span{display:block;width:22px;height:2px;background:var(--green);margin:4px 0;transition:all .3s}
-    .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
-    .hamburger.open span:nth-child(2){opacity:0}
-    .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
-    .mobile-menu{position:fixed;inset:0;z-index:5500;background:rgba(10,10,10,.96);backdrop-filter:blur(20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transform:translateY(-100%);transition:transform .5s ease}
-    .mobile-menu.open{transform:translateY(0)}
-    .mobile-menu a{font-family:var(--font-h);font-size:1.3rem;color:var(--text);transition:color .3s}
-    .mobile-menu a:hover{color:var(--green)}
-    /* ---------- Responsive ---------- */
-    @media(max-width:900px){
-      .about-grid{grid-template-columns:1fr}
-      .anime-card.featured{grid-template-columns:1fr}
-      .anime-card.featured .anime-img{height:200px}
-    }
-    @media(max-width:768px){
-      section{padding:5rem 1.2rem}
-      .nav-h,.nav-s{display:none!important}
-      .hamburger{display:block}
-      .projects-grid,.skills-grid{grid-template-columns:1fr}
-    }
-    @media(min-width:769px){.hamburger,.mobile-menu{display:none!important}}
-    /* ---------- Utility Animations ---------- */
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-    @keyframes glow-pulse{0%,100%{box-shadow:0 0 5px var(--green)}50%{box-shadow:0 0 25px var(--green),0 0 50px rgba(0,255,65,.3)}}
-  </style>
+        .particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+        .floating-shapes{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
+        .shape{position:absolute;border-radius:50%;opacity:.08;background:white}
+        .shape-0{width:80px;height:80px;top:10%;left:10%;animation:float 6s ease-in-out infinite}
+        .shape-1{width:120px;height:120px;top:20%;right:10%;animation:float 8s ease-in-out infinite 1s}
+        .shape-2{width:60px;height:60px;bottom:30%;left:20%;animation:float 7s ease-in-out infinite 2s}
+        .shape-3{width:100px;height:100px;bottom:10%;right:20%;animation:float 9s ease-in-out infinite .5s}
+        .shape-4{width:40px;height:40px;top:50%;left:50%;animation:float 5s ease-in-out infinite 1.5s}
+        .shape-5{width:90px;height:90px;top:70%;left:70%;animation:float 10s ease-in-out infinite 3s}
+
+        @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}33%{transform:translateY(-25px) rotate(5deg)}66%{transform:translateY(15px) rotate(-5deg)}}
+        @keyframes slideIn{from{opacity:0;transform:translateY(40px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+        @keyframes slideDown{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes staggerIn{from{opacity:0;transform:translateY(30px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+        @keyframes shake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-6px)}20%,40%,60%,80%{transform:translateX(6px)}}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        @keyframes rippleEffect{0%{transform:scale(0);opacity:.5}100%{transform:scale(4);opacity:0}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes bounceIn{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.05)}70%{transform:scale(.9)}100%{transform:scale(1);opacity:1}}
+        @keyframes slideToast{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+        @keyframes slideToastOut{from{transform:translateX(0);opacity:1}to{transform:translateX(120%);opacity:0}}
+        @keyframes pageEnter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes emojiBounce{0%,100%{transform:scale(1) rotate(0deg)}25%{transform:scale(1.3) rotate(-10deg)}50%{transform:scale(1.1) rotate(5deg)}75%{transform:scale(1.2) rotate(-5deg)}}
+        @keyframes glow{0%,100%{box-shadow:0 0 5px rgba(102,126,234,.3)}50%{box-shadow:0 0 25px rgba(102,126,234,.6),0 0 50px rgba(102,126,234,.2)}}
+        @keyframes modalOpen{from{transform:translateY(40px) scale(.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+        @keyframes modalClose{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(40px) scale(.9);opacity:0}}
+        @keyframes backdropIn{from{opacity:0}to{opacity:1}}
+        @keyframes backdropOut{from{opacity:1}to{opacity:0}}
+        @keyframes cardHover{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.15)}28%{transform:scale(1)}42%{transform:scale(1.15)}70%{transform:scale(1)}}
+        @keyframes typeIn{from{width:0}to{width:100%}}
+        @keyframes morphBg{0%,100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%}50%{border-radius:30% 60% 70% 40%/50% 60% 30% 60%}}
+        @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeSlideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes scaleIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+        @keyframes wobble{0%{transform:rotate(0deg)}25%{transform:rotate(3deg)}50%{transform:rotate(-3deg)}75%{transform:rotate(1deg)}100%{transform:rotate(0deg)}}
+
+        .animate-in{animation:slideIn .6s cubic-bezier(.16,1,.3,1) forwards}
+        .slide-down{animation:slideDown .5s cubic-bezier(.16,1,.3,1) forwards}
+        .fade-in{animation:fadeIn .5s ease-out forwards}
+        .fade-in-delay{animation:fadeIn .8s ease-out .3s both}
+        .slide-up-1{animation:slideUp .5s cubic-bezier(.16,1,.3,1) .4s both}
+        .slide-up-2{animation:slideUp .5s cubic-bezier(.16,1,.3,1) .6s both}
+        .slide-up-3{animation:slideUp .5s cubic-bezier(.16,1,.3,1) .8s both}
+        .stagger-in{animation:staggerIn .5s cubic-bezier(.16,1,.3,1) both}
+        .shake{animation:shake .5s ease-out}
+        .float-anim{animation:float 3s ease-in-out infinite}
+        .page-enter{animation:pageEnter .4s ease-out}
+        .bounce-in{animation:bounceIn .6s cubic-bezier(.16,1,.3,1) both}
+        .heartbeat{animation:heartbeat 1.5s ease-in-out infinite}
+        .morph{animation:morphBg 8s ease-in-out infinite}
+        .glow-anim{animation:glow 2s ease-in-out infinite}
+        .wobble{animation:wobble .5s ease-out}
+
+        .typewriter{display:inline}
+        .cursor{animation:blink 1s infinite;font-weight:100;color:rgba(255,255,255,.7)}
+
+        .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin .6s linear infinite;margin-right:8px;vertical-align:middle}
+        .spinner-dark{border-color:rgba(0,0,0,.1);border-top-color:#667eea}
+
+        .ripple-btn{position:relative;overflow:hidden;cursor:pointer;border:none;font-family:inherit}
+        .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.4);width:10px;height:10px;transform:translate(-50%,-50%);animation:rippleEffect .6s ease-out;pointer-events:none}
+
+        .toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+        .toast{padding:14px 20px;border-radius:12px;color:#fff;font-weight:600;display:flex;align-items:center;gap:10px;min-width:280px;max-width:400px;box-shadow:0 10px 40px rgba(0,0,0,.25);animation:slideToast .5s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(10px);pointer-events:auto}
+        .toast-exit{animation:slideToastOut .4s ease-in forwards}
+        .toast-success{background:linear-gradient(135deg,rgba(39,174,96,.95),rgba(46,204,113,.95))}
+        .toast-error{background:linear-gradient(135deg,rgba(231,76,60,.95),rgba(192,57,43,.95))}
+        .toast-info{background:linear-gradient(135deg,rgba(52,152,219,.95),rgba(41,128,185,.95))}
+        .toast-close{background:none;border:none;color:#fff;font-size:1.4em;cursor:pointer;margin-left:auto;opacity:.7;transition:opacity .2s}
+        .toast-close:hover{opacity:1}
+
+        .login-container{display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;position:relative}
+        .login-box{background:white;border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.3);width:100%;max-width:420px;overflow:hidden;position:relative;z-index:1}
+        .logo-section{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);background-size:200% 200%;animation:gradientShift 4s ease infinite;color:#fff;padding:45px 20px;text-align:center;position:relative;overflow:hidden}
+        .logo-section::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.1) 0%,transparent 70%);animation:float 6s ease-in-out infinite}
+        .logo-icon{font-size:3em;margin-bottom:10px;animation:float 3s ease-in-out infinite;display:inline-block}
+        .logo-text{font-size:2.8em;margin-bottom:8px;text-shadow:2px 2px 4px rgba(0,0,0,.2);letter-spacing:1px}
+        .tagline{font-size:1.1em;opacity:.9;min-height:1.5em}
+        .login-content{padding:35px 30px 25px}
+        .intro-text{color:#666;margin-bottom:25px;line-height:1.6;text-align:center;font-size:.95em}
+        .login-form{display:flex;flex-direction:column;gap:20px}
+        .form-group{display:flex;flex-direction:column}
+        .form-group label{margin-bottom:8px;font-weight:600;color:#444;font-size:.95em}
+        .form-group input,.form-group textarea,.form-group select{padding:12px 14px;border:2px solid #e8e8e8;border-radius:10px;font-size:1em;transition:all .3s cubic-bezier(.16,1,.3,1);background:#fafafa}
+        .form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 4px rgba(102,126,234,.1);background:#fff;transform:translateY(-1px)}
+        .input-wrapper{position:relative;display:flex;align-items:center}
+        .input-icon{position:absolute;left:14px;font-size:1.1em;z-index:1}
+        .input-with-icon{padding-left:42px!important}
+        .login-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);background-size:200% 200%;animation:gradientShift 3s ease infinite;color:#fff;padding:14px 20px;border-radius:10px;font-size:1.1em;font-weight:600;transition:all .3s cubic-bezier(.16,1,.3,1);letter-spacing:.5px}
+        .login-btn:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 12px 35px rgba(102,126,234,.4)}
+        .login-btn:active:not(:disabled){transform:translateY(-1px)}
+        .btn-loading{display:flex;align-items:center;justify-content:center}
+        .error-message{color:#e74c3c;text-align:center;min-height:20px;font-weight:500;margin-top:15px;padding:0 10px}
+        .login-footer{background:#f8f9fa;padding:20px;text-align:center;border-top:1px solid #eee;font-size:.9em;color:#888}
+        .credit{margin-top:8px;font-weight:600;color:#667eea;font-size:.85em}
+
+        .dashboard-container{min-height:100vh;display:flex;flex-direction:column}
+        .dashboard-header{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);box-shadow:0 4px 30px rgba(0,0,0,.08);padding:18px 0;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(0,0,0,.05)}
+        .header-content{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
+        .header-logo{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:1.8em;display:flex;align-items:center;gap:8px}
+        .logo-emoji{-webkit-text-fill-color:initial;font-size:.8em}
+        .header-info{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .user-password{color:#666;font-weight:600;padding:8px 14px;background:#f0f0f0;border-radius:8px;font-size:.9em}
+        .access-mode{color:#fff;font-weight:600;padding:8px 16px;border-radius:8px;font-size:.85em;letter-spacing:.5px;transition:all .3s}
+        .access-mode.editor{background:linear-gradient(135deg,#27ae60,#2ecc71)}
+        .access-mode.viewer{background:linear-gradient(135deg,#e67e22,#f39c12)}
+        .logout-btn{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;padding:10px 18px;border-radius:8px;transition:all .3s;font-weight:600;font-size:.9em}
+        .logout-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(231,76,60,.3)}
+
+        .dashboard-main{flex:1;max-width:1200px;margin:0 auto;width:100%;padding:35px 24px}
+        .dashboard-section{background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-radius:20px;padding:35px;box-shadow:0 8px 40px rgba(0,0,0,.08)}
+        .section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;flex-wrap:wrap;gap:16px}
+        .section-title-area{display:flex;align-items:baseline;gap:12px}
+        .section-title-area h2{color:#333;font-size:1.8em}
+        .profile-count{color:#999;font-size:.95em;font-weight:500}
+        .section-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .search-box{position:relative;display:flex;align-items:center}
+        .search-icon{position:absolute;left:12px;font-size:1em;z-index:1}
+        .search-input{padding:10px 14px 10px 38px;border:2px solid #e8e8e8;border-radius:10px;font-size:.95em;transition:all .3s;width:200px;background:#fafafa}
+        .search-input:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,.1);width:250px;background:#fff}
+        .filter-select{padding:10px 14px;border:2px solid #e8e8e8;border-radius:10px;font-size:.95em;transition:all .3s;background:#fafafa;cursor:pointer}
+        .filter-select:focus{outline:none;border-color:#667eea}
+
+        .profiles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px}
+        .empty-state{grid-column:1/-1;text-align:center;padding:70px 20px;color:#999}
+        .empty-icon{font-size:4em;margin-bottom:15px;animation:float 3s ease-in-out infinite}
+        .empty-state p{font-size:1.15em;line-height:1.6}
+
+        .profile-card-item{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);transition:all .4s cubic-bezier(.16,1,.3,1);cursor:pointer;position:relative}
+        .profile-card-item:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 20px 50px rgba(0,0,0,.15)}
+        .card-image{width:100%;height:200px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+        .card-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+        .profile-card-item:hover .card-image img{transform:scale(1.1)}
+        .card-overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;backdrop-filter:blur(2px)}
+        .card-overlay span{color:#fff;font-weight:600;font-size:1.1em;transform:translateY(10px);transition:transform .3s}
+        .profile-card-item:hover .card-overlay{opacity:1}
+        .profile-card-item:hover .card-overlay span{transform:translateY(0)}
+        .no-image{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.5em;transition:transform .3s}
+        .no-image .emoji-bounce{animation:emojiBounce .6s ease-out}
+        .card-content{padding:20px}
+        .card-content h3{color:#333;margin-bottom:8px;font-size:1.3em;transition:color .3s}
+        .profile-card-item:hover .card-content h3{color:#667eea}
+        .theme-badge{display:inline-block;padding:5px 12px;border-radius:20px;font-size:.85em;margin-bottom:10px;font-weight:600}
+        .card-preview{color:#888;font-size:.9em;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+        .theme-love{border-top:4px solid #ff6b9d}.theme-love .card-image,.theme-love .no-image{background:linear-gradient(135deg,#ffe0e8,#ffd0dd)}
+        .theme-friend{border-top:4px solid #4ecdc4}.theme-friend .card-image,.theme-friend .no-image{background:linear-gradient(135deg,#e0f7f6,#d0f0ee)}
+        .theme-family{border-top:4px solid #ffa502}.theme-family .card-image,.theme-family .no-image{background:linear-gradient(135deg,#ffe8cc,#ffddb8)}
+        .theme-colleague{border-top:4px solid #2c3e50}.theme-colleague .card-image,.theme-colleague .no-image{background:linear-gradient(135deg,#ecf0f1,#dfe6e9)}
+        .theme-mentor{border-top:4px solid #8e44ad}.theme-mentor .card-image,.theme-mentor .no-image{background:linear-gradient(135deg,#f4e8ff,#eddcff)}
+        .theme-other{border-top:4px solid #f39c12}.theme-other .card-image,.theme-other .no-image{background:linear-gradient(135deg,#fef5e7,#fdebd0)}
+
+        .btn{padding:10px 20px;border-radius:10px;font-weight:600;transition:all .3s cubic-bezier(.16,1,.3,1);cursor:pointer;border:none;font-size:.95em;letter-spacing:.3px}
+        .btn-primary{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(102,126,234,.35)}
+        .btn-secondary{background:#f0f0f0;color:#444}
+        .btn-secondary:hover{background:#e0e0e0;transform:translateY(-1px)}
+        .btn-danger{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff}
+        .btn-danger:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(231,76,60,.35)}
+        .btn-disabled{background:#95a5a6!important;color:#fff;cursor:not-allowed;opacity:.6;transform:none!important;box-shadow:none!important}
+        .add-btn{display:flex;align-items:center;gap:6px}
+        .btn-icon{font-size:1.3em;line-height:1}
+
+        .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:flex;justify-content:center;align-items:center;z-index:1000;animation:backdropIn .3s ease-out;backdrop-filter:blur(4px)}
+        .modal-closing{animation:backdropOut .3s ease-in forwards}
+        .modal-content{background:#fff;border-radius:20px;width:90%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 80px rgba(0,0,0,.3);animation:modalOpen .4s cubic-bezier(.16,1,.3,1)}
+        .modal-content-closing{animation:modalClose .3s ease-in forwards}
+        .modal-header{display:flex;justify-content:space-between;align-items:center;padding:22px 25px;border-bottom:1px solid #f0f0f0}
+        .modal-header h2{color:#333;font-size:1.4em}
+        .close-btn{background:none;font-size:1.8em;cursor:pointer;color:#bbb;transition:all .3s;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+        .close-btn:hover{color:#333;background:#f0f0f0;transform:rotate(90deg)}
+        .profile-form{padding:25px}
+        .profile-form .form-group{margin-bottom:18px}
+        .form-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:10px}
+        .form-actions button{flex:1}
+
+        .image-preview{position:relative;margin-top:10px;border-radius:10px;overflow:hidden;height:120px;width:120px}
+        .image-preview img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+        .remove-image{position:absolute;top:4px;right:4px;background:rgba(231,76,60,.9);color:#fff;border:none;border-radius:50%;width:24px;height:24px;font-size:1em;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+        .remove-image:hover{transform:scale(1.1)}
+
+        .confirm-delete{padding:25px}
+        .confirm-delete p{margin-bottom:12px;line-height:1.6;font-size:1.05em}
+        .delete-warning{color:#e74c3c;font-weight:600;font-size:.95em!important}
+        .confirm-delete .form-actions{margin-top:20px}
+
+        .profile-container{min-height:100vh;display:flex;flex-direction:column}
+        .profile-header{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 30px rgba(0,0,0,.08);border-bottom:1px solid rgba(0,0,0,.05)}
+        .profile-header h1{background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:1.6em}
+        .back-btn{background:#f0f0f0;padding:10px 20px;border-radius:10px;cursor:pointer;transition:all .3s;font-weight:600;font-size:.95em;border:none}
+        .back-btn:hover{background:#e0e0e0;transform:translateX(-3px)}
+        .profile-main{flex:1;display:flex;justify-content:center;align-items:center;padding:40px 24px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);position:relative;overflow:hidden}
+        .profile-main::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(255,255,255,.05) 0%,transparent 50%);animation:float 10s ease-in-out infinite}
+        .profile-display{background:#fff;border-radius:20px;overflow:hidden;width:100%;max-width:720px;box-shadow:0 25px 80px rgba(0,0,0,.3);position:relative;z-index:1}
+        .profile-image-section{width:100%;height:300px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+        .profile-image{width:100%;height:100%;object-fit:cover}
+        .profile-no-image{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+        .profile-emoji-large{font-size:5em;display:inline-block}
+        .profile-info-section{padding:40px}
+        .profile-info-section h2{color:#333;font-size:2em;margin-bottom:10px}
+        .profile-name-animated{animation:fadeSlideIn .5s ease-out .2s both}
+        .profile-theme-badge{display:inline-block;padding:8px 18px;border-radius:20px;font-weight:600;margin-bottom:28px;font-size:1em}
+        .profile-message{margin-bottom:30px;animation:fadeIn .5s ease-out .4s both}
+        .profile-message h3{color:#444;margin-bottom:15px;font-size:1.25em;display:flex;align-items:center;gap:8px}
+        .profile-message p{color:#666;line-height:1.9;font-size:1.05em}
+        .profile-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:28px;animation:fadeIn .5s ease-out .6s both}
+        .profile-actions .btn{flex:1;min-width:140px;text-align:center}
+        .profile-meta{display:flex;gap:20px;padding-top:20px;border-top:1px solid #f0f0f0;color:#aaa;font-size:.9em;flex-wrap:wrap}
+
+        .theme-love .profile-image-section,.theme-love .profile-no-image{background:linear-gradient(135deg,#ffe0e8,#ffd0dd)}
+        .theme-love .profile-theme-badge{background:#ffe0e8;color:#ff6b9d}
+        .theme-friend .profile-image-section,.theme-friend .profile-no-image{background:linear-gradient(135deg,#e0f7f6,#d0f0ee)}
+        .theme-friend .profile-theme-badge{background:#e0f7f6;color:#4ecdc4}
+        .theme-family .profile-image-section,.theme-family .profile-no-image{background:linear-gradient(135deg,#ffe8cc,#ffddb8)}
+        .theme-family .profile-theme-badge{background:#ffe8cc;color:#ffa502}
+        .theme-colleague .profile-image-section,.theme-colleague .profile-no-image{background:linear-gradient(135deg,#ecf0f1,#dfe6e9)}
+        .theme-colleague .profile-theme-badge{background:#ecf0f1;color:#2c3e50}
+        .theme-mentor .profile-image-section,.theme-mentor .profile-no-image{background:linear-gradient(135deg,#f4e8ff,#eddcff)}
+        .theme-mentor .profile-theme-badge{background:#f4e8ff;color:#8e44ad}
+        .theme-other .profile-image-section,.theme-other .profile-no-image{background:linear-gradient(135deg,#fef5e7,#fdebd0)}
+        .theme-other .profile-theme-badge{background:#fef5e7;color:#f39c12}
+
+        .not-found{text-align:center;padding:60px;color:#fff}
+        .not-found h2{margin-bottom:20px;font-size:1.8em}
+
+        .scroll-custom::-webkit-scrollbar{width:6px}
+        .scroll-custom::-webkit-scrollbar-track{background:transparent}
+        .scroll-custom::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+        .modal-content::-webkit-scrollbar{width:6px}
+        .modal-content::-webkit-scrollbar-track{background:transparent}
+        .modal-content::-webkit-scrollbar-thumb{background:#ddd;border-radius:3px}
+
+        @media(max-width:768px){
+            .section-header{flex-direction:column;align-items:stretch}
+            .section-controls{flex-direction:column}
+            .search-input,.search-input:focus{width:100%}
+            .filter-select{width:100%}
+            .profiles-grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+            .modal-content{width:95%;max-height:95vh}
+            .profile-info-section{padding:25px}
+            .profile-image-section{height:220px}
+            .header-content{flex-direction:column;gap:14px}
+            .header-info{flex-direction:column;width:100%;align-items:stretch;text-align:center}
+            .header-info>*{justify-content:center}
+            .profile-actions{flex-direction:column}
+            .profile-actions .btn{width:100%}
+            .profile-header{flex-wrap:wrap;gap:10px;justify-content:center}
+        }
+        @media(max-width:480px){
+            .header-logo{font-size:1.4em}
+            .profiles-grid{grid-template-columns:1fr}
+            .profile-info-section{padding:20px}
+            .form-actions{flex-direction:column}
+            .form-actions button{width:100%}
+            .dashboard-section{padding:20px}
+            .section-title-area h2{font-size:1.4em}
+            .login-content{padding:25px 20px 20px}
+            .logo-text{font-size:2.2em}
+        }
+    </style>
 </head>
-
 <body>
-  <!-- ===================== LOADING SCREEN ===================== -->
-  <div id="loading-screen" role="status" aria-label="Loading">
-    <div class="loader-title">INITIALIZING SYSTEM...</div>
-    <div class="loader-bar-wrap"><div class="loader-bar-fill" id="loader-fill"></div></div>
-    <div class="loader-percent" id="loader-percent">0%</div>
-  </div>
-  <!-- Inline loader script — runs immediately -->
-  <script>
-    (function(){
-      var p=0,pEl=document.getElementById('loader-percent'),fEl=document.getElementById('loader-fill'),ls=document.getElementById('loading-screen');
-      function tick(){p+=Math.random()*8+2;if(p>92)p=92;pEl.textContent=Math.floor(p)+'%';fEl.style.width=p+'%';if(p<92)requestAnimationFrame(tick)}
-      tick();
-      window.addEventListener('load',function(){
-        p=100;pEl.textContent='100%';fEl.style.width='100%';
-        setTimeout(function(){ls.classList.add('loaded');document.getElementById('root').classList.add('visible')},600);
-      });
-      setTimeout(function(){if(!ls.classList.contains('loaded')){ls.classList.add('loaded');document.getElementById('root').classList.add('visible')}},12000);
-    })();
-  </script>
+    <div id="root"></div>
 
-  <!-- ===================== CURSOR GLOW ===================== -->
-  <div id="cursor-glow"></div>
-  <div id="cursor-dot"></div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback, useMemo, Fragment } = React;
 
-  <!-- ===================== THREE.JS CANVAS ===================== -->
-  <canvas id="bg-canvas" aria-hidden="true"></canvas>
-
-  <!-- ===================== REACT ROOT ===================== -->
-  <div id="root"></div>
-  <noscript><p style="color:#fff;text-align:center;padding:4rem">Please enable JavaScript to view this portfolio.</p></noscript>
-
-  <!-- ===================== CDN SCRIPTS ===================== -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script crossorigin src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
-
-  <!-- ===================== VANILLA JS — Three.js, Cursor, Sound, Ripple ===================== -->
-  <script>
-    /* ---- Three.js Particle Wave with Custom Shader ---- */
-    (function initThree(){
-      try{
-        var canvas=document.getElementById('bg-canvas');
-        var scene=new THREE.Scene();
-        var camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,1000);
-        var renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true,antialias:false});
-        renderer.setSize(innerWidth,innerHeight);
-        renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-
-        var COUNT=80;
-        var pos=[];
-        for(var x=0;x<COUNT;x++) for(var z=0;z<COUNT;z++){
-          pos.push((x-COUNT/2)*.6, 0, (z-COUNT/2)*.6);
-        }
-        var geo=new THREE.BufferGeometry();
-        geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
-
-        /* WebGL Shader Material */
-        var mat=new THREE.ShaderMaterial({
-          vertexShader:[
-            'uniform float uTime;',
-            'varying float vY;',
-            'void main(){',
-            '  vec3 p=position;',
-            '  p.y=sin(p.x*.35+uTime)*1.2+cos(p.z*.28+uTime*.7)*.9;',
-            '  vY=p.y;',
-            '  vec4 mv=modelViewMatrix*vec4(p,1.0);',
-            '  gl_Position=projectionMatrix*mv;',
-            '  gl_PointSize=2.5*(200.0/-mv.z);',
-            '}'
-          ].join('\n'),
-          fragmentShader:[
-            'varying float vY;',
-            'void main(){',
-            '  float d=length(gl_PointCoord-vec2(.5));',
-            '  if(d>.5)discard;',
-            '  vec3 g=vec3(0.,.98,.255);',
-            '  vec3 c=vec3(0.,.83,1.);',
-            '  vec3 col=mix(g,c,vY*.25+.5);',
-            '  gl_FragColor=vec4(col,(1.-d*2.)*.55);',
-            '}'
-          ].join('\n'),
-          uniforms:{uTime:{value:0}},
-          transparent:true,
-          blending:THREE.AdditiveBlending,
-          depthWrite:false
-        });
-        var pts=new THREE.Points(geo,mat);
-        scene.add(pts);
-        camera.position.set(0,18,28);
-        camera.lookAt(0,0,0);
-
-        var mouseX=0;
-        document.addEventListener('mousemove',function(e){mouseX=(e.clientX/innerWidth-.5)*2});
-
-        function animate(){
-          requestAnimationFrame(animate);
-          mat.uniforms.uTime.value=performance.now()*.001;
-          pts.rotation.y+=.0008;
-          camera.position.x+=(mouseX*5-camera.position.x)*.02;
-          camera.lookAt(0,0,0);
-          renderer.render(scene,camera);
-        }
-        animate();
-
-        window.addEventListener('resize',function(){
-          camera.aspect=innerWidth/innerHeight;
-          camera.updateProjectionMatrix();
-          renderer.setSize(innerWidth,innerHeight);
-        });
-      }catch(e){console.warn('Three.js init error:',e)}
-    })();
-
-    /* ---- Cursor Glow ---- */
-    (function(){
-      var glow=document.getElementById('cursor-glow'),dot=document.getElementById('cursor-dot');
-      var gx=0,gy=0,dx=0,dy=0;
-      document.addEventListener('mousemove',function(e){gx=e.clientX;gy=e.clientY;dot.style.left=gx+'px';dot.style.top=gy+'px'});
-      function lerp(){
-        dx+=(gx-dx)*.08;dy+=(gy-dy)*.08;
-        glow.style.left=dx+'px';glow.style.top=dy+'px';
-        requestAnimationFrame(lerp);
-      }
-      lerp();
-    })();
-
-    /* ---- Ripple Click ---- */
-    document.addEventListener('click',function(e){
-      var r=document.createElement('div');r.className='ripple-effect';
-      r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';
-      document.body.appendChild(r);
-      setTimeout(function(){r.remove()},650);
-    });
-
-    /* ---- Sound Manager ---- */
-    window.SoundMgr={
-      enabled:false,ctx:null,
-      init:function(){try{this.ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}},
-      play:function(freq,dur){
-        if(!this.enabled||!this.ctx)return;
-        try{
-          var o=this.ctx.createOscillator(),g=this.ctx.createGain();
-          o.connect(g);g.connect(this.ctx.destination);
-          o.frequency.value=freq;o.type='sine';
-          g.gain.value=.04;o.start();
-          g.gain.exponentialRampToValueAtTime(.0001,this.ctx.currentTime+(dur||.1));
-          o.stop(this.ctx.currentTime+(dur||.1));
-        }catch(e){}
-      },
-      hover:function(){this.play(1200,.06)},
-      click:function(){this.play(800,.12)},
-      toggle:function(){this.enabled=!this.enabled;if(this.enabled&&!this.ctx)this.init();return this.enabled}
-    };
-  </script>
-
-  <!-- ===================== REACT APP ===================== -->
-  <script type="text/babel">
-    const {useState,useEffect,useRef,useCallback}=React;
-
-    /* ====== NAV LINKS DATA ====== */
-    const NAV=[
-      {id:'hero',label:'Home',icon:'H'},
-      {id:'about',label:'About',icon:'A'},
-      {id:'skills',label:'Skills',icon:'S'},
-      {id:'anime',label:'Anime',icon:'ア'},
-      {id:'projects',label:'Projects',icon:'P'},
-      {id:'contact',label:'Contact',icon:'C'}
-    ];
-
-    /* ====== NAVIGATION COMPONENT ====== */
-    const Navigation=()=>{
-      const [sidebar,setSidebar]=useState(false);
-      const [spinKeys,setSpinKeys]=useState(0);
-      const [mobileOpen,setMobileOpen]=useState(false);
-      const [soundOn,setSoundOn]=useState(false);
-
-      useEffect(()=>{
-        const hero=document.getElementById('hero');
-        if(!hero)return;
-        const obs=new IntersectionObserver(([e])=>{
-          const show=!e.isIntersecting;
-          setSidebar(prev=>{
-            if(prev!==show&&show) setSpinKeys(k=>k+1);
-            return show;
-          });
-        },{threshold:.15});
-        obs.observe(hero);
-        return ()=>obs.disconnect();
-      },[]);
-
-      const go=(id)=>{
-        document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
-        SoundMgr.click();
-        setMobileOpen(false);
-      };
-
-      const toggleSound=()=>{
-        const on=SoundMgr.toggle();
-        setSoundOn(on);
-      };
-
-      return <>
-        {/* Horizontal Nav */}
-        <nav className={`nav-h${sidebar?' hidden':''}`} role="navigation" aria-label="Main navigation">
-          <span className="brand" onClick={()=>go('hero')}>{'<Pranav/>'}</span>
-          {NAV.map(n=><a key={n.id} className="nl" href={'#'+n.id}
-            onClick={e=>{e.preventDefault();go(n.id)}}
-            onMouseEnter={()=>SoundMgr.hover()}>{n.label}</a>)}
-          <button className={`sound-btn${soundOn?' on':''}`} onClick={toggleSound} aria-label="Toggle sound">
-            {soundOn?'🔊':'🔇'}
-          </button>
-        </nav>
-
-        {/* Sidebar Nav */}
-        <nav className={`nav-s${sidebar?' show':''}`} role="navigation" aria-label="Sidebar navigation">
-          {NAV.map((n,i)=><a key={n.id+spinKeys} className={`sl${sidebar?' spin-in':''}`}
-            style={{animationDelay:i*.07+'s'}}
-            href={'#'+n.id} onClick={e=>{e.preventDefault();go(n.id)}}
-            onMouseEnter={()=>SoundMgr.hover()}>
-            {n.icon}<span className="tooltip">{n.label}</span>
-          </a>)}
-          <button className={`sound-btn${soundOn?' on':''}`} onClick={toggleSound} aria-label="Toggle sound"
-            style={{marginTop:'1rem',fontSize:'.9rem',padding:'.35rem .5rem',borderRadius:'8px'}}>
-            {soundOn?'🔊':'🔇'}
-          </button>
-        </nav>
-
-        {/* Mobile Hamburger */}
-        <button className={`hamburger${mobileOpen?' open':''}`} onClick={()=>setMobileOpen(o=>!o)} aria-label="Menu">
-          <span/><span/><span/>
-        </button>
-        <div className={`mobile-menu${mobileOpen?' open':''}`}>
-          {NAV.map(n=><a key={n.id} href={'#'+n.id}
-            onClick={e=>{e.preventDefault();go(n.id)}}>{n.label}</a>)}
-          <button className={`sound-btn${soundOn?' on':''}`} onClick={toggleSound} style={{marginTop:'1rem'}}>
-            {soundOn?'🔊':'🔇'}
-          </button>
-        </div>
-      </>;
-    };
-
-    /* ====== MATRIX RAIN (Canvas API) ====== */
-    const MatrixRain=()=>{
-      const ref=useRef(null);
-      useEffect(()=>{
-        const c=ref.current;if(!c)return;
-        const ctx=c.getContext('2d');
-        const resize=()=>{c.width=c.offsetWidth;c.height=c.offsetHeight};
-        resize();window.addEventListener('resize',resize);
-        const chars='アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ0123456789ABCDEF<>/{}';
-        const fs=15,cols=Math.floor(c.width/fs);
-        const drops=Array(cols).fill(0);
-        const id=setInterval(()=>{
-          ctx.fillStyle='rgba(0,0,0,.06)';ctx.fillRect(0,0,c.width,c.height);
-          ctx.fillStyle='#00ff41';ctx.font=fs+'px monospace';
-          for(let i=0;i<drops.length;i++){
-            ctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*fs,drops[i]*fs);
-            if(drops[i]*fs>c.height&&Math.random()>.975)drops[i]=0;
-            drops[i]++;
-          }
-        },55);
-        return ()=>{clearInterval(id);window.removeEventListener('resize',resize)};
-      },[]);
-      return <canvas ref={ref} className="matrix-canvas" aria-hidden="true"/>;
-    };
-
-    /* ====== HERO SECTION ====== */
-    const Hero=()=>{
-      const glitchRef=useRef(null);
-      const [subText,setSubText]=useState('');
-      const fullSub='16-Year-Old Developer | Coder | Creator';
-
-      /* Typing effect */
-      useEffect(()=>{
-        let i=0,tid;
-        const type=()=>{if(i<=fullSub.length){setSubText(fullSub.slice(0,i));i++;tid=setTimeout(type,60)}};
-        const delay=setTimeout(type,1200);
-        return ()=>{clearTimeout(delay);clearTimeout(tid)};
-      },[]);
-
-      /* Random glitch flicker via JS timing */
-      useEffect(()=>{
-        const el=glitchRef.current;if(!el)return;
-        const flicker=()=>{
-          el.style.textShadow=`${(Math.random()-.5)*8}px ${(Math.random()-.5)*6}px 0 rgba(255,0,64,.6),
-            ${(Math.random()-.5)*8}px ${(Math.random()-.5)*6}px 0 rgba(0,212,255,.6)`;
-          el.style.transform=`skew(${(Math.random()-.5)*3}deg)`;
-          setTimeout(()=>{
-            el.style.textShadow='0 0 20px rgba(0,255,65,.35)';
-            el.style.transform='skew(0)';
-          },60+Math.random()*80);
+        // ═══════════════════════════════════
+        // CONSTANTS
+        // ═══════════════════════════════════
+        const PASSWORDS = { editor: 'family2026', viewer: 'legacy2026' };
+        const STORAGE_KEY = 'afterMeProfiles';
+        const THEMES = {
+            love:      { name: 'Love',      emoji: '❤️',          color: '#ff6b9d', bg: '#ffe0e8' },
+            friend:    { name: 'Friend',    emoji: '👥',          color: '#4ecdc4', bg: '#e0f7f6' },
+            family:    { name: 'Family',    emoji: '👨‍👩‍👧‍👦', color: '#ffa502', bg: '#ffe8cc' },
+            colleague: { name: 'Colleague', emoji: '💼',          color: '#2c3e50', bg: '#ecf0f1' },
+            mentor:    { name: 'Mentor',    emoji: '🎓',          color: '#8e44ad', bg: '#f4e8ff' },
+            other:     { name: 'Other',     emoji: '⭐',          color: '#f39c12', bg: '#fef5e7' }
         };
-        const id=setInterval(flicker,2500+Math.random()*3000);
-        return ()=>clearInterval(id);
-      },[]);
 
-      return <section id="hero" aria-label="Hero">
-        <MatrixRain/>
-        <div className="scanline-overlay" aria-hidden="true"/>
-        <div className="hero-content">
-          <h1 className="glitch" data-text="PRANAV" ref={glitchRef}>PRANAV</h1>
-          <p className="hero-sub" aria-label="Subtitle">{subText}</p>
-        </div>
-        <div className="hero-scroll" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2" strokeLinecap="round">
-            <path d="M12 5v14M5 12l7 7 7-7"/>
-          </svg>
-        </div>
-      </section>;
-    };
+        // ═══════════════════════════════════
+        // PARTICLE BACKGROUND
+        // ═══════════════════════════════════
+        function ParticleBackground() {
+            const canvasRef = useRef(null);
+            useEffect(() => {
+                const canvas = canvasRef.current;
+                const ctx = canvas.getContext('2d');
+                let animId, particles = [], mouse = { x: -999, y: -999 };
+                const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+                resize();
+                window.addEventListener('resize', resize);
+                const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
+                window.addEventListener('mousemove', onMove);
+                for (let i = 0; i < 60; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        size: Math.random() * 2.5 + .8,
+                        speedX: (Math.random() - .5) * .4,
+                        speedY: (Math.random() - .5) * .4,
+                        opacity: Math.random() * .4 + .15
+                    });
+                }
+                const animate = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach((p, i) => {
+                        const dx = mouse.x - p.x, dy = mouse.y - p.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120) {
+                            p.x -= dx * .01;
+                            p.y -= dy * .01;
+                        }
+                        p.x += p.speedX; p.y += p.speedY;
+                        if (p.x < 0) p.x = canvas.width;
+                        if (p.x > canvas.width) p.x = 0;
+                        if (p.y < 0) p.y = canvas.height;
+                        if (p.y > canvas.height) p.y = 0;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(255,255,255,${p.opacity})`;
+                        ctx.fill();
+                        for (let j = i + 1; j < particles.length; j++) {
+                            const p2 = particles[j];
+                            const d = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
+                            if (d < 130) {
+                                ctx.beginPath();
+                                ctx.moveTo(p.x, p.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.strokeStyle = `rgba(255,255,255,${.08 * (1 - d / 130)})`;
+                                ctx.lineWidth = .5;
+                                ctx.stroke();
+                            }
+                        }
+                    });
+                    animId = requestAnimationFrame(animate);
+                };
+                animate();
+                return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize); window.removeEventListener('mousemove', onMove); };
+            }, []);
+            return <canvas ref={canvasRef} className="particle-canvas" />;
+        }
 
-    /* ====== ANIMATED SVG DECORATION ====== */
-    const SvgDecor=()=>(
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="about-visual" aria-hidden="true">
-        <circle cx="100" cy="100" r="80" className="svg-ring" stroke="#00ff41">
-          <animate attributeName="r" values="72;82;72" dur="4s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values=".15;.35;.15" dur="4s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="100" cy="100" r="60" className="svg-ring" stroke="#00d4ff">
-          <animate attributeName="r" values="55;65;55" dur="5s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values=".1;.25;.1" dur="5s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="100" cy="100" r="40" className="svg-ring" stroke="#b000ff">
-          <animate attributeName="r" values="36;44;36" dur="3.5s" repeatCount="indefinite"/>
-        </circle>
-        {/* Code brackets */}
-        <path d="M65 75 L45 100 L65 125" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" opacity=".7">
-          <animate attributeName="stroke-dasharray" values="0,200;200,0" dur="2s" fill="freeze"/>
-        </path>
-        <path d="M135 75 L155 100 L135 125" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" opacity=".7">
-          <animate attributeName="stroke-dasharray" values="0,200;200,0" dur="2s" fill="freeze"/>
-        </path>
-        <text x="100" y="106" textAnchor="middle" fill="#00ff41" fontFamily="Orbitron" fontSize="18" fontWeight="700" opacity=".8">P</text>
-      </svg>
-    );
+        // ═══════════════════════════════════
+        // FLOATING SHAPES
+        // ═══════════════════════════════════
+        function FloatingShapes() {
+            return (
+                <div className="floating-shapes">
+                    {[...Array(6)].map((_, i) => <div key={i} className={`shape shape-${i}`} />)}
+                </div>
+            );
+        }
 
-    /* ====== ABOUT SECTION ====== */
-    const About=()=>(
-      <section id="about" aria-label="About Me">
-        <h2 className="section-title reveal"><span>{'< '}</span>About Me<span>{' />'}</span></h2>
-        <div className="about-grid">
-          <div className="about-card reveal">
-            <h3>Who Am I?</h3>
-            <p>I'm <strong>Pranav</strong>, a <strong>16‑year‑old developer</strong> driven by curiosity and a love for building things that live on the internet. I started coding at 13 and never looked back.</p>
-            <p style={{marginTop:'1rem'}}>My goal is to become a <strong>full‑stack engineer</strong> who blends clean code with jaw‑dropping UI. When I'm not coding, I'm watching anime or exploring open‑source.</p>
-            {/* Lottie animation — coding theme */}
-            <div style={{marginTop:'1.5rem'}}>
-              <lottie-player
-                src="https://lottie.host/f3e14c0d-431b-4922-91e2-e451bf44344b/KKBBMs1cBi.json"
-                background="transparent" speed="1" style={{width:'160px',height:'160px'}} loop autoplay
-              ></lottie-player>
-            </div>
-          </div>
-          <div className="about-visual reveal" style={{animationDelay:'.2s'}}>
-            <SvgDecor/>
-          </div>
-        </div>
-      </section>
-    );
+        // ═══════════════════════════════════
+        // TYPEWRITER
+        // ═══════════════════════════════════
+        function Typewriter({ text, speed = 80, delay = 0 }) {
+            const [displayText, setDisplayText] = useState('');
+            const [started, setStarted] = useState(false);
+            useEffect(() => { const t = setTimeout(() => setStarted(true), delay); return () => clearTimeout(t); }, [delay]);
+            useEffect(() => {
+                if (!started) return;
+                let i = 0;
+                const timer = setInterval(() => {
+                    if (i <= text.length) { setDisplayText(text.substring(0, i)); i++; }
+                    else clearInterval(timer);
+                }, speed);
+                return () => clearInterval(timer);
+            }, [text, speed, started]);
+            return <span className="typewriter">{displayText}<span className="cursor">|</span></span>;
+        }
 
-    /* ====== SKILLS SECTION ====== */
-    const SKILLS=[
-      {name:'HTML5',pct:95,color:'#e44d26'},
-      {name:'CSS3',pct:90,color:'#264de4'},
-      {name:'JavaScript',pct:88,color:'#f7df1e'},
-      {name:'React',pct:82,color:'#61dafb'},
-      {name:'Python',pct:80,color:'#3776ab'},
-      {name:'Java',pct:75,color:'#f89820'},
-      {name:'Node.js',pct:70,color:'#68a063'},
-      {name:'Git & GitHub',pct:78,color:'#f05032'}
-    ];
+        // ═══════════════════════════════════
+        // TOAST NOTIFICATIONS
+        // ═══════════════════════════════════
+        function ToastContainer({ toasts, removeToast }) {
+            return (
+                <div className="toast-container">
+                    {toasts.map(t => (
+                        <div key={t.id} className={`toast toast-${t.type}`}>
+                            <span>{t.message}</span>
+                            <button className="toast-close" onClick={() => removeToast(t.id)}>×</button>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
 
-    const Skills=()=>{
-      const ref=useRef(null);
-      const [animate,setAnimate]=useState(false);
+        // ═══════════════════════════════════
+        // ANIMATED COUNTER
+        // ═══════════════════════════════════
+        function AnimatedCounter({ end, duration = 800 }) {
+            const [count, setCount] = useState(0);
+            useEffect(() => {
+                const start = Date.now();
+                const timer = setInterval(() => {
+                    const p = Math.min((Date.now() - start) / duration, 1);
+                    setCount(Math.floor((1 - Math.pow(1 - p, 3)) * end));
+                    if (p >= 1) clearInterval(timer);
+                }, 16);
+                return () => clearInterval(timer);
+            }, [end, duration]);
+            return <span>{count}</span>;
+        }
 
-      useEffect(()=>{
-        const el=ref.current;if(!el)return;
-        const obs=new IntersectionObserver(([e])=>{if(e.isIntersecting)setAnimate(true)},{threshold:.25});
-        obs.observe(el);
-        return ()=>obs.disconnect();
-      },[]);
+        // ═══════════════════════════════════
+        // RIPPLE BUTTON
+        // ═══════════════════════════════════
+        function RippleButton({ children, className = '', onClick, disabled, type = 'button', style }) {
+            const [ripples, setRipples] = useState([]);
+            const handleClick = (e) => {
+                if (disabled) return;
+                const rect = e.currentTarget.getBoundingClientRect();
+                const id = Date.now();
+                setRipples(prev => [...prev, { x: e.clientX - rect.left, y: e.clientY - rect.top, id }]);
+                setTimeout(() => setRipples(prev => prev.filter(r => r.id !== id)), 600);
+                if (onClick) onClick(e);
+            };
+            return (
+                <button type={type} className={`ripple-btn ${className} ${disabled ? 'btn-disabled' : ''}`}
+                    onClick={handleClick} disabled={disabled} style={style}>
+                    {children}
+                    {ripples.map(r => <span key={r.id} className="ripple" style={{ left: r.x, top: r.y }} />)}
+                </button>
+            );
+        }
 
-      return <section id="skills" ref={ref} aria-label="Skills">
-        <h2 className="section-title reveal"><span>{'{ '}</span>Skills<span>{' }'}</span></h2>
-        <div className="skills-grid">
-          {SKILLS.map((s,i)=>(
-            <div key={s.name} className="skill-item reveal" style={{transitionDelay:i*.08+'s'}}>
-              <div className="skill-header">
-                <span className="skill-name">{s.name}</span>
-                <span className="skill-pct">{s.pct}%</span>
-              </div>
-              <div className="skill-bar">
-                <div className={`skill-fill${animate?' animate':''}`}
-                  style={{'--w':s.pct+'%',transitionDelay:(.3+i*.12)+'s',background:`linear-gradient(90deg,${s.color},var(--cyan))`}}/>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>;
-    };
+        // ═══════════════════════════════════
+        // MODAL
+        // ═══════════════════════════════════
+        function Modal({ isOpen, onClose, title, children }) {
+            const [closing, setClosing] = useState(false);
+            const handleClose = useCallback(() => {
+                setClosing(true);
+                setTimeout(() => { setClosing(false); onClose(); }, 300);
+            }, [onClose]);
+            useEffect(() => {
+                if (!isOpen) return;
+                const esc = (e) => { if (e.key === 'Escape') handleClose(); };
+                window.addEventListener('keydown', esc);
+                return () => window.removeEventListener('keydown', esc);
+            }, [isOpen, handleClose]);
+            if (!isOpen) return null;
+            return (
+                <div className={`modal ${closing ? 'modal-closing' : ''}`} onClick={handleClose}>
+                    <div className={`modal-content ${closing ? 'modal-content-closing' : ''}`} onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2>{title}</h2>
+                            <button className="close-btn" onClick={handleClose}>×</button>
+                        </div>
+                        {children}
+                    </div>
+                </div>
+            );
+        }
 
-    /* ====== ANIME SECTION ====== */
-    const Anime=()=>(
-      <section id="anime" aria-label="Anime">
-        <h2 className="section-title reveal"><span>⛩ </span>Anime<span> ⛩</span></h2>
-        <div className="anime-cards">
-          {/* Featured — One Piece */}
-          <div className="anime-card featured reveal">
-            <div className="anime-img" style={{background:'linear-gradient(135deg,#b71c1c 0%,#e65100 40%,#0d47a1 100%)'}}>
-              <span style={{zIndex:1,fontSize:'5rem',filter:'drop-shadow(0 0 15px rgba(0,0,0,.6))'}}>🏴‍☠️</span>
-            </div>
-            <div className="anime-info">
-              <h3>One Piece</h3>
-              <p>The greatest adventure ever told. Monkey D. Luffy's journey to become King of the Pirates is an epic of friendship, dreams, and unbreakable will. 1000+ episodes and I'm still hooked.</p>
-              <div style={{marginTop:'.8rem'}}>
-                <span className="anime-tag">Adventure</span>
-                <span className="anime-tag">Shōnen</span>
-                <span className="anime-tag">10/10</span>
-                <span className="anime-tag">Ongoing</span>
-              </div>
-            </div>
-          </div>
-          {/* Extra cards */}
-          {[
-            {emoji:'⚔️',title:'Attack on Titan',desc:'A dark, gripping masterpiece about humanity\'s fight for survival.',tags:['Action','Dark Fantasy'],bg:'linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)'},
-            {emoji:'👊',title:'Jujutsu Kaisen',desc:'Curses, sorcery, and unreal fight choreography. Modern shōnen at its finest.',tags:['Supernatural','Action'],bg:'linear-gradient(135deg,#1a0a2e,#2d1b69,#11998e)'}
-          ].map(a=>(
-            <div key={a.title} className="anime-card reveal">
-              <div className="anime-img" style={{background:a.bg}}>
-                <span style={{zIndex:1,fontSize:'3.5rem'}}>{a.emoji}</span>
-              </div>
-              <div className="anime-info">
-                <h3>{a.title}</h3>
-                <p>{a.desc}</p>
-                <div style={{marginTop:'.6rem'}}>{a.tags.map(t=><span key={t} className="anime-tag">{t}</span>)}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    );
+        // ═══════════════════════════════════
+        // PROFILE FORM
+        // ═══════════════════════════════════
+        function ProfileForm({ profile, onSave, onCancel }) {
+            const [name, setName] = useState(profile?.name || '');
+            const [theme, setTheme] = useState(profile?.theme || '');
+            const [message, setMessage] = useState(profile?.message || '');
+            const [image, setImage] = useState(profile?.image || null);
+            const [saving, setSaving] = useState(false);
 
-    /* ====== PROJECTS SECTION ====== */
-    const PROJECTS=[
-      {title:'CryptoTracker CLI',desc:'A Python command‑line tool that fetches live cryptocurrency prices, plots sparklines in the terminal, and sends price alerts.',tags:['Python','API','CLI']},
-      {title:'DevBoard',desc:'A React dashboard for developers — integrates GitHub stats, to‑do lists, and a Pomodoro timer in one clean interface.',tags:['React','JavaScript','CSS Grid']},
-      {title:'SortViz',desc:'An interactive sorting‑algorithm visualizer built with vanilla JS and Canvas API. Supports Bubble, Merge, Quick & Radix sort.',tags:['JavaScript','Canvas','Algorithms']},
-      {title:'ChatSocket',desc:'Real‑time chat app with rooms, typing indicators, and message history. Built with Node.js, Socket.io and a Java backend experiment.',tags:['Node.js','Java','WebSockets']}
-    ];
+            const handleImage = (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (ev) => setImage(ev.target.result);
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            };
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setSaving(true);
+                setTimeout(() => { onSave({ name, theme, message, image }); setSaving(false); }, 400);
+            };
+            return (
+                <form onSubmit={handleSubmit} className="profile-form">
+                    <div className="form-group">
+                        <label>Person's Name:</label>
+                        <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Enter name" required />
+                    </div>
+                    <div className="form-group">
+                        <label>Relationship Theme:</label>
+                        <select value={theme} onChange={e => setTheme(e.target.value)} required>
+                            <option value="">Select a theme</option>
+                            {Object.entries(THEMES).map(([k, t]) => <option key={k} value={k}>{t.emoji} {t.name}</option>)}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Profile Picture:</label>
+                        <input type="file" accept="image/*" onChange={handleImage} />
+                        {image && (
+                            <div className="image-preview bounce-in">
+                                <img src={image} alt="Preview" />
+                                <button type="button" className="remove-image" onClick={() => setImage(null)}>×</button>
+                            </div>
+                        )}
+                    </div>
+                    <div className="form-group">
+                        <label>Your Message / Will:</label>
+                        <textarea value={message} onChange={e => setMessage(e.target.value)}
+                            placeholder="Write your message, memories, or wishes..." rows="6" required />
+                    </div>
+                    <div className="form-actions">
+                        <RippleButton className="btn btn-secondary" onClick={onCancel}>Cancel</RippleButton>
+                        <RippleButton type="submit" className="btn btn-primary" disabled={saving}>
+                            {saving ? <span className="btn-loading"><span className="spinner" /> Saving...</span>
+                                : (profile ? '✏️ Update Profile' : '💾 Save Profile')}
+                        </RippleButton>
+                    </div>
+                </form>
+            );
+        }
 
-    const Projects=()=>(
-      <section id="projects" aria-label="Projects">
-        <h2 className="section-title reveal"><span>{'// '}</span>Projects</h2>
-        <div className="projects-grid">
-          {PROJECTS.map((p,i)=>(
-            <article key={p.title} className="project-card reveal" style={{transitionDelay:i*.1+'s'}}
-              onMouseEnter={()=>SoundMgr.hover()}>
-              <h3>{p.title}</h3>
-              <p>{p.desc}</p>
-              <div className="project-tags">{p.tags.map(t=><span key={t}>{t}</span>)}</div>
-            </article>
-          ))}
-        </div>
-      </section>
-    );
+        // ═══════════════════════════════════
+        // PROFILE CARD
+        // ═══════════════════════════════════
+        function ProfileCard({ profile, index, onClick }) {
+            const theme = THEMES[profile.theme] || THEMES.other;
+            const [hovered, setHovered] = useState(false);
+            const cardRef = useRef(null);
 
-    /* ====== CONTACT SECTION ====== */
-    const Contact=()=>{
-      const [sent,setSent]=useState(false);
-      const handleSubmit=e=>{e.preventDefault();setSent(true);SoundMgr.click();setTimeout(()=>setSent(false),3000)};
+            const handleMouseMove = (e) => {
+                if (!cardRef.current) return;
+                const rect = cardRef.current.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - .5;
+                const y = (e.clientY - rect.top) / rect.height - .5;
+                cardRef.current.style.transform = `perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-8px) scale(1.02)`;
+            };
+            const handleMouseLeave = () => {
+                setHovered(false);
+                if (cardRef.current) cardRef.current.style.transform = '';
+            };
+            return (
+                <div ref={cardRef} className={`profile-card-item theme-${profile.theme} stagger-in`}
+                    style={{ animationDelay: `${index * .1}s` }}
+                    onClick={() => onClick(profile.id)}
+                    onMouseEnter={() => setHovered(true)}
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={handleMouseLeave}>
+                    <div className="card-image">
+                        {profile.image
+                            ? <img src={profile.image} alt={profile.name} />
+                            : <div className="no-image"><span className={hovered ? 'emoji-bounce' : ''} style={{display:'inline-block'}}>{theme.emoji}</span></div>}
+                        <div className="card-overlay"><span>View Profile →</span></div>
+                    </div>
+                    <div className="card-content">
+                        <h3>{profile.name}</h3>
+                        <span className="theme-badge" style={{ background: theme.bg, color: theme.color }}>{theme.emoji} {theme.name}</span>
+                        <p className="card-preview">{profile.message.substring(0, 80)}...</p>
+                    </div>
+                </div>
+            );
+        }
 
-      return <section id="contact" aria-label="Contact">
-        <h2 className="section-title reveal"><span>{'> '}</span>Contact</h2>
-        <form className="contact-form reveal" onSubmit={handleSubmit} autoComplete="off">
-          <div className="form-group">
-            <input type="text" id="c-name" placeholder=" " required aria-label="Name"/>
-            <label htmlFor="c-name">Name</label>
-          </div>
-          <div className="form-group">
-            <input type="email" id="c-email" placeholder=" " required aria-label="Email"/>
-            <label htmlFor="c-email">Email</label>
-          </div>
-          <div className="form-group">
-            <textarea id="c-msg" placeholder=" " required aria-label="Message"/>
-            <label htmlFor="c-msg">Message</label>
-          </div>
-          <button type="submit" className="submit-btn">
-            {sent?'✓  SENT':'TRANSMIT  →'}
-          </button>
-        </form>
-      </section>;
-    };
+        // ═══════════════════════════════════
+        // LOGIN PAGE
+        // ═══════════════════════════════════
+        function LoginPage({ onLogin }) {
+            const [password, setPassword] = useState('');
+            const [error, setError] = useState('');
+            const [shaking, setShaking] = useState(false);
+            const [loading, setLoading] = useState(false);
 
-    /* ====== FOOTER ====== */
-    const Footer=()=>(
-      <footer>
-        Built with <span className="heart">♥</span> by Pranav &nbsp;|&nbsp; React · Three.js · GSAP &nbsp;|&nbsp; © {new Date().getFullYear()}
-      </footer>
-    );
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setLoading(true);
+                setTimeout(() => {
+                    let role = null;
+                    if (password === PASSWORDS.editor) role = 'editor';
+                    else if (password === PASSWORDS.viewer) role = 'viewer';
+                    if (role) { setError(''); onLogin(password, role); }
+                    else { setError('❌ Invalid password. Please try again.'); setShaking(true); setPassword(''); setTimeout(() => setShaking(false), 500); }
+                    setLoading(false);
+                }, 700);
+            };
+            return (
+                <div className="login-container">
+                    <ParticleBackground />
+                    <FloatingShapes />
+                    <div className={`login-box animate-in ${shaking ? 'shake' : ''}`}>
+                        <div className="logo-section">
+                            <div className="logo-icon">🕊️</div>
+                            <h1 className="logo-text">After-Me</h1>
+                            <p className="tagline"><Typewriter text="Your Digital Legacy" speed={90} delay={500} /></p>
+                        </div>
+                        <div className="login-content">
+                            <p className="intro-text fade-in-delay">This is a secure space to leave messages for your loved ones</p>
+                            <form onSubmit={handleSubmit} className="login-form">
+                                <div className="form-group slide-up-1">
+                                    <label htmlFor="pwd">Enter Master Password:</label>
+                                    <div className="input-wrapper">
+                                        <span className="input-icon">🔐</span>
+                                        <input id="pwd" type="password" className="input-with-icon" value={password}
+                                            onChange={e => setPassword(e.target.value)} placeholder="••••••••" required />
+                                    </div>
+                                </div>
+                                <RippleButton type="submit" className="login-btn slide-up-2" disabled={loading}>
+                                    {loading ? <span className="btn-loading"><span className="spinner" /> Authenticating...</span> : '🔓 Access Messages'}
+                                </RippleButton>
+                            </form>
+                            {error && <div className="error-message animate-error">{error}</div>}
+                        </div>
+                        <div className="login-footer">
+                            <p>Messages for when you're gone 💫</p>
+                            <p className="credit">Crafted with ❤️ by Vishwajeeth V</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
 
-    /* ====== APP ROOT ====== */
-    const App=()=>{
+        // ═══════════════════════════════════
+        // DASHBOARD PAGE
+        // ═══════════════════════════════════
+        function DashboardPage({ role, userPassword, profiles, onLogout, onViewProfile, onAddProfile }) {
+            const [showModal, setShowModal] = useState(false);
+            const [search, setSearch] = useState('');
+            const [filter, setFilter] = useState('all');
 
-      /* Scroll‑triggered reveals via IntersectionObserver */
-      useEffect(()=>{
-        const obs=new IntersectionObserver((entries)=>{
-          entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('shown')});
-        },{threshold:.12});
-        document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-        return ()=>obs.disconnect();
-      });
+            const filtered = useMemo(() =>
+                profiles.filter(p => {
+                    const s = p.name.toLowerCase().includes(search.toLowerCase()) || p.message.toLowerCase().includes(search.toLowerCase());
+                    const f = filter === 'all' || p.theme === filter;
+                    return s && f;
+                }), [profiles, search, filter]);
 
-      /* GSAP parallax & scroll animations */
-      useEffect(()=>{
-        if(typeof gsap==='undefined')return;
-        gsap.registerPlugin(ScrollTrigger);
+            return (
+                <div className="dashboard-container page-enter">
+                    <header className="dashboard-header slide-down">
+                        <div className="header-content">
+                            <h1 className="header-logo"><span className="logo-emoji">🕊️</span> After-Me</h1>
+                            <div className="header-info">
+                                <span className="user-password">🔑 {userPassword.substring(0, 3)}****</span>
+                                <span className={`access-mode ${role}`}>
+                                    {role === 'editor' ? '✏️ Editor Mode' : '👁️ Viewer Mode'}
+                                </span>
+                                <RippleButton className="logout-btn" onClick={onLogout}>🚪 Logout</RippleButton>
+                            </div>
+                        </div>
+                    </header>
+                    <main className="dashboard-main">
+                        <div className="dashboard-section fade-in">
+                            <div className="section-header">
+                                <div className="section-title-area">
+                                    <h2>My Profiles</h2>
+                                    <span className="profile-count"><AnimatedCounter end={profiles.length} /> profiles</span>
+                                </div>
+                                <div className="section-controls">
+                                    <div className="search-box">
+                                        <span className="search-icon">🔍</span>
+                                        <input type="text" placeholder="Search profiles..." value={search}
+                                            onChange={e => setSearch(e.target.value)} className="search-input" />
+                                    </div>
+                                    <select value={filter} onChange={e => setFilter(e.target.value)} className="filter-select">
+                                        <option value="all">🌐 All Themes</option>
+                                        {Object.entries(THEMES).map(([k, t]) => <option key={k} value={k}>{t.emoji} {t.name}</option>)}
+                                    </select>
+                                    {role === 'editor' && (
+                                        <RippleButton className="btn btn-primary add-btn" onClick={() => setShowModal(true)}>
+                                            <span className="btn-icon">+</span> Add Profile
+                                        </RippleButton>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="profiles-grid">
+                                {filtered.length === 0 ? (
+                                    <div className="empty-state fade-in">
+                                        <div className="empty-icon">📝</div>
+                                        <p>{profiles.length === 0
+                                            ? (role === 'editor' ? 'Create your first profile to get started!' : 'No profiles yet. Check back later.')
+                                            : 'No profiles match your search.'}</p>
+                                    </div>
+                                ) : filtered.map((p, i) => <ProfileCard key={p.id} profile={p} index={i} onClick={onViewProfile} />)}
+                            </div>
+                        </div>
+                    </main>
+                    <Modal isOpen={showModal} onClose={() => setShowModal(false)} title="✨ Add New Profile">
+                        <ProfileForm onSave={(data) => { onAddProfile(data); setShowModal(false); }}
+                            onCancel={() => setShowModal(false)} />
+                    </Modal>
+                </div>
+            );
+        }
 
-        /* Parallax on hero content */
-        gsap.to('.hero-content',{
-          yPercent:40,ease:'none',
-          scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}
-        });
+        // ═══════════════════════════════════
+        // PROFILE VIEW PAGE
+        // ═══════════════════════════════════
+        function ProfileViewPage({ profileId, role, profiles, onBack, onLogout, onUpdate, onDelete }) {
+            const [showEdit, setShowEdit] = useState(false);
+            const [showConfirm, setShowConfirm] = useState(false);
+            const profile = profiles.find(p => p.id === profileId);
 
-        /* Section title entrance */
-        gsap.utils.toArray('.section-title').forEach(t=>{
-          gsap.from(t,{
-            opacity:0,y:50,duration:1,ease:'power3.out',
-            scrollTrigger:{trigger:t,start:'top 85%',toggleActions:'play none none none'}
-          });
-        });
+            if (!profile) return (
+                <div className="profile-container">
+                    <div className="profile-main">
+                        <div className="not-found fade-in">
+                            <h2>Profile not found</h2>
+                            <RippleButton className="btn btn-primary" onClick={onBack} style={{marginTop:20}}>← Back to Dashboard</RippleButton>
+                        </div>
+                    </div>
+                </div>
+            );
 
-        /* Stagger project cards */
-        gsap.utils.toArray('.project-card').forEach((c,i)=>{
-          gsap.from(c,{
-            opacity:0,y:60,rotation:2,duration:.8,delay:i*.1,ease:'power3.out',
-            scrollTrigger:{trigger:c,start:'top 88%'}
-          });
-        });
+            const theme = THEMES[profile.theme] || THEMES.other;
+            return (
+                <div className="profile-container page-enter">
+                    <header className="profile-header slide-down">
+                        <RippleButton className="back-btn" onClick={onBack}>← Back</RippleButton>
+                        <h1>🕊️ After-Me</h1>
+                        <RippleButton className="logout-btn" onClick={onLogout}>🚪 Logout</RippleButton>
+                    </header>
+                    <main className="profile-main">
+                        <ParticleBackground />
+                        <div className={`profile-display theme-${profile.theme} animate-in`}>
+                            <div className="profile-image-section">
+                                {profile.image
+                                    ? <img src={profile.image} alt={profile.name} className="profile-image" />
+                                    : <div className="profile-no-image"><span className="profile-emoji-large float-anim">{theme.emoji}</span></div>}
+                            </div>
+                            <div className="profile-info-section">
+                                <h2 className="profile-name-animated">{profile.name}</h2>
+                                <span className="profile-theme-badge bounce-in" style={{ background: theme.bg, color: theme.color }}>
+                                    {theme.emoji} {theme.name}
+                                </span>
+                                <div className="profile-message">
+                                    <h3>💌 My Message</h3>
+                                    <p>{profile.message.split('\n').map((line, i) => <Fragment key={i}>{line}<br /></Fragment>)}</p>
+                                </div>
+                                <div className="profile-actions">
+                                    <RippleButton className="btn btn-secondary" onClick={onBack}>← Dashboard</RippleButton>
+                                    {role === 'editor' && (
+                                        <Fragment>
+                                            <RippleButton className="btn btn-primary" onClick={() => setShowEdit(true)}>✏️ Edit</RippleButton>
+                                            <RippleButton className="btn btn-danger" onClick={() => setShowConfirm(true)}>🗑️ Delete</RippleButton>
+                                        </Fragment>
+                                    )}
+                                </div>
+                                <div className="profile-meta">
+                                    <small>📅 Created: {new Date(profile.createdAt).toLocaleDateString()}</small>
+                                    <small>🔄 Modified: {new Date(profile.updatedAt).toLocaleDateString()}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
 
-        /* Stagger skill items */
-        gsap.utils.toArray('.skill-item').forEach((s,i)=>{
-          gsap.from(s,{
-            opacity:0,x:-40,duration:.7,delay:i*.07,ease:'power2.out',
-            scrollTrigger:{trigger:s,start:'top 90%'}
-          });
-        });
+                    <Modal isOpen={showEdit} onClose={() => setShowEdit(false)} title="✏️ Edit Profile">
+                        <ProfileForm profile={profile}
+                            onSave={(data) => { onUpdate(profileId, data); setShowEdit(false); }}
+                            onCancel={() => setShowEdit(false)} />
+                    </Modal>
 
-        /* Anime cards */
-        gsap.utils.toArray('.anime-card').forEach((c,i)=>{
-          gsap.from(c,{
-            opacity:0,scale:.9,duration:.8,delay:i*.12,ease:'back.out(1.4)',
-            scrollTrigger:{trigger:c,start:'top 88%'}
-          });
-        });
-      },[]);
+                    <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)} title="⚠️ Confirm Delete">
+                        <div className="confirm-delete">
+                            <p>Are you sure you want to delete <strong>{profile.name}</strong>'s profile?</p>
+                            <p className="delete-warning">This action cannot be undone.</p>
+                            <div className="form-actions">
+                                <RippleButton className="btn btn-secondary" onClick={() => setShowConfirm(false)}>Cancel</RippleButton>
+                                <RippleButton className="btn btn-danger" onClick={() => { onDelete(profileId); onBack(); }}>🗑️ Delete Forever</RippleButton>
+                            </div>
+                        </div>
+                    </Modal>
+                </div>
+            );
+        }
 
-      return <>
-        <Navigation/>
-        <main>
-          <Hero/>
-          <About/>
-          <Skills/>
-          <Anime/>
-          <Projects/>
-          <Contact/>
-        </main>
-        <Footer/>
-      </>;
-    };
+        // ═══════════════════════════════════
+        // MAIN APP
+        // ═══════════════════════════════════
+        function App() {
+            const [page, setPage] = useState('login');
+            const [role, setRole] = useState(null);
+            const [userPassword, setUserPassword] = useState('');
+            const [selectedId, setSelectedId] = useState(null);
+            const [toasts, setToasts] = useState([]);
+            const [profiles, setProfiles] = useState(() => {
+                try { const d = localStorage.getItem(STORAGE_KEY); return d ? JSON.parse(d) : []; }
+                catch { return []; }
+            });
 
-    /* ====== RENDER ====== */
-    const root=ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App/>);
-  </script>
+            useEffect(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles)); }, [profiles]);
+
+            const addToast = useCallback((message, type = 'info') => {
+                const id = Date.now() + Math.random();
+                setToasts(prev => [...prev, { id, message, type }]);
+                setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3500);
+            }, []);
+            const removeToast = useCallback((id) => setToasts(prev => prev.filter(t => t.id !== id)), []);
+
+            const handleLogin = useCallback((pwd, r) => {
+                setUserPassword(pwd); setRole(r);
+                addToast(`Welcome! Logged in as ${r === 'editor' ? 'Editor ✏️' : 'Viewer 👁️'}`, 'success');
+                setPage('dashboard');
+            }, [addToast]);
+
+            const handleLogout = useCallback(() => {
+                setRole(null); setUserPassword(''); setSelectedId(null);
+                addToast('Logged out successfully 👋', 'info');
+                setPage('login');
+            }, [addToast]);
+
+            const handleViewProfile = useCallback((id) => { setSelectedId(id); setPage('profile'); }, []);
+            const handleBack = useCallback(() => { setSelectedId(null); setPage('dashboard'); }, []);
+
+            const handleAddProfile = useCallback((data) => {
+                setProfiles(prev => [...prev, {
+                    id: 'profile_' + Date.now(),
+                    ...data,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                }]);
+                addToast('Profile created successfully! 🎉', 'success');
+            }, [addToast]);
+
+            const handleUpdateProfile = useCallback((id, data) => {
+                setProfiles(prev => prev.map(p => p.id === id ? { ...p, ...data, updatedAt: new Date().toISOString() } : p));
+                addToast('Profile updated! ✅', 'success');
+            }, [addToast]);
+
+            const handleDeleteProfile = useCallback((id) => {
+                setProfiles(prev => prev.filter(p => p.id !== id));
+                addToast('Profile deleted 🗑️', 'info');
+            }, [addToast]);
+
+            return (
+                <div className="app">
+                    <ToastContainer toasts={toasts} removeToast={removeToast} />
+                    {page === 'login' && <LoginPage onLogin={handleLogin} />}
+                    {page === 'dashboard' && (
+                        <DashboardPage role={role} userPassword={userPassword} profiles={profiles}
+                            onLogout={handleLogout} onViewProfile={handleViewProfile} onAddProfile={handleAddProfile} />
+                    )}
+                    {page === 'profile' && (
+                        <ProfileViewPage profileId={selectedId} role={role} profiles={profiles}
+                            onBack={handleBack} onLogout={handleLogout}
+                            onUpdate={handleUpdateProfile} onDelete={handleDeleteProfile} />
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
