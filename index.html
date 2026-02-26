@@ -1,561 +1,741 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>100 BEFORE</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-        body{background:#050508;color:#e8e8f0;font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;min-height:100vh}
-        #root{min-height:100vh;position:relative}
-        #particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-        #confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:500;pointer-events:none}
-        .body-gradient{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 20% 50%,rgba(0,80,180,0.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(255,80,0,0.04) 0%,transparent 50%);z-index:0;pointer-events:none}
-        .intro-container{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;background:#000}
-        .intro-progress-wrap{width:min(320px,80vw);height:3px;background:rgba(255,255,255,0.06);border-radius:4px;margin-bottom:50px;overflow:hidden;opacity:0}
-        .intro-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#00d4ff,#0088ff,#ff6a00);border-radius:4px;box-shadow:0 0 24px rgba(0,180,255,0.45)}
-        .intro-text-line{font-family:'Orbitron',sans-serif;font-size:clamp(1rem,2.8vw,1.6rem);letter-spacing:.35em;text-align:center;margin-bottom:8px;opacity:0;color:rgba(255,255,255,0.85)}
-        .intro-title{font-family:'Orbitron',sans-serif;font-size:clamp(2.2rem,8vw,5.5rem);font-weight:900;letter-spacing:.18em;text-align:center;opacity:0;background:linear-gradient(135deg,#00d4ff 0%,#ffffff 40%,#ff6a00 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 40px rgba(0,180,255,0.25)) drop-shadow(0 0 80px rgba(255,100,0,0.15))}
-        .g-char{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(25px)}
-        .dashboard-wrap{position:relative;z-index:1;padding:20px;max-width:1400px;margin:0 auto;opacity:0;padding-bottom:100px}
-        .hdr{display:flex;align-items:center;justify-content:space-between;padding:24px 0 30px;flex-wrap:wrap;gap:12px}
-        .hdr-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:800;background:linear-gradient(135deg,#00d4ff,#ff6a00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.08em}
-        .hdr-right{display:flex;gap:14px;align-items:center}
-        .glass{background:rgba(255,255,255,0.025);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:28px;transition:all .4s cubic-bezier(.4,0,.2,1)}
-        .glass:hover{border-color:rgba(0,180,255,0.15);box-shadow:0 8px 40px rgba(0,120,255,0.06)}
-        .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:28px}
-        @media(max-width:840px){.stats-row{grid-template-columns:1fr}}
-        .ring-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
-        .ring-svg{transform:rotate(-90deg)}
-        .ring-bg{stroke:rgba(255,255,255,0.04)}
-        .ring-fill{transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);filter:drop-shadow(0 0 10px rgba(0,200,255,0.4))}
-        .ring-center{position:absolute;text-align:center;top:50%;left:50%;transform:translate(-50%,-50%)}
-        .ring-num{font-family:'Orbitron',sans-serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:#00d4ff}
-        .ring-lbl{font-size:.72rem;color:rgba(255,255,255,0.35);letter-spacing:.18em;text-transform:uppercase;margin-top:2px}
-        .xp-wrap{display:flex;flex-direction:column;justify-content:center;gap:8px}
-        .lvl-badge{display:inline-flex;align-items:center;gap:8px;font-family:'Orbitron',sans-serif;font-weight:700;font-size:1rem;color:#ff6a00;padding:8px 18px;border:1px solid rgba(255,100,0,0.25);border-radius:30px;background:rgba(255,100,0,0.06);animation:lvlGlow 3s ease-in-out infinite;width:fit-content}
-        @keyframes lvlGlow{0%,100%{box-shadow:0 0 8px rgba(255,100,0,0.08)}50%{box-shadow:0 0 28px rgba(255,100,0,0.2)}}
-        .xp-bar-outer{width:100%;height:10px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden}
-        .xp-bar-inner{height:100%;background:linear-gradient(90deg,#00d4ff,#0055ff,#ff6a00);border-radius:6px;transition:width 1s cubic-bezier(.4,0,.2,1);box-shadow:0 0 14px rgba(0,180,255,0.35);position:relative}
-        .xp-bar-inner::after{content:'';position:absolute;top:0;right:0;width:40px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25));animation:shimmer 2.5s infinite}
-        @keyframes shimmer{0%,100%{opacity:0}50%{opacity:1}}
-        .xp-labels{display:flex;justify-content:space-between;font-size:.7rem;color:rgba(255,255,255,0.25);font-family:'Orbitron',sans-serif}
-        .streak-box{display:flex;align-items:center;gap:16px}
-        .streak-flame{font-size:2.6rem;animation:flameDance 1.2s ease-in-out infinite}
-        @keyframes flameDance{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.12) rotate(4deg)}}
-        .streak-num{font-family:'Orbitron',sans-serif;font-size:2.4rem;font-weight:900;color:#ff6a00;line-height:1}
-        .streak-lbl{font-size:.72rem;color:rgba(255,255,255,0.3);letter-spacing:.18em;text-transform:uppercase}
-        .sec-title{font-family:'Orbitron',sans-serif;font-size:clamp(.9rem,1.8vw,1.15rem);font-weight:700;letter-spacing:.16em;margin-bottom:18px;display:flex;align-items:center;gap:12px;opacity:0;transform:translateY(15px)}
-        .sec-title::before{content:'';width:4px;height:22px;background:linear-gradient(180deg,#00d4ff,#ff6a00);border-radius:3px;flex-shrink:0}
-        .challenge-card{background:linear-gradient(135deg,rgba(255,100,0,0.06),rgba(0,180,255,0.06));border:1px solid rgba(255,100,0,0.12);border-radius:22px;padding:30px;position:relative;overflow:hidden;margin-bottom:34px;opacity:0;transform:translateY(20px)}
-        .challenge-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(0,180,255,0.04),transparent,rgba(255,100,0,0.04),transparent);animation:cRot 12s linear infinite}
-        @keyframes cRot{to{transform:rotate(360deg)}}
-        .challenge-inner{position:relative;z-index:1}
-        .challenge-tag{font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:.35em;color:#ff6a00;margin-bottom:10px}
-        .challenge-text{font-size:1.15rem;font-weight:600;margin-bottom:18px;line-height:1.5}
-        .cd-row{display:flex;gap:18px}
-        .cd-item{text-align:center}
-        .cd-num{font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:700;color:#00d4ff}
-        .cd-lbl{font-size:.58rem;color:rgba(255,255,255,0.25);letter-spacing:.18em;text-transform:uppercase}
-        .filter-bar{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;opacity:0;transform:translateY(10px)}
-        .flt-btn{padding:6px 15px;border-radius:22px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.35);font-size:.72rem;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;white-space:nowrap}
-        .flt-btn:hover{border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.6)}
-        .flt-btn.on{border-color:#00d4ff;color:#00d4ff;background:rgba(0,180,255,0.08)}
-        .goals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;margin-bottom:40px}
-        @media(max-width:640px){.goals-grid{grid-template-columns:1fr}}
-        .goal-card{background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:20px 20px 38px;cursor:pointer;transition:transform .35s cubic-bezier(.4,0,.2,1),border-color .35s,box-shadow .35s;position:relative;overflow:hidden;opacity:0;transform:translateY(18px)}
-        .goal-card:hover{border-color:rgba(0,180,255,0.18);box-shadow:0 12px 44px rgba(0,0,0,0.35)}
-        .goal-card.done{border-color:rgba(0,255,120,0.15);background:rgba(0,255,120,0.02)}
-        .goal-card.done .g-text{text-decoration:line-through;opacity:.4}
-        .g-idx{font-family:'Orbitron',sans-serif;font-size:.65rem;color:rgba(255,255,255,0.15);letter-spacing:.22em;margin-bottom:8px}
-        .g-text{font-size:.95rem;line-height:1.55;color:rgba(255,255,255,0.82);transition:all .3s;padding-right:36px}
-        .g-cat{display:inline-block;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-top:12px}
-        .g-check{position:absolute;right:16px;top:16px;width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;transition:all .35s;font-size:13px;font-weight:700;color:transparent}
-        .g-check.on{background:linear-gradient(135deg,#00ff88,#00d4ff);border-color:transparent;box-shadow:0 0 18px rgba(0,255,120,0.25);color:#000}
-        .g-del{position:absolute;right:16px;bottom:12px;background:none;border:none;color:rgba(255,255,255,0.1);cursor:pointer;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;transition:color .3s;font-family:'Inter',sans-serif;padding:4px}
-        .g-del:hover{color:#ff4455}
-        .lb-list{display:flex;flex-direction:column;gap:10px;margin-bottom:40px}
-        .lb-entry{display:flex;align-items:center;gap:14px;padding:14px 18px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.04);border-radius:14px;transition:all .35s;opacity:0;transform:translateX(-25px)}
-        .lb-entry.t1{border-color:rgba(255,215,0,0.22);background:rgba(255,215,0,0.025)}
-        .lb-entry.t2{border-color:rgba(192,192,192,0.2);background:rgba(192,192,192,0.02)}
-        .lb-entry.t3{border-color:rgba(205,127,50,0.2);background:rgba(205,127,50,0.02)}
-        .lb-entry.me{border-color:rgba(0,180,255,0.25);background:rgba(0,180,255,0.03)}
-        .lb-rank{font-family:'Orbitron',sans-serif;font-weight:700;font-size:1rem;width:36px;text-align:center;flex-shrink:0}
-        .lb-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0}
-        .lb-name{flex:1;font-weight:500;font-size:.9rem}
-        .lb-goals{font-family:'Orbitron',sans-serif;font-size:.8rem;color:#00d4ff;flex-shrink:0}
-        .add-fab{position:fixed;bottom:28px;right:28px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#0055ff);border:none;color:#fff;font-size:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;transition:all .35s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 24px rgba(0,140,255,0.35);line-height:1}
-        .add-fab:hover{transform:scale(1.18) rotate(90deg);box-shadow:0 6px 36px rgba(0,140,255,0.55)}
-        .modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.65);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0}
-        .modal-body{background:linear-gradient(180deg,#14142a,#0a0a14);border:1px solid rgba(255,255,255,0.07);border-radius:26px 26px 0 0;padding:36px 32px 44px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;transform:translateY(100%)}
-        .modal-title{font-family:'Orbitron',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:28px;letter-spacing:.12em}
-        .inp-grp{margin-bottom:22px}
-        .inp-lbl{display:block;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:8px}
-        .inp-field{width:100%;padding:14px 18px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.08);border-radius:14px;color:#fff;font-family:'Inter',sans-serif;font-size:.95rem;outline:none;transition:all .35s}
-        .inp-field:focus{border-color:#00d4ff;box-shadow:0 0 24px rgba(0,180,255,0.12);background:rgba(0,180,255,0.025)}
-        .inp-field::placeholder{color:rgba(255,255,255,0.15)}
-        .cat-grid{display:flex;flex-wrap:wrap;gap:8px}
-        .cat-btn{padding:7px 15px;border-radius:22px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:rgba(255,255,255,0.4);font-size:.75rem;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif}
-        .cat-btn.on{border-color:#00d4ff;color:#00d4ff;background:rgba(0,180,255,0.08)}
-        .submit-btn{width:100%;padding:16px;border:none;border-radius:16px;background:linear-gradient(135deg,#00d4ff,#0055ff);color:#fff;font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.18em;cursor:pointer;transition:all .35s;margin-top:8px}
-        .submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,140,255,0.4)}
-        .submit-btn:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
-        .ach-overlay{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:400;pointer-events:none}
-        .ach-card{background:linear-gradient(135deg,rgba(0,180,255,0.12),rgba(255,100,0,0.12));backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid rgba(0,180,255,0.25);border-radius:22px;padding:36px 52px;text-align:center;box-shadow:0 0 80px rgba(0,180,255,0.15);opacity:0;transform:scale(.5) translateY(30px)}
-        .ach-icon{font-size:3rem;margin-bottom:12px;display:block}
-        .ach-title{font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:.35em;color:#00d4ff;margin-bottom:6px}
-        .ach-xp{font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:800;color:#ff6a00}
-        .empty-state{grid-column:1/-1;text-align:center;padding:70px 20px;color:rgba(255,255,255,0.15);font-family:'Orbitron',sans-serif;font-size:.85rem;letter-spacing:.22em;line-height:2.2}
-        .empty-sub{font-size:.7rem;color:rgba(255,255,255,0.08);letter-spacing:.15em}
-        .footer{text-align:center;padding:50px 0 30px;color:rgba(255,255,255,0.06);font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.35em}
-        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:34px}
-        @media(max-width:768px){.two-col{grid-template-columns:1fr}}
-        ::-webkit-scrollbar{width:5px}
-        ::-webkit-scrollbar-track{background:transparent}
-        ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:4px}
-        ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.15)}
-        @media(max-width:480px){.glass{padding:20px;border-radius:16px}.hdr{padding:16px 0 20px}.stats-row{gap:12px}.goals-grid{gap:10px}.goal-card{padding:16px 16px 34px}}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100 Before</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--font-display:'Space Grotesk',sans-serif;
+--font-body:'Inter',sans-serif;
+--black:#000;--d1:#0a0a0a;--d2:#111;--d3:#1a1a1a;
+--g1:#222;--g2:#333;--g3:#444;--g4:#666;--g5:#888;--g6:#aaa;--g7:#ccc;
+--white:#fff;
+--glass:rgba(255,255,255,0.04);--glass-b:rgba(255,255,255,0.08);--glass-h:rgba(255,255,255,0.07);
+--sh-s:0 2px 10px rgba(0,0,0,.4);--sh-m:0 8px 32px rgba(0,0,0,.5);--sh-g:0 0 40px rgba(255,255,255,.04);
+--r-s:10px;--r-m:16px;--r-l:24px;
+--ease:cubic-bezier(.4,0,.2,1);--spring:cubic-bezier(.34,1.56,.64,1)
+}
+html{scroll-behavior:smooth}
+html,body{width:100%;height:100%;overflow-x:hidden;background:var(--black);color:var(--white);font-family:var(--font-body);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+#root{width:100%;min-height:100vh;position:relative}
+canvas#particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-grad{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 30% 20%,#111 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,#0d0d0d 0%,transparent 60%),#000;animation:bgShift 20s ease infinite alternate}
+@keyframes bgShift{0%{filter:brightness(1)}50%{filter:brightness(1.05)}100%{filter:brightness(.98)}}
+.screen{position:fixed;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.screen.hidden{opacity:0;pointer-events:none;transform:scale(1.02)}
+.screen.below{transform:translateY(30px)}
+
+/* INTRO */
+.intro-wrap{text-align:center;z-index:2;position:relative}
+.intro-line{font-family:var(--font-display);font-size:clamp(1.6rem,5vw,3.2rem);font-weight:300;letter-spacing:-.02em;margin-bottom:8px;min-height:1.3em;display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
+.intro-line .ch{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(24px);transition:all .55s var(--ease)}
+.intro-line.vis .ch{opacity:1;filter:blur(0);transform:translateY(0)}
+.intro-line.out{transition:opacity .5s,transform .5s;opacity:0;transform:translateY(-18px)}
+.logo-main{font-family:var(--font-display);font-weight:700;font-size:clamp(3rem,10vw,6rem);letter-spacing:.08em;position:relative;display:inline-block}
+.logo-main .ch{display:inline-block;opacity:0;filter:blur(14px);transform:translateY(30px) scale(.9);transition:all .6s var(--spring)}
+.logo-main.vis .ch{opacity:1;filter:blur(0);transform:translateY(0) scale(1);text-shadow:0 0 30px rgba(255,255,255,.25),0 0 60px rgba(255,255,255,.08)}
+.halo{position:absolute;top:50%;left:25%;transform:translate(-50%,-50%);width:120px;height:120px;border:1.5px solid rgba(255,255,255,.15);border-radius:50%;opacity:0;animation:haloIn 1.2s ease forwards 1s,haloSpin 8s linear infinite 1.4s}
+@keyframes haloIn{to{opacity:1}}
+@keyframes haloSpin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+.skip-btn{position:fixed;bottom:40px;right:40px;z-index:10;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);font-family:var(--font-body);font-size:13px;padding:10px 24px;border-radius:100px;cursor:pointer;transition:all .3s;backdrop-filter:blur(10px)}
+.skip-btn:hover{background:rgba(255,255,255,.12);color:#fff}
+
+/* LOGIN */
+.login-card{background:rgba(255,255,255,.035);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-l);padding:48px 40px;width:min(420px,90vw);box-shadow:var(--sh-m),var(--sh-g);transition:all .5s var(--ease);position:relative;overflow:hidden}
+.login-card::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent 40%,transparent 60%,rgba(255,255,255,.05));pointer-events:none}
+.login-card.glow{box-shadow:0 0 60px rgba(255,255,255,.15),0 0 120px rgba(255,255,255,.05);transform:scale(1.02)}
+.login-card.shake{animation:shake .5s}
+@keyframes shake{0%,100%{transform:translateX(0)}15%,45%,75%{transform:translateX(-6px)}30%,60%,90%{transform:translateX(6px)}}
+.login-title{font-family:var(--font-display);font-size:1.8rem;font-weight:600;margin-bottom:8px;background:linear-gradient(135deg,#fff,#999);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.login-sub{font-size:14px;color:rgba(255,255,255,.4);margin-bottom:36px}
+.input-group{position:relative;margin-bottom:24px}
+.input-group input{width:100%;padding:16px 18px 8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-s);color:#fff;font-size:15px;font-family:var(--font-body);outline:none;transition:all .3s}
+.input-group input:focus{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.06);box-shadow:0 0 20px rgba(255,255,255,.05)}
+.input-group input.err{border-color:rgba(200,80,80,.5)}
+.input-group label{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:14px;color:rgba(255,255,255,.35);pointer-events:none;transition:all .25s var(--ease)}
+.input-group input:focus+label,.input-group input:not(:placeholder-shown)+label{top:10px;transform:translateY(0);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.btn-primary{width:100%;padding:16px;background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.12);border-radius:var(--r-s);color:#fff;font-size:15px;font-weight:500;font-family:var(--font-body);cursor:pointer;transition:all .3s var(--ease);position:relative;overflow:hidden;margin-top:8px}
+.btn-primary:hover{transform:scale(1.02);background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.1));box-shadow:0 4px 20px rgba(255,255,255,.08)}
+.btn-primary:active{transform:scale(.98)}
+.btn-primary .shine{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:shine 3s infinite}
+@keyframes shine{0%{left:-100%}50%,100%{left:100%}}
+.ripple-effect{position:absolute;border-radius:50%;background:rgba(255,255,255,.25);transform:scale(0);animation:ripple .6s ease-out forwards;pointer-events:none}
+@keyframes ripple{to{transform:scale(4);opacity:0}}
+
+/* DASHBOARD */
+.dashboard{position:relative;z-index:1;min-height:100vh;padding:0 0 100px}
+.dash-header{position:sticky;top:0;z-index:20;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+.dash-logo{font-family:var(--font-display);font-weight:700;font-size:1.2rem;letter-spacing:.06em;background:linear-gradient(135deg,#fff,#888);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.user-pill{display:flex;align-items:center;gap:12px}
+.user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#444,#222);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.1)}
+.user-name{font-size:13px;color:rgba(255,255,255,.6)}
+.logout-btn{background:none;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4);font-size:12px;padding:6px 14px;border-radius:100px;cursor:pointer;transition:all .3s;font-family:var(--font-body)}
+.logout-btn:hover{border-color:rgba(255,255,255,.2);color:#fff}
+.dash-content{max-width:1100px;margin:0 auto;padding:32px 20px}
+.section-title{font-family:var(--font-display);font-size:1.3rem;font-weight:600;margin-bottom:20px;background:linear-gradient(135deg,#fff,#aaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:40px}
+.stat-card{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-b);border-radius:var(--r-m);padding:28px 24px;transition:all .4s var(--ease);cursor:default;position:relative;overflow:hidden;transform-style:preserve-3d}
+.stat-card::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 50%);pointer-events:none}
+.stat-card:hover{background:var(--glass-h);border-color:rgba(255,255,255,.12);box-shadow:var(--sh-g)}
+.stat-label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);margin-bottom:10px}
+.stat-value{font-family:var(--font-display);font-size:2rem;font-weight:700;background:linear-gradient(135deg,#fff,#bbb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-sub{font-size:12px;color:rgba(255,255,255,.3);margin-top:6px}
+.progress-section{display:flex;align-items:center;gap:40px;margin-bottom:40px;flex-wrap:wrap;justify-content:center}
+.ring-wrap{position:relative;width:180px;height:180px;flex-shrink:0}
+.ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:8}
+.ring-fg{fill:none;stroke:url(#ringGrad);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.2s var(--ease)}
+.ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-pct{font-family:var(--font-display);font-size:2.2rem;font-weight:700}
+.ring-label{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.xp-section{flex:1;min-width:260px}
+.xp-level{font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-bottom:6px;display:flex;align-items:baseline;gap:8px}
+.xp-level span{font-size:.75rem;color:rgba(255,255,255,.35);font-weight:400}
+.xp-track{width:100%;height:10px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden;position:relative}
+.xp-fill{height:100%;background:linear-gradient(90deg,rgba(255,255,255,.15),rgba(255,255,255,.35));border-radius:100px;transition:width 1s var(--ease);position:relative}
+.xp-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:rgba(255,255,255,.4);border-radius:100px;filter:blur(4px)}
+.xp-info{font-size:12px;color:rgba(255,255,255,.3);margin-top:6px}
+.streak-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:8px 18px;font-size:13px;margin-top:16px;animation:pulse-g 3s infinite}
+@keyframes pulse-g{0%,100%{box-shadow:0 0 0 rgba(255,255,255,0)}50%{box-shadow:0 0 18px rgba(255,255,255,.07)}}
+.challenge-card{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-b);border-radius:var(--r-m);padding:28px;margin-bottom:40px;position:relative;overflow:hidden}
+.challenge-card::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 40%);pointer-events:none}
+.challenge-label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:12px}
+.challenge-goal{font-family:var(--font-display);font-size:1.2rem;font-weight:500;margin-bottom:16px}
+.countdown{display:flex;gap:12px;flex-wrap:wrap}
+.cd-unit{text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);border-radius:var(--r-s);padding:12px 16px;min-width:64px}
+.cd-num{font-family:var(--font-display);font-size:1.5rem;font-weight:700;transition:all .3s}
+.cd-label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-top:4px}
+.goals-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.goals-count{font-size:13px;color:rgba(255,255,255,.35)}
+.add-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-size:13px;padding:8px 20px;border-radius:100px;cursor:pointer;transition:all .3s;font-family:var(--font-body);display:flex;align-items:center;gap:6px}
+.add-btn:hover{background:rgba(255,255,255,.12);color:#fff}
+.goals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.goal-card{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-b);border-radius:var(--r-m);padding:20px;display:flex;align-items:flex-start;gap:14px;transition:all .4s var(--ease);cursor:pointer;position:relative;overflow:hidden;transform-style:preserve-3d;opacity:0;animation:cardIn .5s var(--ease) forwards}
+.goal-card::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.04),transparent 50%);pointer-events:none}
+.goal-card:hover{background:var(--glass-h);border-color:rgba(255,255,255,.12);box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.goal-card.done{border-color:rgba(255,255,255,.15)}
+.goal-card.done .goal-text{text-decoration:line-through;color:rgba(255,255,255,.3)}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.goal-check{width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .3s;margin-top:1px}
+.goal-check.checked{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4)}
+.goal-check svg{width:12px;height:12px;opacity:0;transition:opacity .3s}
+.goal-check.checked svg{opacity:1}
+.goal-text{font-size:14px;line-height:1.5;color:rgba(255,255,255,.7);transition:all .3s;flex:1}
+.goal-del{opacity:0;background:none;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:16px;padding:4px;transition:all .3s;flex-shrink:0}
+.goal-card:hover .goal-del{opacity:1}
+.goal-del:hover{color:rgba(255,255,255,.6)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;animation:fadeIn .3s forwards}
+@keyframes fadeIn{to{opacity:1}}
+.modal{background:rgba(20,20,20,.95);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-l);padding:40px;width:min(440px,90vw);animation:modalIn .4s var(--spring)}
+@keyframes modalIn{from{opacity:0;transform:translateY(30px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal h3{font-family:var(--font-display);font-size:1.3rem;margin-bottom:20px;background:linear-gradient(135deg,#fff,#aaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.modal textarea{width:100%;min-height:100px;padding:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-s);color:#fff;font-size:14px;font-family:var(--font-body);outline:none;resize:vertical;transition:border-color .3s;line-height:1.6}
+.modal textarea:focus{border-color:rgba(255,255,255,.25)}
+.modal-actions{display:flex;gap:12px;margin-top:20px;justify-content:flex-end}
+.modal-actions button{padding:10px 24px;border-radius:var(--r-s);font-size:13px;font-family:var(--font-body);cursor:pointer;transition:all .3s}
+.cancel-btn{background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
+.cancel-btn:hover{border-color:rgba(255,255,255,.2);color:#fff}
+.confirm-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);color:#fff}
+.confirm-btn:hover{background:rgba(255,255,255,.2)}
+
+/* CONFETTI */
+.confetti-container{position:fixed;pointer-events:none;z-index:9999}
+.confetti-p{position:absolute;border-radius:50%;animation:confettiBurst .8s var(--ease) forwards}
+@keyframes confettiBurst{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0}}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+.login-card{padding:36px 28px}
+.stats-grid{grid-template-columns:1fr 1fr}
+.goals-grid{grid-template-columns:1fr}
+.progress-section{flex-direction:column;align-items:center;text-align:center}
+.ring-wrap{width:150px;height:150px}
+.countdown{justify-content:center}
+.dash-header{padding:12px 16px}
+.dash-content{padding:24px 16px}
+.halo{width:80px;height:80px}
+}
+@media(max-width:400px){
+.stats-grid{grid-template-columns:1fr}
+.intro-line{font-size:1.3rem}
+}
+</style>
 </head>
 <body>
-    <div class="body-gradient"></div>
-    <canvas id="particle-canvas"></canvas>
-    <canvas id="confetti-canvas"></canvas>
-    <div id="root"></div>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+const{useState,useEffect,useRef,useCallback,useMemo}=React;
 
-    <script type="text/babel">
-        const {useState,useEffect,useRef,useCallback,useMemo,memo}=React;
+const DEFAULT_GOALS=[
+"Watch a sunrise from a mountaintop","Learn to play a musical instrument",
+"Read 50 books in a year","Travel somewhere you don't speak the language",
+"Write a letter to your future self","Run a 5K race",
+"Cook a meal from every continent","Build a project from scratch",
+"Volunteer for a cause you believe in","See the Northern Lights",
+"Plant a tree and watch it grow","Take a spontaneous road trip",
+"Learn a new language conversationally","Swim in the ocean at night",
+"Write and finish a short story","Go camping under the stars",
+"Master a complex recipe from scratch","Attend a live concert of your favorite artist",
+"Complete a 30-day fitness challenge","Create something with your hands",
+"Visit a world wonder","Meditate daily for 30 days",
+"Take a photo every day for a month","Forgive someone and truly mean it",
+"Start a passion project","Watch 50 classic films",
+"Climb a mountain","Make a meaningful friend abroad",
+"Go 24 hours without technology","Leave a positive mark on someone's life"
+];
 
-        // ═══════════════════ CONSTANTS ═══════════════════
-        const CATS=['Travel','Career','Personal','Adventure','Creative','Social','Health','Learning'];
-        const CAT_CLR={Travel:'#00d4ff',Career:'#ff6a00',Personal:'#a855f7',Adventure:'#ef4444',Creative:'#f59e0b',Social:'#10b981',Health:'#ec4899',Learning:'#6366f1'};
-        const CHALLENGES=["Complete a goal you've been putting off","Add 5 new ambitious goals","Complete a goal from your weakest category","Finish something in the Adventure category","Maintain a 7-day completion streak","Complete 3 goals this week","Do something that genuinely scares you"];
-        const FAKE_LB=[
-            {name:'Phoenix',av:'PX',goals:87},{name:'Nexus',av:'NX',goals:73},{name:'Cipher',av:'CP',goals:68},
-            {name:'Vortex',av:'VX',goals:54},{name:'Zenith',av:'ZN',goals:49},{name:'Pulse',av:'PL',goals:42},
-            {name:'Nova',av:'NV',goals:38},{name:'Echo',av:'EC',goals:31}
-        ];
+const STORAGE_KEY='100before_data';
+const XP_PER_GOAL=100;const XP_PER_LEVEL=500;const XP_DAILY=10;
 
-        // ═══════════════════ PERSISTENCE ═══════════════════
-        const load=()=>{try{const d=localStorage.getItem('hb_state');return d?JSON.parse(d):null}catch(e){return null}};
-        const save=(s)=>localStorage.setItem('hb_state',JSON.stringify(s));
-        const defaultState=()=>({goals:[],xp:0,streak:{cur:0,last:null}});
-        const getLevel=(xp)=>Math.floor(xp/500)+1;
-        const xpInLevel=(xp)=>{const l=getLevel(xp);return{progress:((xp-(l-1)*500)/500)*100,needed:l*500,current:xp-(l-1)*500}};
+function loadData(){try{const d=localStorage.getItem(STORAGE_KEY);return d?JSON.parse(d):null}catch(e){return null}}
+function saveData(d){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(d))}catch(e){}}
 
-        // ═══════════════════ PARTICLES ═══════════════════
-        function initParticles(){
-            const c=document.getElementById('particle-canvas');if(!c)return;
-            const ctx=c.getContext('2d');let ps=[];let id;
-            const resize=()=>{c.width=window.innerWidth;c.height=window.innerHeight};
-            resize();window.addEventListener('resize',resize);
-            class P{
-                constructor(){this.reset()}
-                reset(){this.x=Math.random()*c.width;this.y=Math.random()*c.height;this.s=Math.random()*1.8+.4;this.vx=(Math.random()-.5)*.25;this.vy=(Math.random()-.5)*.25;this.o=Math.random()*.4+.08;this.clr=Math.random()>.6?'0,200,255':'255,100,0'}
-                update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>c.width)this.vx*=-1;if(this.y<0||this.y>c.height)this.vy*=-1}
-                draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,Math.PI*2);ctx.fillStyle=`rgba(${this.clr},${this.o})`;ctx.fill()}
-            }
-            const count=Math.min(90,Math.floor(window.innerWidth*window.innerHeight/15000));
-            for(let i=0;i<count;i++)ps.push(new P());
-            function loop(){
-                ctx.clearRect(0,0,c.width,c.height);
-                for(let i=0;i<ps.length;i++){ps[i].update();ps[i].draw();
-                    for(let j=i+1;j<ps.length;j++){const dx=ps[i].x-ps[j].x,dy=ps[i].y-ps[j].y,d=Math.sqrt(dx*dx+dy*dy);
-                        if(d<110){ctx.beginPath();ctx.moveTo(ps[i].x,ps[i].y);ctx.lineTo(ps[j].x,ps[j].y);ctx.strokeStyle=`rgba(0,180,255,${.04*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke()}
-                    }
-                }
-                id=requestAnimationFrame(loop);
-            }
-            loop();
-            return()=>{cancelAnimationFrame(id);window.removeEventListener('resize',resize)};
-        }
+function initData(username){
+const goals=DEFAULT_GOALS.map((t,i)=>({id:i+1,text:t,completed:false,completedAt:null}));
+const now=new Date().toISOString();
+const end=new Date(Date.now()+7*24*60*60*1000).toISOString();
+return{username,goals,xp:0,streak:1,lastActive:now.split('T')[0],
+weeklyChallenge:{goalId:goals[Math.floor(Math.random()*goals.length)].id,start:now,end}};
+}
 
-        // ═══════════════════ CONFETTI ═══════════════════
-        function boom(){
-            const c=document.getElementById('confetti-canvas');if(!c)return;
-            const ctx=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;
-            const ps=[];const clrs=['#00d4ff','#ff6a00','#00ff88','#a855f7','#f59e0b','#fff','#ec4899'];
-            for(let i=0;i<120;i++){
-                ps.push({x:c.width/2+(Math.random()-.5)*160,y:c.height/2-40,vx:(Math.random()-.5)*18,vy:Math.random()*-18-4,
-                    sz:Math.random()*7+3,clr:clrs[Math.floor(Math.random()*clrs.length)],rot:Math.random()*360,rv:(Math.random()-.5)*12,g:.35,o:1,d:.012+Math.random()*.008});
-            }
-            let id;
-            function run(){
-                ctx.clearRect(0,0,c.width,c.height);let alive=false;
-                ps.forEach(p=>{if(p.o<=0)return;alive=true;p.x+=p.vx;p.vy+=p.g;p.y+=p.vy;p.rot+=p.rv;p.o-=p.d;p.vx*=.99;
-                    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.globalAlpha=Math.max(0,p.o);ctx.fillStyle=p.clr;
-                    ctx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz*.55);ctx.restore()});
-                if(alive)id=requestAnimationFrame(run);else ctx.clearRect(0,0,c.width,c.height);
-            }
-            run();
-        }
+function updateStreak(data){
+const today=new Date().toISOString().split('T')[0];
+const last=data.lastActive;
+if(last===today)return data;
+const yesterday=new Date(Date.now()-86400000).toISOString().split('T')[0];
+const newStreak=last===yesterday?data.streak+1:1;
+return{...data,streak:newStreak,lastActive:today,xp:data.xp+XP_DAILY};
+}
 
-        // ═══════════════════ ANIMATED COUNTER ═══════════════════
-        const AnimNum=memo(({val,dur=1.2,className=''})=>{
-            const[disp,setDisp]=useState(0);const prev=useRef(0);
-            useEffect(()=>{
-                const s=prev.current,e=val,st=performance.now(),ms=dur*1000;
-                let id;
-                function tick(now){const p=Math.min((now-st)/ms,1);const ez=1-Math.pow(1-p,3);setDisp(Math.round(s+(e-s)*ez));if(p<1)id=requestAnimationFrame(tick);else prev.current=e}
-                id=requestAnimationFrame(tick);return()=>cancelAnimationFrame(id);
-            },[val]);
-            return <span className={className}>{disp}</span>;
-        });
+/* ===== PARTICLE CANVAS ===== */
+function ParticleCanvas(){
+const canvasRef=useRef(null);
+const particles=useRef([]);
+const raf=useRef(null);
+const mouse=useRef({x:-1000,y:-1000});
 
-        // ═══════════════════ SCROLL REVEAL ═══════════════════
-        function useReveal(delay=0){
-            const ref=useRef(null);
-            useEffect(()=>{
-                if(!ref.current)return;
-                const obs=new IntersectionObserver(([e])=>{
-                    if(e.isIntersecting){gsap.to(ref.current,{opacity:1,y:0,duration:.7,ease:'power3.out',delay});obs.disconnect()}
-                },{threshold:.15});
-                obs.observe(ref.current);return()=>obs.disconnect();
-            },[]);
-            return ref;
-        }
+useEffect(()=>{
+const c=canvasRef.current;const ctx=c.getContext('2d');
+function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
+resize();
+const N=Math.min(80,Math.floor(window.innerWidth*window.innerHeight/15000));
+particles.current=[];
+for(let i=0;i<N;i++){
+particles.current.push({
+x:Math.random()*c.width,y:Math.random()*c.height,
+vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
+size:Math.random()*1.8+.5,opacity:Math.random()*.4+.08
+});}
 
-        // ═══════════════════ INTRO ═══════════════════
-        function Intro({onDone}){
-            const box=useRef(null),bar=useRef(null),fill=useRef(null),t1=useRef(null),t2=useRef(null),ttl=useRef(null);
-            useEffect(()=>{
-                const tl=gsap.timeline({onComplete:()=>{gsap.to(box.current,{opacity:0,scale:1.08,duration:.7,ease:'power2.inOut',onComplete:onDone})}});
-                tl.to({},{}); // tiny pause
-                tl.to(bar.current,{opacity:1,duration:.4});
-                tl.to(fill.current,{width:'100%',duration:2.2,ease:'power1.inOut'});
-                tl.add(()=>{if(t1.current){const ch=t1.current.querySelectorAll('.g-char');gsap.set(t1.current,{opacity:1});gsap.fromTo(ch,{opacity:0,y:28,filter:'blur(14px)',scale:.85},{opacity:1,y:0,filter:'blur(0px)',scale:1,stagger:.035,duration:.5,ease:'back.out(1.5)'})}},'-=.6');
-                tl.add(()=>{if(t2.current){const ch=t2.current.querySelectorAll('.g-char');gsap.set(t2.current,{opacity:1});gsap.fromTo(ch,{opacity:0,y:28,filter:'blur(14px)',scale:.85},{opacity:1,y:0,filter:'blur(0px)',scale:1,stagger:.035,duration:.5,ease:'back.out(1.5)'})}},'-=.1');
-                tl.to([t1.current,t2.current],{opacity:0,y:-18,duration:.45,delay:.9,ease:'power2.in'});
-                tl.to(bar.current,{opacity:0,duration:.3},'-=.4');
-                tl.add(()=>{if(ttl.current){const ch=ttl.current.querySelectorAll('.g-char');gsap.set(ttl.current,{opacity:1});gsap.fromTo(ch,{opacity:0,y:55,filter:'blur(22px)',scale:1.35},{opacity:1,y:0,filter:'blur(0px)',scale:1,stagger:.09,duration:.85,ease:'expo.out'})}});
-                tl.to({},{duration:1.1});
-                return()=>tl.kill();
-            },[]);
-            const chars=t=>t.split('').map((c,i)=><span key={i} className="g-char">{c===' '?'\u00A0':c}</span>);
-            return(
-                <div ref={box} className="intro-container">
-                    <div ref={bar} className="intro-progress-wrap"><div ref={fill} className="intro-progress-fill"></div></div>
-                    <div ref={t1} className="intro-text-line">{chars("DON'T JUST EXIST.")}</div>
-                    <div ref={t2} className="intro-text-line" style={{marginBottom:48}}>{chars("COMPLETE YOUR 100.")}</div>
-                    <div ref={ttl} className="intro-title">{chars("100 BEFORE")}</div>
-                </div>
-            );
-        }
+function draw(){
+ctx.clearRect(0,0,c.width,c.height);
+const pts=particles.current;
+for(let i=0;i<pts.length;i++){
+const p=pts[i];
+p.x+=p.vx;p.y+=p.vy;
+if(p.x<0)p.x=c.width;if(p.x>c.width)p.x=0;
+if(p.y<0)p.y=c.height;if(p.y>c.height)p.y=0;
+const dx=mouse.current.x-p.x;const dy=mouse.current.y-p.y;
+const md=Math.sqrt(dx*dx+dy*dy);
+if(md<120){p.x-=dx*.005;p.y-=dy*.005;}
+ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+ctx.fillStyle=`rgba(255,255,255,${p.opacity})`;ctx.fill();
+}
+for(let i=0;i<pts.length;i++){
+for(let j=i+1;j<pts.length;j++){
+const dx=pts[i].x-pts[j].x;const dy=pts[i].y-pts[j].y;
+const d=dx*dx+dy*dy;
+if(d<18000){
+ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+ctx.strokeStyle=`rgba(255,255,255,${.06*(1-d/18000)})`;ctx.lineWidth=.5;ctx.stroke();}
+}}
+raf.current=requestAnimationFrame(draw);
+}
+raf.current=requestAnimationFrame(draw);
+function onMove(e){mouse.current={x:e.clientX,y:e.clientY}}
+function onLeave(){mouse.current={x:-1000,y:-1000}}
+window.addEventListener('resize',resize);
+window.addEventListener('mousemove',onMove);
+window.addEventListener('mouseleave',onLeave);
+return()=>{cancelAnimationFrame(raf.current);window.removeEventListener('resize',resize);
+window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseleave',onLeave);};
+},[]);
+return <canvas ref={canvasRef} id="particles"/>;
+}
 
-        // ═══════════════════ PROGRESS RING ═══════════════════
-        function ProgressRing({done,total=100}){
-            const r=78,sw=7,nr=r-sw,circ=nr*2*Math.PI,pct=Math.min(done/total,1)*100,off=circ-(pct/100)*circ;
-            return(
-                <div className="ring-wrap glass">
-                    <svg width={r*2} height={r*2} className="ring-svg">
-                        <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#00d4ff"/><stop offset="100%" stopColor="#ff6a00"/></linearGradient></defs>
-                        <circle className="ring-bg" strokeWidth={sw} fill="transparent" r={nr} cx={r} cy={r}/>
-                        <circle className="ring-fill" stroke="url(#rg)" strokeWidth={sw} strokeLinecap="round" fill="transparent" r={nr} cx={r} cy={r}
-                            strokeDasharray={circ} strokeDashoffset={off}/>
-                    </svg>
-                    <div className="ring-center">
-                        <div className="ring-num"><AnimNum val={done}/></div>
-                        <div className="ring-lbl">of {total} goals</div>
-                    </div>
-                </div>
-            );
-        }
+/* ===== ANIMATED TEXT ===== */
+function AnimText({text,visible,delay=0,cd=40,className=''}){
+const chars=text.split('');
+return(
+<div className={`intro-line ${className} ${visible?'vis':''}`}>
+{chars.map((ch,i)=>(
+<span key={i} className="ch" style={{transitionDelay:`${delay+i*cd}ms`}}>
+{ch===' '?'\u00A0':ch}</span>
+))}
+</div>);
+}
 
-        // ═══════════════════ XP SECTION ═══════════════════
-        function XPSection({xp}){
-            const lv=getLevel(xp),info=xpInLevel(xp);
-            return(
-                <div className="xp-wrap glass">
-                    <div className="lvl-badge">⚡ LEVEL <AnimNum val={lv} dur={.5}/></div>
-                    <div style={{marginTop:14}}>
-                        <div className="xp-bar-outer"><div className="xp-bar-inner" style={{width:`${info.progress}%`}}></div></div>
-                    </div>
-                    <div className="xp-labels"><span><AnimNum val={xp}/> XP</span><span>{lv*500} XP</span></div>
-                    <div style={{marginTop:16,display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-                        <div style={{textAlign:'center'}}><div style={{fontFamily:"'Orbitron'",fontSize:'1.4rem',fontWeight:800,color:'#00d4ff'}}><AnimNum val={lv}/></div><div className="ring-lbl">Level</div></div>
-                        <div style={{textAlign:'center'}}><div style={{fontFamily:"'Orbitron'",fontSize:'1.4rem',fontWeight:800,color:'#ff6a00'}}><AnimNum val={xp}/></div><div className="ring-lbl">Total XP</div></div>
-                    </div>
-                </div>
-            );
-        }
+/* ===== INTRO ===== */
+function IntroSequence({onComplete}){
+const[phase,setPhase]=useState(0);
+const[show,setShow]=useState([false,false,false,false]);
+const timers=useRef([]);
 
-        // ═══════════════════ STREAK ═══════════════════
-        function StreakSection({streak}){
-            return(
-                <div className="glass" style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
-                    <div className="streak-box">
-                        <div className="streak-flame">🔥</div>
-                        <div><div className="streak-num"><AnimNum val={streak.cur} dur={.8}/></div><div className="streak-lbl">Day Streak</div></div>
-                    </div>
-                    <div style={{marginTop:20,display:'flex',gap:6}}>
-                        {[...Array(7)].map((_,i)=>(
-                            <div key={i} style={{flex:1,height:6,borderRadius:3,background:i<streak.cur?'linear-gradient(90deg,#ff6a00,#ff8c00)':'rgba(255,255,255,0.04)',transition:'background .5s',boxShadow:i<streak.cur?'0 0 8px rgba(255,100,0,0.3)':'none'}}/>
-                        ))}
-                    </div>
-                    <div style={{marginTop:18,fontSize:'.72rem',color:'rgba(255,255,255,0.2)',letterSpacing:'.12em'}}>
-                        {streak.cur>=7?'🏆 LEGENDARY STREAK!':streak.cur>=3?'🔥 Keep it going!':'Complete a goal daily to build streaks'}
-                    </div>
-                </div>
-            );
-        }
+useEffect(()=>{
+const s=(fn,ms)=>{const t=setTimeout(fn,ms);timers.current.push(t);return t;};
+s(()=>setShow(p=>{const n=[...p];n[0]=true;return n;}),400);
+s(()=>setShow(p=>{const n=[...p];n[0]=false;return n;}),2800);
+s(()=>{setPhase(1);setShow(p=>{const n=[...p];n[1]=true;return n;});},3400);
+s(()=>setShow(p=>{const n=[...p];n[1]=false;return n;}),5800);
+s(()=>{setPhase(2);setShow(p=>{const n=[...p];n[2]=true;return n;});},6400);
+s(()=>setShow(p=>{const n=[...p];n[2]=false;return n;}),8800);
+s(()=>{setPhase(3);setShow(p=>{const n=[...p];n[3]=true;return n;});},9400);
+s(()=>onComplete(),12500);
+return()=>timers.current.forEach(clearTimeout);
+},[]);
 
-        // ═══════════════════ WEEKLY CHALLENGE ═══════════════════
-        function Challenge(){
-            const[tl,setTl]=useState({d:0,h:0,m:0,s:0});
-            const ref=useReveal(.1);
-            const ci=useMemo(()=>Math.floor(Date.now()/(7*864e5))%CHALLENGES.length,[]);
-            useEffect(()=>{
-                function eow(){const n=new Date(),e=new Date(n);e.setDate(n.getDate()+(7-n.getDay()));e.setHours(23,59,59,999);return e}
-                const t=setInterval(()=>{const df=eow()-Date.now();if(df<=0)return;
-                    setTl({d:Math.floor(df/864e5),h:Math.floor(df/36e5%24),m:Math.floor(df/6e4%60),s:Math.floor(df/1e3%60)})},1000);
-                return()=>clearInterval(t);
-            },[]);
-            return(
-                <div ref={ref} className="challenge-card">
-                    <div className="challenge-inner">
-                        <div className="challenge-tag">⚡ WEEKLY CHALLENGE</div>
-                        <div className="challenge-text">{CHALLENGES[ci]}</div>
-                        <div className="cd-row">
-                            {[['d','Days'],['h','Hrs'],['m','Min'],['s','Sec']].map(([k,l])=>(
-                                <div key={k} className="cd-item"><div className="cd-num">{String(tl[k]).padStart(2,'0')}</div><div className="cd-lbl">{l}</div></div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            );
-        }
+function skip(){timers.current.forEach(clearTimeout);onComplete();}
 
-        // ═══════════════════ LEADERBOARD ═══════════════════
-        function LBoard({goals}){
-            const ref=useRef(null);const titleRef=useReveal(.05);
-            const done=goals.filter(g=>g.completed).length;
-            const all=useMemo(()=>{
-                const e=[...FAKE_LB,{name:'You',av:'ME',goals:done}];return e.sort((a,b)=>b.goals-a.goals);
-            },[done]);
-            useEffect(()=>{
-                if(!ref.current)return;
-                const obs=new IntersectionObserver(([e])=>{
-                    if(e.isIntersecting){const items=ref.current.querySelectorAll('.lb-entry');
-                        gsap.to(items,{opacity:1,x:0,stagger:.06,duration:.55,ease:'power3.out'});obs.disconnect()}
-                },{threshold:.1});
-                obs.observe(ref.current);return()=>obs.disconnect();
-            },[]);
-            const gradients=['linear-gradient(135deg,#ffd700,#ffaa00)','linear-gradient(135deg,#c0c0c0,#e0e0e0)','linear-gradient(135deg,#cd7f32,#daa520)'];
-            return(
-                <div>
-                    <div ref={titleRef} className="sec-title">LEADERBOARD</div>
-                    <div ref={ref} className="lb-list">
-                        {all.map((e,i)=>(
-                            <div key={e.name} className={`lb-entry ${i===0?'t1':i===1?'t2':i===2?'t3':''} ${e.name==='You'?'me':''}`}>
-                                <div className="lb-rank" style={{color:i<3?['#ffd700','#c0c0c0','#cd7f32'][i]:'rgba(255,255,255,0.2)'}}>
-                                    {i===0?'👑':`#${i+1}`}
-                                </div>
-                                <div className="lb-avatar" style={{background:e.name==='You'?'linear-gradient(135deg,#00d4ff,#00ff88)':i<3?gradients[i]:`linear-gradient(135deg,${CAT_CLR[CATS[i%8]]},${CAT_CLR[CATS[(i+3)%8]]})`}}>
-                                    {e.av}
-                                </div>
-                                <div className="lb-name" style={{fontWeight:e.name==='You'?700:400,color:e.name==='You'?'#00d4ff':'inherit'}}>{e.name}</div>
-                                <div className="lb-goals">{e.goals}/100</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        }
+return(
+<div className="screen" style={{zIndex:5}}>
+<div className="bg-grad"/>
+<div className="intro-wrap">
+{phase<=0&&<AnimText text="You Have 100 Chances." visible={show[0]} className={!show[0]&&phase>0?'out':''}/>}
+{phase===1&&<AnimText text="Most People Never Finish." visible={show[1]}/>}
+{phase===2&&<AnimText text="This Is Where You Do." visible={show[2]}/>}
+{phase>=3&&(
+<div style={{position:'relative',display:'inline-block'}}>
+<div className={`logo-main ${show[3]?'vis':''}`}>
+{'100 BEFORE'.split('').map((ch,i)=>(
+<span key={i} className="ch" style={{transitionDelay:`${i*70}ms`}}>
+{ch===' '?'\u00A0':ch}</span>
+))}
+{show[3]&&<div className="halo"/>}
+</div>
+</div>
+)}
+</div>
+<button className="skip-btn" onClick={skip}>Skip →</button>
+</div>
+);
+}
 
-        // ═══════════════════ ADD MODAL ═══════════════════
-        function AddModal({onClose,onAdd}){
-            const[txt,setTxt]=useState('');const[cat,setCat]=useState('Personal');
-            const bg=useRef(null),body=useRef(null);
-            useEffect(()=>{
-                gsap.to(bg.current,{opacity:1,duration:.3});
-                gsap.to(body.current,{y:'0%',duration:.5,ease:'back.out(1.1)'});
-            },[]);
-            const close=()=>{gsap.to(body.current,{y:'100%',duration:.3,ease:'power2.in'});gsap.to(bg.current,{opacity:0,duration:.3,onComplete:onClose})};
-            const submit=e=>{e.preventDefault();if(!txt.trim())return;onAdd({text:txt.trim(),category:cat});close()};
-            return(
-                <div ref={bg} className="modal-bg" onClick={close}>
-                    <div ref={body} className="modal-body" onClick={e=>e.stopPropagation()}>
-                        <div className="modal-title">ADD NEW GOAL</div>
-                        <form onSubmit={submit}>
-                            <div className="inp-grp">
-                                <label className="inp-lbl">What do you want to accomplish?</label>
-                                <input className="inp-field" placeholder="e.g., See the Northern Lights" value={txt} onChange={e=>setTxt(e.target.value)} autoFocus maxLength={120}/>
-                            </div>
-                            <div className="inp-grp">
-                                <label className="inp-lbl">Category</label>
-                                <div className="cat-grid">
-                                    {CATS.map(c=>(
-                                        <button key={c} type="button" className={`cat-btn ${cat===c?'on':''}`}
-                                            style={cat===c?{borderColor:CAT_CLR[c],color:CAT_CLR[c],background:`${CAT_CLR[c]}12`}:{}}
-                                            onClick={()=>setCat(c)}>{c}</button>
-                                    ))}
-                                </div>
-                            </div>
-                            <button type="submit" className="submit-btn" disabled={!txt.trim()}>ADD TO MY 100</button>
-                        </form>
-                    </div>
-                </div>
-            );
-        }
+/* ===== LOGIN ===== */
+function LoginScreen({onLogin}){
+const[user,setUser]=useState('');
+const[pass,setPass]=useState('');
+const[error,setError]=useState(false);
+const[success,setSuccess]=useState(false);
+const[visible,setVisible]=useState(false);
+const cardRef=useRef(null);
 
-        // ═══════════════════ ACHIEVEMENT ═══════════════════
-        function Achievement({xpGain,onDone}){
-            const ref=useRef(null);
-            useEffect(()=>{
-                const tl=gsap.timeline({onComplete:onDone});
-                tl.to(ref.current,{opacity:1,scale:1,y:0,duration:.55,ease:'back.out(1.8)'});
-                tl.to(ref.current,{opacity:0,scale:1.15,y:-25,duration:.45,ease:'power2.in',delay:1.6});
-                return()=>tl.kill();
-            },[]);
-            return(
-                <div className="ach-overlay">
-                    <div ref={ref} className="ach-card">
-                        <span className="ach-icon">🏆</span>
-                        <div className="ach-title">ACHIEVEMENT UNLOCKED</div>
-                        <div className="ach-xp">+{xpGain} XP</div>
-                    </div>
-                </div>
-            );
-        }
+useEffect(()=>{setTimeout(()=>setVisible(true),100);},[]);
 
-        // ═══════════════════ GOAL CARD ═══════════════════
-        const GoalCard=memo(({goal,idx,onToggle,onDelete})=>{
-            const ref=useRef(null);const[hs,setHs]=useState({});
-            useEffect(()=>{
-                if(!ref.current)return;
-                const obs=new IntersectionObserver(([e])=>{
-                    if(e.isIntersecting){gsap.to(ref.current,{opacity:1,y:0,duration:.5,ease:'power3.out',delay:Math.min(idx*.04,.4)});obs.disconnect()}
-                },{threshold:.1});
-                obs.observe(ref.current);return()=>obs.disconnect();
-            },[]);
-            const mm=e=>{const r=ref.current.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,cx=r.width/2,cy=r.height/2;
-                setHs({transform:`perspective(700px) rotateX(${(y-cy)/18}deg) rotateY(${(cx-x)/18}deg) translateY(-3px) scale(1.012)`})};
-            const ml=()=>setHs({transform:'perspective(700px) rotateX(0) rotateY(0) translateY(0) scale(1)'});
-            return(
-                <div ref={ref} className={`goal-card ${goal.completed?'done':''}`} style={{...hs}} onMouseMove={mm} onMouseLeave={ml} onClick={()=>onToggle(goal.id)}>
-                    <div className="g-idx">#{String(idx+1).padStart(3,'0')}</div>
-                    <div className="g-text">{goal.text}</div>
-                    <div className="g-cat" style={{color:CAT_CLR[goal.category],borderColor:`${CAT_CLR[goal.category]}30`,background:`${CAT_CLR[goal.category]}10`,border:`1px solid ${CAT_CLR[goal.category]}30`}}>{goal.category}</div>
-                    <div className={`g-check ${goal.completed?'on':''}`}>{goal.completed?'✓':''}</div>
-                    <button className="g-del" onClick={e=>{e.stopPropagation();onDelete(goal.id)}}>remove</button>
-                </div>
-            );
-        });
+function handleSubmit(e){
+e.preventDefault();
+if(user==='Pranav'&&pass==='123'){
+setError(false);setSuccess(true);
+setTimeout(()=>onLogin(user),900);
+}else{
+setError(true);setSuccess(false);
+setTimeout(()=>setError(false),600);
+}
+}
 
-        // ═══════════════════ DASHBOARD ═══════════════════
-        function Dashboard({state,setState}){
-            const[modal,setModal]=useState(false);
-            const[ach,setAch]=useState(null);
-            const[filter,setFilter]=useState('All');
-            const ref=useRef(null);
-            const{goals,xp,streak}=state;
-            const done=goals.filter(g=>g.completed).length;
+function handleRipple(e){
+const btn=e.currentTarget;const rect=btn.getBoundingClientRect();
+const rip=document.createElement('span');rip.className='ripple-effect';
+rip.style.left=(e.clientX-rect.left)+'px';rip.style.top=(e.clientY-rect.top)+'px';
+btn.appendChild(rip);setTimeout(()=>rip.remove(),700);
+}
 
-            useEffect(()=>{if(ref.current)gsap.to(ref.current,{opacity:1,duration:.8,ease:'power2.out',delay:.15})},[]);
+return(
+<div className={`screen ${visible?'':'hidden below'}`} style={{zIndex:4}}>
+<div className="bg-grad"/>
+<form onSubmit={handleSubmit}
+className={`login-card ${error?'shake':''} ${success?'glow':''}`}
+style={{opacity:visible?1:0,transform:visible?'translateY(0)':'translateY(30px)',
+transition:'all .7s cubic-bezier(.4,0,.2,1)'}}>
+<div className="login-title">Welcome Back</div>
+<div className="login-sub">Enter your credentials to continue your journey.</div>
+<div className="input-group">
+<input type="text" placeholder=" " value={user} onChange={e=>setUser(e.target.value)}
+className={error?'err':''}/>
+<label>Username</label>
+</div>
+<div className="input-group">
+<input type="password" placeholder=" " value={pass} onChange={e=>setPass(e.target.value)}
+className={error?'err':''}/>
+<label>Password</label>
+</div>
+{error&&<div style={{fontSize:12,color:'rgba(200,120,120,.8)',marginBottom:12,marginTop:-8}}>
+Invalid credentials. Try again.</div>}
+<button type="submit" className="btn-primary" onClick={handleRipple}>
+<span className="shine"/>Sign In
+</button>
+<div style={{textAlign:'center',marginTop:20,fontSize:12,color:'rgba(255,255,255,.25)'}}>
+Hint: Pranav / 123</div>
+</form>
+</div>);
+}
 
-            const addGoal=useCallback(({text,category})=>{
-                if(goals.length>=100)return;
-                const ns={...state,goals:[...goals,{id:Date.now().toString(),text,category,completed:false,completedAt:null,createdAt:new Date().toISOString()}]};
-                setState(ns);save(ns);
-            },[state]);
+/* ===== ANIMATED NUMBER ===== */
+function useAnimNum(target,dur=800){
+const[val,setVal]=useState(target);const prev=useRef(target);const raf=useRef(null);
+useEffect(()=>{
+const start=prev.current;const startT=performance.now();
+function tick(now){
+const p=Math.min((now-startT)/dur,1);
+const e=1-Math.pow(1-p,3);
+setVal(Math.round(start+(target-start)*e));
+if(p<1)raf.current=requestAnimationFrame(tick);
+else prev.current=target;
+}
+raf.current=requestAnimationFrame(tick);
+return()=>cancelAnimationFrame(raf.current);
+},[target,dur]);
+return val;
+}
 
-            const toggleGoal=useCallback(id=>{
-                const g=goals.find(x=>x.id===id);if(!g)return;
-                const was=g.completed;
-                const ng=goals.map(x=>x.id===id?{...x,completed:!x.completed,completedAt:!x.completed?new Date().toISOString():null}:x);
-                let nx=xp,ns={...streak};
-                if(!was){
-                    nx+=100;boom();setAch(100);
-                    const today=new Date().toDateString();
-                    if(streak.last!==today){
-                        const yd=new Date(Date.now()-864e5).toDateString();
-                        ns=streak.last===yd?{cur:streak.cur+1,last:today}:{cur:1,last:today};
-                        nx+=50;
-                    }
-                }else{nx=Math.max(0,xp-100)}
-                const newState={...state,goals:ng,xp:nx,streak:ns};setState(newState);save(newState);
-            },[state]);
+/* ===== PROGRESS RING ===== */
+function ProgressRing({completed,total}){
+const pct=total>0?completed/total:0;
+const circ=2*Math.PI*72;
+const offset=circ*(1-pct);
+const dispPct=useAnimNum(Math.round(pct*100));
+return(
+<div className="ring-wrap">
+<svg viewBox="0 0 160 160">
+<defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stopColor="#fff"/><stop offset="100%" stopColor="#666"/>
+</linearGradient></defs>
+<circle cx="80" cy="80" r="72" className="ring-bg" strokeWidth="6"/>
+<circle cx="80" cy="80" r="72" className="ring-fg" strokeWidth="6"
+strokeDasharray={circ} strokeDashoffset={offset}/>
+</svg>
+<div className="ring-text">
+<div className="ring-pct">{dispPct}%</div>
+<div className="ring-label">Complete</div>
+</div>
+</div>);
+}
 
-            const deleteGoal=useCallback(id=>{
-                const g=goals.find(x=>x.id===id);if(!g)return;
-                let nx=xp;if(g.completed)nx=Math.max(0,xp-100);
-                const ns={...state,goals:goals.filter(x=>x.id!==id),xp:nx};setState(ns);save(ns);
-            },[state]);
+/* ===== CONFETTI ===== */
+function Confetti({x,y,onDone}){
+useEffect(()=>{const t=setTimeout(onDone,900);return()=>clearTimeout(t);},[]);
+const pts=useMemo(()=>Array.from({length:24},(_,i)=>{
+const a=(Math.PI*2*i)/24;const v=40+Math.random()*70;
+const s=3+Math.random()*4;const sh=160+Math.floor(Math.random()*95);
+return{tx:Math.cos(a)*v,ty:Math.sin(a)*v,s,sh};
+}),[]);
+return(
+<div className="confetti-container" style={{left:x,top:y}}>
+{pts.map((p,i)=>(
+<div key={i} className="confetti-p" style={{
+width:p.s,height:p.s,background:`rgb(${p.sh},${p.sh},${p.sh})`,
+'--tx':p.tx+'px','--ty':p.ty+'px'}}/>
+))}
+</div>);
+}
 
-            const filtered=useMemo(()=>{
-                if(filter==='All')return goals;if(filter==='Active')return goals.filter(g=>!g.completed);
-                if(filter==='Done')return goals.filter(g=>g.completed);return goals.filter(g=>g.category===filter);
-            },[goals,filter]);
+/* ===== WEEKLY CHALLENGE ===== */
+function WeeklyChallenge({challenge,goals,onComplete}){
+const[now,setNow]=useState(Date.now());
+useEffect(()=>{const iv=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(iv);},[]);
+const goal=goals.find(g=>g.id===challenge.goalId);
+const end=new Date(challenge.end).getTime();
+const diff=Math.max(0,end-now);
+const d=Math.floor(diff/86400000);
+const h=Math.floor((diff%86400000)/3600000);
+const m=Math.floor((diff%3600000)/60000);
+const s=Math.floor((diff%60000)/1000);
+if(!goal)return null;
+return(
+<div className="challenge-card">
+<div className="challenge-label">⚡ Weekly Challenge</div>
+<div className="challenge-goal">{goal.text}</div>
+{goal.completed?(
+<div style={{fontSize:13,color:'rgba(255,255,255,.5)'}}>✓ Completed! New challenge coming soon.</div>
+):(
+<div className="countdown">
+<div className="cd-unit"><div className="cd-num">{String(d).padStart(2,'0')}</div><div className="cd-label">Days</div></div>
+<div className="cd-unit"><div className="cd-num">{String(h).padStart(2,'0')}</div><div className="cd-label">Hours</div></div>
+<div className="cd-unit"><div className="cd-num">{String(m).padStart(2,'0')}</div><div className="cd-label">Mins</div></div>
+<div className="cd-unit"><div className="cd-num">{String(s).padStart(2,'0')}</div><div className="cd-label">Secs</div></div>
+</div>
+)}
+</div>);
+}
 
-            const goalsTitleRef=useReveal(.1);
-            const filterRef=useReveal(.15);
+/* ===== GOAL CARD ===== */
+function GoalCard({goal,index,onToggle,onDelete}){
+const ref=useRef(null);
+function handleTilt(e){
+if(!ref.current||window.innerWidth<768)return;
+const r=ref.current.getBoundingClientRect();
+const x=(e.clientX-r.left)/r.width-.5;
+const y=(e.clientY-r.top)/r.height-.5;
+ref.current.style.transform=`perspective(800px) rotateY(${x*6}deg) rotateX(${-y*6}deg) scale(1.02)`;
+}
+function resetTilt(){if(ref.current)ref.current.style.transform='';}
+return(
+<div ref={ref} className={`goal-card ${goal.completed?'done':''}`}
+style={{animationDelay:`${index*40}ms`}}
+onMouseMove={handleTilt} onMouseLeave={resetTilt}
+onClick={(e)=>onToggle(goal.id,e)}>
+<div className={`goal-check ${goal.completed?'checked':''}`}>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+<polyline points="20 6 9 17 4 12"/>
+</svg>
+</div>
+<div className="goal-text">{goal.text}</div>
+<button className="goal-del" onClick={(e)=>{e.stopPropagation();onDelete(goal.id);}} title="Delete">✕</button>
+</div>);
+}
 
-            return(
-                <div ref={ref} className="dashboard-wrap">
-                    <header className="hdr">
-                        <div className="hdr-title">100 BEFORE</div>
-                        <div className="hdr-right"><div className="lvl-badge">⚡ LVL {getLevel(xp)}</div></div>
-                    </header>
+/* ===== ADD GOAL MODAL ===== */
+function AddGoalModal({onAdd,onClose,currentCount}){
+const[text,setText]=useState('');
+function submit(){
+const lines=text.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+if(lines.length>0)onAdd(lines);
+onClose();
+}
+return(
+<div className="modal-overlay" onClick={onClose}>
+<div className="modal" onClick={e=>e.stopPropagation()}>
+<h3>Add New Goals</h3>
+<div style={{fontSize:13,color:'rgba(255,255,255,.4)',marginBottom:16}}>
+{currentCount}/100 goals added. One goal per line.
+</div>
+<textarea value={text} onChange={e=>setText(e.target.value)}
+placeholder="e.g. Learn to surf&#10;Visit Japan&#10;Write a song"/>
+<div className="modal-actions">
+<button className="cancel-btn" onClick={onClose}>Cancel</button>
+<button className="confirm-btn" onClick={submit}>Add Goals</button>
+</div>
+</div>
+</div>);
+}
 
-                    <div className="stats-row">
-                        <ProgressRing done={done}/>
-                        <XPSection xp={xp}/>
-                        <StreakSection streak={streak}/>
-                    </div>
+/* ===== DASHBOARD ===== */
+function Dashboard({data,setData,onLogout}){
+const[modal,setModal]=useState(false);
+const[confetti,setConfetti]=useState(null);
+const[filter,setFilter]=useState('all');
 
-                    <Challenge/>
+const completed=data.goals.filter(g=>g.completed).length;
+const total=data.goals.length;
+const level=Math.floor(data.xp/XP_PER_LEVEL);
+const xpInLevel=data.xp%XP_PER_LEVEL;
+const animXP=useAnimNum(data.xp);
+const animCompleted=useAnimNum(completed);
+const animStreak=useAnimNum(data.streak);
 
-                    <div ref={goalsTitleRef} className="sec-title">MY GOALS ({goals.length}/100)</div>
-                    <div ref={filterRef} className="filter-bar">
-                        {['All','Active','Done',...CATS].map(f=>(
-                            <button key={f} className={`flt-btn ${filter===f?'on':''}`} onClick={()=>setFilter(f)}>{f}</button>
-                        ))}
-                    </div>
+function toggleGoal(id,e){
+const goal=data.goals.find(g=>g.id===id);if(!goal)return;
+const wasCompleted=goal.completed;
+const newGoals=data.goals.map(g=>g.id===id?{...g,completed:!g.completed,completedAt:!g.completed?new Date().toISOString():null}:g);
+const xpDelta=wasCompleted?-XP_PER_GOAL:XP_PER_GOAL;
+const nd={...data,goals:newGoals,xp:Math.max(0,data.xp+xpDelta)};
+setData(nd);saveData(nd);
+if(!wasCompleted){
+const rect=e.currentTarget.getBoundingClientRect();
+setConfetti({x:rect.left+rect.width/2,y:rect.top+rect.height/2,key:Date.now()});
+}
+}
 
-                    <div className="goals-grid">
-                        {filtered.length>0?filtered.map((g,i)=>(
-                            <GoalCard key={g.id} goal={g} idx={goals.indexOf(g)} onToggle={toggleGoal} onDelete={deleteGoal}/>
-                        )):(
-                            <div className="empty-state">
-                                {goals.length===0?<>YOUR JOURNEY BEGINS HERE.<br/><span className="empty-sub">Tap + to add your first goal</span></>:<>NO GOALS MATCH THIS FILTER.</>}
-                            </div>
-                        )}
-                    </div>
+function deleteGoal(id){
+const newGoals=data.goals.filter(g=>g.id!==id);
+const was=data.goals.find(g=>g.id===id);
+const xpDelta=was&&was.completed?-XP_PER_GOAL:0;
+let nd={...data,goals:newGoals,xp:Math.max(0,data.xp+xpDelta)};
+if(data.weeklyChallenge.goalId===id&&newGoals.length>0){
+const incomplete=newGoals.filter(g=>!g.completed);
+const pool=incomplete.length>0?incomplete:newGoals;
+nd.weeklyChallenge={...nd.weeklyChallenge,goalId:pool[Math.floor(Math.random()*pool.length)].id};
+}
+setData(nd);saveData(nd);
+}
 
-                    <LBoard goals={goals}/>
+function addGoals(texts){
+let nextId=data.goals.length>0?Math.max(...data.goals.map(g=>g.id))+1:1;
+const remaining=100-data.goals.length;
+const newOnes=texts.slice(0,remaining).map((t,i)=>({id:nextId+i,text:t,completed:false,completedAt:null}));
+const nd={...data,goals:[...data.goals,...newOnes]};
+setData(nd);saveData(nd);
+}
 
-                    <div className="footer">100 BEFORE — LIVE FULLY</div>
+const filteredGoals=useMemo(()=>{
+if(filter==='done')return data.goals.filter(g=>g.completed);
+if(filter==='todo')return data.goals.filter(g=>!g.completed);
+return data.goals;
+},[data.goals,filter]);
 
-                    {goals.length<100&&<button className="add-fab" onClick={()=>setModal(true)} aria-label="Add goal">+</button>}
-                    {modal&&<AddModal onClose={()=>setModal(false)} onAdd={addGoal}/>}
-                    {ach!==null&&<Achievement xpGain={ach} onDone={()=>setAch(null)}/>}
-                </div>
-            );
-        }
+// Check if weekly challenge expired
+useEffect(()=>{
+if(new Date(data.weeklyChallenge.end).getTime()<Date.now()){
+const incomplete=data.goals.filter(g=>!g.completed);
+const pool=incomplete.length>0?incomplete:data.goals;
+if(pool.length>0){
+const nd={...data,weeklyChallenge:{
+goalId:pool[Math.floor(Math.random()*pool.length)].id,
+start:new Date().toISOString(),
+end:new Date(Date.now()+7*86400000).toISOString()
+}};
+setData(nd);saveData(nd);
+}}
+},[]);
 
-        // ═══════════════════ APP ═══════════════════
-        function App(){
-            const[phase,setPhase]=useState('intro');
-            const[state,setState]=useState(()=>load()||defaultState());
-            useEffect(()=>{initParticles()},[]);
-            return(
-                <>
-                    {phase==='intro'&&<Intro onDone={()=>setPhase('dash')}/>}
-                    {phase==='dash'&&<Dashboard state={state} setState={setState}/>}
-                </>
-            );
-        }
+return(
+<div className="dashboard">
+<header className="dash-header">
+<div className="dash-logo">100 BEFORE</div>
+<div className="user-pill">
+<div className="user-name">{data.username}</div>
+<div className="user-avatar">{data.username[0]}</div>
+<button className="logout-btn" onClick={onLogout}>Log out</button>
+</div>
+</header>
 
-        const root=ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App/>);
-    </script>
+<div className="dash-content">
+<div className="progress-section">
+<ProgressRing completed={completed} total={total}/>
+<div className="xp-section">
+<div className="xp-level">Level {level} <span>{animXP} XP total</span></div>
+<div className="xp-track"><div className="xp-fill" style={{width:`${(xpInLevel/XP_PER_LEVEL)*100}%`}}/></div>
+<div className="xp-info">{XP_PER_LEVEL-xpInLevel} XP to next level</div>
+<div className="streak-badge">🔥 {animStreak} day streak</div>
+</div>
+</div>
+
+<div className="stats-grid">
+<div className="stat-card">
+<div className="stat-label">Completed</div>
+<div className="stat-value">{animCompleted}</div>
+<div className="stat-sub">of {total} goals</div>
+</div>
+<div className="stat-card">
+<div className="stat-label">Remaining</div>
+<div className="stat-value">{useAnimNum(total-completed)}</div>
+<div className="stat-sub">goals to go</div>
+</div>
+<div className="stat-card">
+<div className="stat-label">Current Level</div>
+<div className="stat-value">{level}</div>
+<div className="stat-sub">{Math.round((xpInLevel/XP_PER_LEVEL)*100)}% to next</div>
+</div>
+<div className="stat-card">
+<div className="stat-label">Streak</div>
+<div className="stat-value">{animStreak}</div>
+<div className="stat-sub">consecutive days</div>
+</div>
+</div>
+
+<WeeklyChallenge challenge={data.weeklyChallenge} goals={data.goals}/>
+
+<div className="goals-header">
+<div>
+<div className="section-title" style={{marginBottom:8}}>Your Goals</div>
+<div style={{display:'flex',gap:8}}>
+{['all','todo','done'].map(f=>(
+<button key={f} onClick={()=>setFilter(f)} style={{
+background:filter===f?'rgba(255,255,255,.1)':'transparent',
+border:`1px solid ${filter===f?'rgba(255,255,255,.15)':'rgba(255,255,255,.06)'}`,
+color:filter===f?'#fff':'rgba(255,255,255,.4)',
+padding:'5px 14px',borderRadius:100,fontSize:12,cursor:'pointer',
+fontFamily:'var(--font-body)',transition:'all .3s'
+}}>{f==='all'?`All (${total})`:f==='todo'?`To Do (${total-completed})`:`Done (${completed})`}</button>
+))}
+</div>
+</div>
+{total<100&&<button className="add-btn" onClick={()=>setModal(true)}>+ Add Goals</button>}
+</div>
+
+<div className="goals-grid">
+{filteredGoals.map((g,i)=>(
+<GoalCard key={g.id} goal={g} index={i} onToggle={toggleGoal} onDelete={deleteGoal}/>
+))}
+</div>
+
+{filteredGoals.length===0&&(
+<div style={{textAlign:'center',padding:'60px 20px',color:'rgba(255,255,255,.25)',fontSize:14}}>
+{filter==='done'?'No completed goals yet. Start checking them off!':'All goals completed! 🎉'}
+</div>
+)}
+</div>
+
+{modal&&<AddGoalModal onAdd={addGoals} onClose={()=>setModal(false)} currentCount={total}/>}
+{confetti&&<Confetti x={confetti.x} y={confetti.y} key={confetti.key} onDone={()=>setConfetti(null)}/>}
+</div>);
+}
+
+/* ===== APP ===== */
+function App(){
+const[phase,setPhase]=useState('intro');
+const[data,setData]=useState(()=>{const d=loadData();return d?updateStreak(d):null;});
+const[fadeClass,setFadeClass]=useState('');
+
+useEffect(()=>{if(data){saveData(data);}},[]);
+
+function handleIntroComplete(){
+setFadeClass('hidden');
+setTimeout(()=>{
+setPhase(data?'dashboard':'login');
+setFadeClass('');
+},600);
+}
+
+function handleLogin(username){
+const d=initData(username);setData(d);saveData(d);
+setFadeClass('hidden');
+setTimeout(()=>{setPhase('dashboard');setFadeClass('');},600);
+}
+
+function handleLogout(){
+localStorage.removeItem(STORAGE_KEY);
+setData(null);
+setFadeClass('hidden');
+setTimeout(()=>{setPhase('login');setFadeClass('');},500);
+}
+
+return(
+<React.Fragment>
+<ParticleCanvas/>
+<div className="bg-grad"/>
+{phase==='intro'&&<IntroSequence onComplete={handleIntroComplete}/>}
+{phase==='login'&&(
+<div className={`screen ${fadeClass}`}>
+<LoginScreen onLogin={handleLogin}/>
+</div>
+)}
+{phase==='dashboard'&&data&&(
+<div className={fadeClass} style={{position:'relative',zIndex:2,opacity:fadeClass?0:1,transition:'opacity .5s'}}>
+<Dashboard data={data} setData={(d)=>{setData(d);saveData(d);}} onLogout={handleLogout}/>
+</div>
+)}
+</React.Fragment>
+);
+}
+
+const root=ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
 </body>
 </html>
