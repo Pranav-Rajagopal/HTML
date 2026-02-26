@@ -2,874 +2,560 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>After-Me</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>100 BEFORE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;color:#333;overflow-x:hidden}
-        button{cursor:pointer;border:none;font-family:inherit}
-        input,textarea,select{font-family:inherit}
-        a{color:inherit;text-decoration:none}
-        #root{min-height:100vh}
-
-        .particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-
-        .floating-shapes{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
-        .shape{position:absolute;border-radius:50%;opacity:.08;background:white}
-        .shape-0{width:80px;height:80px;top:10%;left:10%;animation:float 6s ease-in-out infinite}
-        .shape-1{width:120px;height:120px;top:20%;right:10%;animation:float 8s ease-in-out infinite 1s}
-        .shape-2{width:60px;height:60px;bottom:30%;left:20%;animation:float 7s ease-in-out infinite 2s}
-        .shape-3{width:100px;height:100px;bottom:10%;right:20%;animation:float 9s ease-in-out infinite .5s}
-        .shape-4{width:40px;height:40px;top:50%;left:50%;animation:float 5s ease-in-out infinite 1.5s}
-        .shape-5{width:90px;height:90px;top:70%;left:70%;animation:float 10s ease-in-out infinite 3s}
-
-        @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}33%{transform:translateY(-25px) rotate(5deg)}66%{transform:translateY(15px) rotate(-5deg)}}
-        @keyframes slideIn{from{opacity:0;transform:translateY(40px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-        @keyframes slideDown{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-        @keyframes staggerIn{from{opacity:0;transform:translateY(30px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-        @keyframes shake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-6px)}20%,40%,60%,80%{transform:translateX(6px)}}
-        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-        @keyframes rippleEffect{0%{transform:scale(0);opacity:.5}100%{transform:scale(4);opacity:0}}
-        @keyframes slideUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-        @keyframes bounceIn{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.05)}70%{transform:scale(.9)}100%{transform:scale(1);opacity:1}}
-        @keyframes slideToast{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
-        @keyframes slideToastOut{from{transform:translateX(0);opacity:1}to{transform:translateX(120%);opacity:0}}
-        @keyframes pageEnter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes emojiBounce{0%,100%{transform:scale(1) rotate(0deg)}25%{transform:scale(1.3) rotate(-10deg)}50%{transform:scale(1.1) rotate(5deg)}75%{transform:scale(1.2) rotate(-5deg)}}
-        @keyframes glow{0%,100%{box-shadow:0 0 5px rgba(102,126,234,.3)}50%{box-shadow:0 0 25px rgba(102,126,234,.6),0 0 50px rgba(102,126,234,.2)}}
-        @keyframes modalOpen{from{transform:translateY(40px) scale(.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-        @keyframes modalClose{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(40px) scale(.9);opacity:0}}
-        @keyframes backdropIn{from{opacity:0}to{opacity:1}}
-        @keyframes backdropOut{from{opacity:1}to{opacity:0}}
-        @keyframes cardHover{from{transform:translateY(0)}to{transform:translateY(-10px)}}
-        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-        @keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.15)}28%{transform:scale(1)}42%{transform:scale(1.15)}70%{transform:scale(1)}}
-        @keyframes typeIn{from{width:0}to{width:100%}}
-        @keyframes morphBg{0%,100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%}50%{border-radius:30% 60% 70% 40%/50% 60% 30% 60%}}
-        @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes fadeSlideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
-        @keyframes scaleIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
-        @keyframes wobble{0%{transform:rotate(0deg)}25%{transform:rotate(3deg)}50%{transform:rotate(-3deg)}75%{transform:rotate(1deg)}100%{transform:rotate(0deg)}}
-
-        .animate-in{animation:slideIn .6s cubic-bezier(.16,1,.3,1) forwards}
-        .slide-down{animation:slideDown .5s cubic-bezier(.16,1,.3,1) forwards}
-        .fade-in{animation:fadeIn .5s ease-out forwards}
-        .fade-in-delay{animation:fadeIn .8s ease-out .3s both}
-        .slide-up-1{animation:slideUp .5s cubic-bezier(.16,1,.3,1) .4s both}
-        .slide-up-2{animation:slideUp .5s cubic-bezier(.16,1,.3,1) .6s both}
-        .slide-up-3{animation:slideUp .5s cubic-bezier(.16,1,.3,1) .8s both}
-        .stagger-in{animation:staggerIn .5s cubic-bezier(.16,1,.3,1) both}
-        .shake{animation:shake .5s ease-out}
-        .float-anim{animation:float 3s ease-in-out infinite}
-        .page-enter{animation:pageEnter .4s ease-out}
-        .bounce-in{animation:bounceIn .6s cubic-bezier(.16,1,.3,1) both}
-        .heartbeat{animation:heartbeat 1.5s ease-in-out infinite}
-        .morph{animation:morphBg 8s ease-in-out infinite}
-        .glow-anim{animation:glow 2s ease-in-out infinite}
-        .wobble{animation:wobble .5s ease-out}
-
-        .typewriter{display:inline}
-        .cursor{animation:blink 1s infinite;font-weight:100;color:rgba(255,255,255,.7)}
-
-        .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin .6s linear infinite;margin-right:8px;vertical-align:middle}
-        .spinner-dark{border-color:rgba(0,0,0,.1);border-top-color:#667eea}
-
-        .ripple-btn{position:relative;overflow:hidden;cursor:pointer;border:none;font-family:inherit}
-        .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.4);width:10px;height:10px;transform:translate(-50%,-50%);animation:rippleEffect .6s ease-out;pointer-events:none}
-
-        .toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:10px;pointer-events:none}
-        .toast{padding:14px 20px;border-radius:12px;color:#fff;font-weight:600;display:flex;align-items:center;gap:10px;min-width:280px;max-width:400px;box-shadow:0 10px 40px rgba(0,0,0,.25);animation:slideToast .5s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(10px);pointer-events:auto}
-        .toast-exit{animation:slideToastOut .4s ease-in forwards}
-        .toast-success{background:linear-gradient(135deg,rgba(39,174,96,.95),rgba(46,204,113,.95))}
-        .toast-error{background:linear-gradient(135deg,rgba(231,76,60,.95),rgba(192,57,43,.95))}
-        .toast-info{background:linear-gradient(135deg,rgba(52,152,219,.95),rgba(41,128,185,.95))}
-        .toast-close{background:none;border:none;color:#fff;font-size:1.4em;cursor:pointer;margin-left:auto;opacity:.7;transition:opacity .2s}
-        .toast-close:hover{opacity:1}
-
-        .login-container{display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;position:relative}
-        .login-box{background:white;border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.3);width:100%;max-width:420px;overflow:hidden;position:relative;z-index:1}
-        .logo-section{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);background-size:200% 200%;animation:gradientShift 4s ease infinite;color:#fff;padding:45px 20px;text-align:center;position:relative;overflow:hidden}
-        .logo-section::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.1) 0%,transparent 70%);animation:float 6s ease-in-out infinite}
-        .logo-icon{font-size:3em;margin-bottom:10px;animation:float 3s ease-in-out infinite;display:inline-block}
-        .logo-text{font-size:2.8em;margin-bottom:8px;text-shadow:2px 2px 4px rgba(0,0,0,.2);letter-spacing:1px}
-        .tagline{font-size:1.1em;opacity:.9;min-height:1.5em}
-        .login-content{padding:35px 30px 25px}
-        .intro-text{color:#666;margin-bottom:25px;line-height:1.6;text-align:center;font-size:.95em}
-        .login-form{display:flex;flex-direction:column;gap:20px}
-        .form-group{display:flex;flex-direction:column}
-        .form-group label{margin-bottom:8px;font-weight:600;color:#444;font-size:.95em}
-        .form-group input,.form-group textarea,.form-group select{padding:12px 14px;border:2px solid #e8e8e8;border-radius:10px;font-size:1em;transition:all .3s cubic-bezier(.16,1,.3,1);background:#fafafa}
-        .form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 4px rgba(102,126,234,.1);background:#fff;transform:translateY(-1px)}
-        .input-wrapper{position:relative;display:flex;align-items:center}
-        .input-icon{position:absolute;left:14px;font-size:1.1em;z-index:1}
-        .input-with-icon{padding-left:42px!important}
-        .login-btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);background-size:200% 200%;animation:gradientShift 3s ease infinite;color:#fff;padding:14px 20px;border-radius:10px;font-size:1.1em;font-weight:600;transition:all .3s cubic-bezier(.16,1,.3,1);letter-spacing:.5px}
-        .login-btn:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 12px 35px rgba(102,126,234,.4)}
-        .login-btn:active:not(:disabled){transform:translateY(-1px)}
-        .btn-loading{display:flex;align-items:center;justify-content:center}
-        .error-message{color:#e74c3c;text-align:center;min-height:20px;font-weight:500;margin-top:15px;padding:0 10px}
-        .login-footer{background:#f8f9fa;padding:20px;text-align:center;border-top:1px solid #eee;font-size:.9em;color:#888}
-        .credit{margin-top:8px;font-weight:600;color:#667eea;font-size:.85em}
-
-        .dashboard-container{min-height:100vh;display:flex;flex-direction:column}
-        .dashboard-header{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);box-shadow:0 4px 30px rgba(0,0,0,.08);padding:18px 0;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(0,0,0,.05)}
-        .header-content{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
-        .header-logo{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:1.8em;display:flex;align-items:center;gap:8px}
-        .logo-emoji{-webkit-text-fill-color:initial;font-size:.8em}
-        .header-info{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-        .user-password{color:#666;font-weight:600;padding:8px 14px;background:#f0f0f0;border-radius:8px;font-size:.9em}
-        .access-mode{color:#fff;font-weight:600;padding:8px 16px;border-radius:8px;font-size:.85em;letter-spacing:.5px;transition:all .3s}
-        .access-mode.editor{background:linear-gradient(135deg,#27ae60,#2ecc71)}
-        .access-mode.viewer{background:linear-gradient(135deg,#e67e22,#f39c12)}
-        .logout-btn{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;padding:10px 18px;border-radius:8px;transition:all .3s;font-weight:600;font-size:.9em}
-        .logout-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(231,76,60,.3)}
-
-        .dashboard-main{flex:1;max-width:1200px;margin:0 auto;width:100%;padding:35px 24px}
-        .dashboard-section{background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-radius:20px;padding:35px;box-shadow:0 8px 40px rgba(0,0,0,.08)}
-        .section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;flex-wrap:wrap;gap:16px}
-        .section-title-area{display:flex;align-items:baseline;gap:12px}
-        .section-title-area h2{color:#333;font-size:1.8em}
-        .profile-count{color:#999;font-size:.95em;font-weight:500}
-        .section-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-        .search-box{position:relative;display:flex;align-items:center}
-        .search-icon{position:absolute;left:12px;font-size:1em;z-index:1}
-        .search-input{padding:10px 14px 10px 38px;border:2px solid #e8e8e8;border-radius:10px;font-size:.95em;transition:all .3s;width:200px;background:#fafafa}
-        .search-input:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,.1);width:250px;background:#fff}
-        .filter-select{padding:10px 14px;border:2px solid #e8e8e8;border-radius:10px;font-size:.95em;transition:all .3s;background:#fafafa;cursor:pointer}
-        .filter-select:focus{outline:none;border-color:#667eea}
-
-        .profiles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px}
-        .empty-state{grid-column:1/-1;text-align:center;padding:70px 20px;color:#999}
-        .empty-icon{font-size:4em;margin-bottom:15px;animation:float 3s ease-in-out infinite}
-        .empty-state p{font-size:1.15em;line-height:1.6}
-
-        .profile-card-item{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);transition:all .4s cubic-bezier(.16,1,.3,1);cursor:pointer;position:relative}
-        .profile-card-item:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 20px 50px rgba(0,0,0,.15)}
-        .card-image{width:100%;height:200px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
-        .card-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.16,1,.3,1)}
-        .profile-card-item:hover .card-image img{transform:scale(1.1)}
-        .card-overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;backdrop-filter:blur(2px)}
-        .card-overlay span{color:#fff;font-weight:600;font-size:1.1em;transform:translateY(10px);transition:transform .3s}
-        .profile-card-item:hover .card-overlay{opacity:1}
-        .profile-card-item:hover .card-overlay span{transform:translateY(0)}
-        .no-image{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.5em;transition:transform .3s}
-        .no-image .emoji-bounce{animation:emojiBounce .6s ease-out}
-        .card-content{padding:20px}
-        .card-content h3{color:#333;margin-bottom:8px;font-size:1.3em;transition:color .3s}
-        .profile-card-item:hover .card-content h3{color:#667eea}
-        .theme-badge{display:inline-block;padding:5px 12px;border-radius:20px;font-size:.85em;margin-bottom:10px;font-weight:600}
-        .card-preview{color:#888;font-size:.9em;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-
-        .theme-love{border-top:4px solid #ff6b9d}.theme-love .card-image,.theme-love .no-image{background:linear-gradient(135deg,#ffe0e8,#ffd0dd)}
-        .theme-friend{border-top:4px solid #4ecdc4}.theme-friend .card-image,.theme-friend .no-image{background:linear-gradient(135deg,#e0f7f6,#d0f0ee)}
-        .theme-family{border-top:4px solid #ffa502}.theme-family .card-image,.theme-family .no-image{background:linear-gradient(135deg,#ffe8cc,#ffddb8)}
-        .theme-colleague{border-top:4px solid #2c3e50}.theme-colleague .card-image,.theme-colleague .no-image{background:linear-gradient(135deg,#ecf0f1,#dfe6e9)}
-        .theme-mentor{border-top:4px solid #8e44ad}.theme-mentor .card-image,.theme-mentor .no-image{background:linear-gradient(135deg,#f4e8ff,#eddcff)}
-        .theme-other{border-top:4px solid #f39c12}.theme-other .card-image,.theme-other .no-image{background:linear-gradient(135deg,#fef5e7,#fdebd0)}
-
-        .btn{padding:10px 20px;border-radius:10px;font-weight:600;transition:all .3s cubic-bezier(.16,1,.3,1);cursor:pointer;border:none;font-size:.95em;letter-spacing:.3px}
-        .btn-primary{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(102,126,234,.35)}
-        .btn-secondary{background:#f0f0f0;color:#444}
-        .btn-secondary:hover{background:#e0e0e0;transform:translateY(-1px)}
-        .btn-danger{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff}
-        .btn-danger:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(231,76,60,.35)}
-        .btn-disabled{background:#95a5a6!important;color:#fff;cursor:not-allowed;opacity:.6;transform:none!important;box-shadow:none!important}
-        .add-btn{display:flex;align-items:center;gap:6px}
-        .btn-icon{font-size:1.3em;line-height:1}
-
-        .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:flex;justify-content:center;align-items:center;z-index:1000;animation:backdropIn .3s ease-out;backdrop-filter:blur(4px)}
-        .modal-closing{animation:backdropOut .3s ease-in forwards}
-        .modal-content{background:#fff;border-radius:20px;width:90%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 80px rgba(0,0,0,.3);animation:modalOpen .4s cubic-bezier(.16,1,.3,1)}
-        .modal-content-closing{animation:modalClose .3s ease-in forwards}
-        .modal-header{display:flex;justify-content:space-between;align-items:center;padding:22px 25px;border-bottom:1px solid #f0f0f0}
-        .modal-header h2{color:#333;font-size:1.4em}
-        .close-btn{background:none;font-size:1.8em;cursor:pointer;color:#bbb;transition:all .3s;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-        .close-btn:hover{color:#333;background:#f0f0f0;transform:rotate(90deg)}
-        .profile-form{padding:25px}
-        .profile-form .form-group{margin-bottom:18px}
-        .form-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:10px}
-        .form-actions button{flex:1}
-
-        .image-preview{position:relative;margin-top:10px;border-radius:10px;overflow:hidden;height:120px;width:120px}
-        .image-preview img{width:100%;height:100%;object-fit:cover;border-radius:10px}
-        .remove-image{position:absolute;top:4px;right:4px;background:rgba(231,76,60,.9);color:#fff;border:none;border-radius:50%;width:24px;height:24px;font-size:1em;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
-        .remove-image:hover{transform:scale(1.1)}
-
-        .confirm-delete{padding:25px}
-        .confirm-delete p{margin-bottom:12px;line-height:1.6;font-size:1.05em}
-        .delete-warning{color:#e74c3c;font-weight:600;font-size:.95em!important}
-        .confirm-delete .form-actions{margin-top:20px}
-
-        .profile-container{min-height:100vh;display:flex;flex-direction:column}
-        .profile-header{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 30px rgba(0,0,0,.08);border-bottom:1px solid rgba(0,0,0,.05)}
-        .profile-header h1{background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:1.6em}
-        .back-btn{background:#f0f0f0;padding:10px 20px;border-radius:10px;cursor:pointer;transition:all .3s;font-weight:600;font-size:.95em;border:none}
-        .back-btn:hover{background:#e0e0e0;transform:translateX(-3px)}
-        .profile-main{flex:1;display:flex;justify-content:center;align-items:center;padding:40px 24px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);position:relative;overflow:hidden}
-        .profile-main::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(255,255,255,.05) 0%,transparent 50%);animation:float 10s ease-in-out infinite}
-        .profile-display{background:#fff;border-radius:20px;overflow:hidden;width:100%;max-width:720px;box-shadow:0 25px 80px rgba(0,0,0,.3);position:relative;z-index:1}
-        .profile-image-section{width:100%;height:300px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
-        .profile-image{width:100%;height:100%;object-fit:cover}
-        .profile-no-image{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
-        .profile-emoji-large{font-size:5em;display:inline-block}
-        .profile-info-section{padding:40px}
-        .profile-info-section h2{color:#333;font-size:2em;margin-bottom:10px}
-        .profile-name-animated{animation:fadeSlideIn .5s ease-out .2s both}
-        .profile-theme-badge{display:inline-block;padding:8px 18px;border-radius:20px;font-weight:600;margin-bottom:28px;font-size:1em}
-        .profile-message{margin-bottom:30px;animation:fadeIn .5s ease-out .4s both}
-        .profile-message h3{color:#444;margin-bottom:15px;font-size:1.25em;display:flex;align-items:center;gap:8px}
-        .profile-message p{color:#666;line-height:1.9;font-size:1.05em}
-        .profile-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:28px;animation:fadeIn .5s ease-out .6s both}
-        .profile-actions .btn{flex:1;min-width:140px;text-align:center}
-        .profile-meta{display:flex;gap:20px;padding-top:20px;border-top:1px solid #f0f0f0;color:#aaa;font-size:.9em;flex-wrap:wrap}
-
-        .theme-love .profile-image-section,.theme-love .profile-no-image{background:linear-gradient(135deg,#ffe0e8,#ffd0dd)}
-        .theme-love .profile-theme-badge{background:#ffe0e8;color:#ff6b9d}
-        .theme-friend .profile-image-section,.theme-friend .profile-no-image{background:linear-gradient(135deg,#e0f7f6,#d0f0ee)}
-        .theme-friend .profile-theme-badge{background:#e0f7f6;color:#4ecdc4}
-        .theme-family .profile-image-section,.theme-family .profile-no-image{background:linear-gradient(135deg,#ffe8cc,#ffddb8)}
-        .theme-family .profile-theme-badge{background:#ffe8cc;color:#ffa502}
-        .theme-colleague .profile-image-section,.theme-colleague .profile-no-image{background:linear-gradient(135deg,#ecf0f1,#dfe6e9)}
-        .theme-colleague .profile-theme-badge{background:#ecf0f1;color:#2c3e50}
-        .theme-mentor .profile-image-section,.theme-mentor .profile-no-image{background:linear-gradient(135deg,#f4e8ff,#eddcff)}
-        .theme-mentor .profile-theme-badge{background:#f4e8ff;color:#8e44ad}
-        .theme-other .profile-image-section,.theme-other .profile-no-image{background:linear-gradient(135deg,#fef5e7,#fdebd0)}
-        .theme-other .profile-theme-badge{background:#fef5e7;color:#f39c12}
-
-        .not-found{text-align:center;padding:60px;color:#fff}
-        .not-found h2{margin-bottom:20px;font-size:1.8em}
-
-        .scroll-custom::-webkit-scrollbar{width:6px}
-        .scroll-custom::-webkit-scrollbar-track{background:transparent}
-        .scroll-custom::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
-        .modal-content::-webkit-scrollbar{width:6px}
-        .modal-content::-webkit-scrollbar-track{background:transparent}
-        .modal-content::-webkit-scrollbar-thumb{background:#ddd;border-radius:3px}
-
-        @media(max-width:768px){
-            .section-header{flex-direction:column;align-items:stretch}
-            .section-controls{flex-direction:column}
-            .search-input,.search-input:focus{width:100%}
-            .filter-select{width:100%}
-            .profiles-grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
-            .modal-content{width:95%;max-height:95vh}
-            .profile-info-section{padding:25px}
-            .profile-image-section{height:220px}
-            .header-content{flex-direction:column;gap:14px}
-            .header-info{flex-direction:column;width:100%;align-items:stretch;text-align:center}
-            .header-info>*{justify-content:center}
-            .profile-actions{flex-direction:column}
-            .profile-actions .btn{width:100%}
-            .profile-header{flex-wrap:wrap;gap:10px;justify-content:center}
-        }
-        @media(max-width:480px){
-            .header-logo{font-size:1.4em}
-            .profiles-grid{grid-template-columns:1fr}
-            .profile-info-section{padding:20px}
-            .form-actions{flex-direction:column}
-            .form-actions button{width:100%}
-            .dashboard-section{padding:20px}
-            .section-title-area h2{font-size:1.4em}
-            .login-content{padding:25px 20px 20px}
-            .logo-text{font-size:2.2em}
-        }
+        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+        body{background:#050508;color:#e8e8f0;font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;min-height:100vh}
+        #root{min-height:100vh;position:relative}
+        #particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+        #confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:500;pointer-events:none}
+        .body-gradient{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 20% 50%,rgba(0,80,180,0.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(255,80,0,0.04) 0%,transparent 50%);z-index:0;pointer-events:none}
+        .intro-container{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000;background:#000}
+        .intro-progress-wrap{width:min(320px,80vw);height:3px;background:rgba(255,255,255,0.06);border-radius:4px;margin-bottom:50px;overflow:hidden;opacity:0}
+        .intro-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#00d4ff,#0088ff,#ff6a00);border-radius:4px;box-shadow:0 0 24px rgba(0,180,255,0.45)}
+        .intro-text-line{font-family:'Orbitron',sans-serif;font-size:clamp(1rem,2.8vw,1.6rem);letter-spacing:.35em;text-align:center;margin-bottom:8px;opacity:0;color:rgba(255,255,255,0.85)}
+        .intro-title{font-family:'Orbitron',sans-serif;font-size:clamp(2.2rem,8vw,5.5rem);font-weight:900;letter-spacing:.18em;text-align:center;opacity:0;background:linear-gradient(135deg,#00d4ff 0%,#ffffff 40%,#ff6a00 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 40px rgba(0,180,255,0.25)) drop-shadow(0 0 80px rgba(255,100,0,0.15))}
+        .g-char{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(25px)}
+        .dashboard-wrap{position:relative;z-index:1;padding:20px;max-width:1400px;margin:0 auto;opacity:0;padding-bottom:100px}
+        .hdr{display:flex;align-items:center;justify-content:space-between;padding:24px 0 30px;flex-wrap:wrap;gap:12px}
+        .hdr-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:800;background:linear-gradient(135deg,#00d4ff,#ff6a00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.08em}
+        .hdr-right{display:flex;gap:14px;align-items:center}
+        .glass{background:rgba(255,255,255,0.025);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:28px;transition:all .4s cubic-bezier(.4,0,.2,1)}
+        .glass:hover{border-color:rgba(0,180,255,0.15);box-shadow:0 8px 40px rgba(0,120,255,0.06)}
+        .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:28px}
+        @media(max-width:840px){.stats-row{grid-template-columns:1fr}}
+        .ring-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+        .ring-svg{transform:rotate(-90deg)}
+        .ring-bg{stroke:rgba(255,255,255,0.04)}
+        .ring-fill{transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);filter:drop-shadow(0 0 10px rgba(0,200,255,0.4))}
+        .ring-center{position:absolute;text-align:center;top:50%;left:50%;transform:translate(-50%,-50%)}
+        .ring-num{font-family:'Orbitron',sans-serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:#00d4ff}
+        .ring-lbl{font-size:.72rem;color:rgba(255,255,255,0.35);letter-spacing:.18em;text-transform:uppercase;margin-top:2px}
+        .xp-wrap{display:flex;flex-direction:column;justify-content:center;gap:8px}
+        .lvl-badge{display:inline-flex;align-items:center;gap:8px;font-family:'Orbitron',sans-serif;font-weight:700;font-size:1rem;color:#ff6a00;padding:8px 18px;border:1px solid rgba(255,100,0,0.25);border-radius:30px;background:rgba(255,100,0,0.06);animation:lvlGlow 3s ease-in-out infinite;width:fit-content}
+        @keyframes lvlGlow{0%,100%{box-shadow:0 0 8px rgba(255,100,0,0.08)}50%{box-shadow:0 0 28px rgba(255,100,0,0.2)}}
+        .xp-bar-outer{width:100%;height:10px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden}
+        .xp-bar-inner{height:100%;background:linear-gradient(90deg,#00d4ff,#0055ff,#ff6a00);border-radius:6px;transition:width 1s cubic-bezier(.4,0,.2,1);box-shadow:0 0 14px rgba(0,180,255,0.35);position:relative}
+        .xp-bar-inner::after{content:'';position:absolute;top:0;right:0;width:40px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25));animation:shimmer 2.5s infinite}
+        @keyframes shimmer{0%,100%{opacity:0}50%{opacity:1}}
+        .xp-labels{display:flex;justify-content:space-between;font-size:.7rem;color:rgba(255,255,255,0.25);font-family:'Orbitron',sans-serif}
+        .streak-box{display:flex;align-items:center;gap:16px}
+        .streak-flame{font-size:2.6rem;animation:flameDance 1.2s ease-in-out infinite}
+        @keyframes flameDance{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.12) rotate(4deg)}}
+        .streak-num{font-family:'Orbitron',sans-serif;font-size:2.4rem;font-weight:900;color:#ff6a00;line-height:1}
+        .streak-lbl{font-size:.72rem;color:rgba(255,255,255,0.3);letter-spacing:.18em;text-transform:uppercase}
+        .sec-title{font-family:'Orbitron',sans-serif;font-size:clamp(.9rem,1.8vw,1.15rem);font-weight:700;letter-spacing:.16em;margin-bottom:18px;display:flex;align-items:center;gap:12px;opacity:0;transform:translateY(15px)}
+        .sec-title::before{content:'';width:4px;height:22px;background:linear-gradient(180deg,#00d4ff,#ff6a00);border-radius:3px;flex-shrink:0}
+        .challenge-card{background:linear-gradient(135deg,rgba(255,100,0,0.06),rgba(0,180,255,0.06));border:1px solid rgba(255,100,0,0.12);border-radius:22px;padding:30px;position:relative;overflow:hidden;margin-bottom:34px;opacity:0;transform:translateY(20px)}
+        .challenge-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(0,180,255,0.04),transparent,rgba(255,100,0,0.04),transparent);animation:cRot 12s linear infinite}
+        @keyframes cRot{to{transform:rotate(360deg)}}
+        .challenge-inner{position:relative;z-index:1}
+        .challenge-tag{font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:.35em;color:#ff6a00;margin-bottom:10px}
+        .challenge-text{font-size:1.15rem;font-weight:600;margin-bottom:18px;line-height:1.5}
+        .cd-row{display:flex;gap:18px}
+        .cd-item{text-align:center}
+        .cd-num{font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:700;color:#00d4ff}
+        .cd-lbl{font-size:.58rem;color:rgba(255,255,255,0.25);letter-spacing:.18em;text-transform:uppercase}
+        .filter-bar{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;opacity:0;transform:translateY(10px)}
+        .flt-btn{padding:6px 15px;border-radius:22px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:rgba(255,255,255,0.35);font-size:.72rem;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif;white-space:nowrap}
+        .flt-btn:hover{border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.6)}
+        .flt-btn.on{border-color:#00d4ff;color:#00d4ff;background:rgba(0,180,255,0.08)}
+        .goals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;margin-bottom:40px}
+        @media(max-width:640px){.goals-grid{grid-template-columns:1fr}}
+        .goal-card{background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:20px 20px 38px;cursor:pointer;transition:transform .35s cubic-bezier(.4,0,.2,1),border-color .35s,box-shadow .35s;position:relative;overflow:hidden;opacity:0;transform:translateY(18px)}
+        .goal-card:hover{border-color:rgba(0,180,255,0.18);box-shadow:0 12px 44px rgba(0,0,0,0.35)}
+        .goal-card.done{border-color:rgba(0,255,120,0.15);background:rgba(0,255,120,0.02)}
+        .goal-card.done .g-text{text-decoration:line-through;opacity:.4}
+        .g-idx{font-family:'Orbitron',sans-serif;font-size:.65rem;color:rgba(255,255,255,0.15);letter-spacing:.22em;margin-bottom:8px}
+        .g-text{font-size:.95rem;line-height:1.55;color:rgba(255,255,255,0.82);transition:all .3s;padding-right:36px}
+        .g-cat{display:inline-block;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-top:12px}
+        .g-check{position:absolute;right:16px;top:16px;width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;transition:all .35s;font-size:13px;font-weight:700;color:transparent}
+        .g-check.on{background:linear-gradient(135deg,#00ff88,#00d4ff);border-color:transparent;box-shadow:0 0 18px rgba(0,255,120,0.25);color:#000}
+        .g-del{position:absolute;right:16px;bottom:12px;background:none;border:none;color:rgba(255,255,255,0.1);cursor:pointer;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;transition:color .3s;font-family:'Inter',sans-serif;padding:4px}
+        .g-del:hover{color:#ff4455}
+        .lb-list{display:flex;flex-direction:column;gap:10px;margin-bottom:40px}
+        .lb-entry{display:flex;align-items:center;gap:14px;padding:14px 18px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.04);border-radius:14px;transition:all .35s;opacity:0;transform:translateX(-25px)}
+        .lb-entry.t1{border-color:rgba(255,215,0,0.22);background:rgba(255,215,0,0.025)}
+        .lb-entry.t2{border-color:rgba(192,192,192,0.2);background:rgba(192,192,192,0.02)}
+        .lb-entry.t3{border-color:rgba(205,127,50,0.2);background:rgba(205,127,50,0.02)}
+        .lb-entry.me{border-color:rgba(0,180,255,0.25);background:rgba(0,180,255,0.03)}
+        .lb-rank{font-family:'Orbitron',sans-serif;font-weight:700;font-size:1rem;width:36px;text-align:center;flex-shrink:0}
+        .lb-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0}
+        .lb-name{flex:1;font-weight:500;font-size:.9rem}
+        .lb-goals{font-family:'Orbitron',sans-serif;font-size:.8rem;color:#00d4ff;flex-shrink:0}
+        .add-fab{position:fixed;bottom:28px;right:28px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#00d4ff,#0055ff);border:none;color:#fff;font-size:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;transition:all .35s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 24px rgba(0,140,255,0.35);line-height:1}
+        .add-fab:hover{transform:scale(1.18) rotate(90deg);box-shadow:0 6px 36px rgba(0,140,255,0.55)}
+        .modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.65);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0}
+        .modal-body{background:linear-gradient(180deg,#14142a,#0a0a14);border:1px solid rgba(255,255,255,0.07);border-radius:26px 26px 0 0;padding:36px 32px 44px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;transform:translateY(100%)}
+        .modal-title{font-family:'Orbitron',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:28px;letter-spacing:.12em}
+        .inp-grp{margin-bottom:22px}
+        .inp-lbl{display:block;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:8px}
+        .inp-field{width:100%;padding:14px 18px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.08);border-radius:14px;color:#fff;font-family:'Inter',sans-serif;font-size:.95rem;outline:none;transition:all .35s}
+        .inp-field:focus{border-color:#00d4ff;box-shadow:0 0 24px rgba(0,180,255,0.12);background:rgba(0,180,255,0.025)}
+        .inp-field::placeholder{color:rgba(255,255,255,0.15)}
+        .cat-grid{display:flex;flex-wrap:wrap;gap:8px}
+        .cat-btn{padding:7px 15px;border-radius:22px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:rgba(255,255,255,0.4);font-size:.75rem;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif}
+        .cat-btn.on{border-color:#00d4ff;color:#00d4ff;background:rgba(0,180,255,0.08)}
+        .submit-btn{width:100%;padding:16px;border:none;border-radius:16px;background:linear-gradient(135deg,#00d4ff,#0055ff);color:#fff;font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.18em;cursor:pointer;transition:all .35s;margin-top:8px}
+        .submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,140,255,0.4)}
+        .submit-btn:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+        .ach-overlay{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:400;pointer-events:none}
+        .ach-card{background:linear-gradient(135deg,rgba(0,180,255,0.12),rgba(255,100,0,0.12));backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid rgba(0,180,255,0.25);border-radius:22px;padding:36px 52px;text-align:center;box-shadow:0 0 80px rgba(0,180,255,0.15);opacity:0;transform:scale(.5) translateY(30px)}
+        .ach-icon{font-size:3rem;margin-bottom:12px;display:block}
+        .ach-title{font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:.35em;color:#00d4ff;margin-bottom:6px}
+        .ach-xp{font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:800;color:#ff6a00}
+        .empty-state{grid-column:1/-1;text-align:center;padding:70px 20px;color:rgba(255,255,255,0.15);font-family:'Orbitron',sans-serif;font-size:.85rem;letter-spacing:.22em;line-height:2.2}
+        .empty-sub{font-size:.7rem;color:rgba(255,255,255,0.08);letter-spacing:.15em}
+        .footer{text-align:center;padding:50px 0 30px;color:rgba(255,255,255,0.06);font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.35em}
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:34px}
+        @media(max-width:768px){.two-col{grid-template-columns:1fr}}
+        ::-webkit-scrollbar{width:5px}
+        ::-webkit-scrollbar-track{background:transparent}
+        ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:4px}
+        ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.15)}
+        @media(max-width:480px){.glass{padding:20px;border-radius:16px}.hdr{padding:16px 0 20px}.stats-row{gap:12px}.goals-grid{gap:10px}.goal-card{padding:16px 16px 34px}}
     </style>
 </head>
 <body>
+    <div class="body-gradient"></div>
+    <canvas id="particle-canvas"></canvas>
+    <canvas id="confetti-canvas"></canvas>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef, useCallback, useMemo, Fragment } = React;
+        const {useState,useEffect,useRef,useCallback,useMemo,memo}=React;
 
-        // ═══════════════════════════════════
-        // CONSTANTS
-        // ═══════════════════════════════════
-        const PASSWORDS = { editor: 'family2026', viewer: 'legacy2026' };
-        const STORAGE_KEY = 'afterMeProfiles';
-        const THEMES = {
-            love:      { name: 'Love',      emoji: '❤️',          color: '#ff6b9d', bg: '#ffe0e8' },
-            friend:    { name: 'Friend',    emoji: '👥',          color: '#4ecdc4', bg: '#e0f7f6' },
-            family:    { name: 'Family',    emoji: '👨‍👩‍👧‍👦', color: '#ffa502', bg: '#ffe8cc' },
-            colleague: { name: 'Colleague', emoji: '💼',          color: '#2c3e50', bg: '#ecf0f1' },
-            mentor:    { name: 'Mentor',    emoji: '🎓',          color: '#8e44ad', bg: '#f4e8ff' },
-            other:     { name: 'Other',     emoji: '⭐',          color: '#f39c12', bg: '#fef5e7' }
-        };
+        // ═══════════════════ CONSTANTS ═══════════════════
+        const CATS=['Travel','Career','Personal','Adventure','Creative','Social','Health','Learning'];
+        const CAT_CLR={Travel:'#00d4ff',Career:'#ff6a00',Personal:'#a855f7',Adventure:'#ef4444',Creative:'#f59e0b',Social:'#10b981',Health:'#ec4899',Learning:'#6366f1'};
+        const CHALLENGES=["Complete a goal you've been putting off","Add 5 new ambitious goals","Complete a goal from your weakest category","Finish something in the Adventure category","Maintain a 7-day completion streak","Complete 3 goals this week","Do something that genuinely scares you"];
+        const FAKE_LB=[
+            {name:'Phoenix',av:'PX',goals:87},{name:'Nexus',av:'NX',goals:73},{name:'Cipher',av:'CP',goals:68},
+            {name:'Vortex',av:'VX',goals:54},{name:'Zenith',av:'ZN',goals:49},{name:'Pulse',av:'PL',goals:42},
+            {name:'Nova',av:'NV',goals:38},{name:'Echo',av:'EC',goals:31}
+        ];
 
-        // ═══════════════════════════════════
-        // PARTICLE BACKGROUND
-        // ═══════════════════════════════════
-        function ParticleBackground() {
-            const canvasRef = useRef(null);
-            useEffect(() => {
-                const canvas = canvasRef.current;
-                const ctx = canvas.getContext('2d');
-                let animId, particles = [], mouse = { x: -999, y: -999 };
-                const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-                resize();
-                window.addEventListener('resize', resize);
-                const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
-                window.addEventListener('mousemove', onMove);
-                for (let i = 0; i < 60; i++) {
-                    particles.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        size: Math.random() * 2.5 + .8,
-                        speedX: (Math.random() - .5) * .4,
-                        speedY: (Math.random() - .5) * .4,
-                        opacity: Math.random() * .4 + .15
-                    });
+        // ═══════════════════ PERSISTENCE ═══════════════════
+        const load=()=>{try{const d=localStorage.getItem('hb_state');return d?JSON.parse(d):null}catch(e){return null}};
+        const save=(s)=>localStorage.setItem('hb_state',JSON.stringify(s));
+        const defaultState=()=>({goals:[],xp:0,streak:{cur:0,last:null}});
+        const getLevel=(xp)=>Math.floor(xp/500)+1;
+        const xpInLevel=(xp)=>{const l=getLevel(xp);return{progress:((xp-(l-1)*500)/500)*100,needed:l*500,current:xp-(l-1)*500}};
+
+        // ═══════════════════ PARTICLES ═══════════════════
+        function initParticles(){
+            const c=document.getElementById('particle-canvas');if(!c)return;
+            const ctx=c.getContext('2d');let ps=[];let id;
+            const resize=()=>{c.width=window.innerWidth;c.height=window.innerHeight};
+            resize();window.addEventListener('resize',resize);
+            class P{
+                constructor(){this.reset()}
+                reset(){this.x=Math.random()*c.width;this.y=Math.random()*c.height;this.s=Math.random()*1.8+.4;this.vx=(Math.random()-.5)*.25;this.vy=(Math.random()-.5)*.25;this.o=Math.random()*.4+.08;this.clr=Math.random()>.6?'0,200,255':'255,100,0'}
+                update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>c.width)this.vx*=-1;if(this.y<0||this.y>c.height)this.vy*=-1}
+                draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,Math.PI*2);ctx.fillStyle=`rgba(${this.clr},${this.o})`;ctx.fill()}
+            }
+            const count=Math.min(90,Math.floor(window.innerWidth*window.innerHeight/15000));
+            for(let i=0;i<count;i++)ps.push(new P());
+            function loop(){
+                ctx.clearRect(0,0,c.width,c.height);
+                for(let i=0;i<ps.length;i++){ps[i].update();ps[i].draw();
+                    for(let j=i+1;j<ps.length;j++){const dx=ps[i].x-ps[j].x,dy=ps[i].y-ps[j].y,d=Math.sqrt(dx*dx+dy*dy);
+                        if(d<110){ctx.beginPath();ctx.moveTo(ps[i].x,ps[i].y);ctx.lineTo(ps[j].x,ps[j].y);ctx.strokeStyle=`rgba(0,180,255,${.04*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke()}
+                    }
                 }
-                const animate = () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    particles.forEach((p, i) => {
-                        const dx = mouse.x - p.x, dy = mouse.y - p.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 120) {
-                            p.x -= dx * .01;
-                            p.y -= dy * .01;
-                        }
-                        p.x += p.speedX; p.y += p.speedY;
-                        if (p.x < 0) p.x = canvas.width;
-                        if (p.x > canvas.width) p.x = 0;
-                        if (p.y < 0) p.y = canvas.height;
-                        if (p.y > canvas.height) p.y = 0;
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(255,255,255,${p.opacity})`;
-                        ctx.fill();
-                        for (let j = i + 1; j < particles.length; j++) {
-                            const p2 = particles[j];
-                            const d = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
-                            if (d < 130) {
-                                ctx.beginPath();
-                                ctx.moveTo(p.x, p.y);
-                                ctx.lineTo(p2.x, p2.y);
-                                ctx.strokeStyle = `rgba(255,255,255,${.08 * (1 - d / 130)})`;
-                                ctx.lineWidth = .5;
-                                ctx.stroke();
-                            }
-                        }
-                    });
-                    animId = requestAnimationFrame(animate);
-                };
-                animate();
-                return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize); window.removeEventListener('mousemove', onMove); };
-            }, []);
-            return <canvas ref={canvasRef} className="particle-canvas" />;
+                id=requestAnimationFrame(loop);
+            }
+            loop();
+            return()=>{cancelAnimationFrame(id);window.removeEventListener('resize',resize)};
         }
 
-        // ═══════════════════════════════════
-        // FLOATING SHAPES
-        // ═══════════════════════════════════
-        function FloatingShapes() {
-            return (
-                <div className="floating-shapes">
-                    {[...Array(6)].map((_, i) => <div key={i} className={`shape shape-${i}`} />)}
+        // ═══════════════════ CONFETTI ═══════════════════
+        function boom(){
+            const c=document.getElementById('confetti-canvas');if(!c)return;
+            const ctx=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;
+            const ps=[];const clrs=['#00d4ff','#ff6a00','#00ff88','#a855f7','#f59e0b','#fff','#ec4899'];
+            for(let i=0;i<120;i++){
+                ps.push({x:c.width/2+(Math.random()-.5)*160,y:c.height/2-40,vx:(Math.random()-.5)*18,vy:Math.random()*-18-4,
+                    sz:Math.random()*7+3,clr:clrs[Math.floor(Math.random()*clrs.length)],rot:Math.random()*360,rv:(Math.random()-.5)*12,g:.35,o:1,d:.012+Math.random()*.008});
+            }
+            let id;
+            function run(){
+                ctx.clearRect(0,0,c.width,c.height);let alive=false;
+                ps.forEach(p=>{if(p.o<=0)return;alive=true;p.x+=p.vx;p.vy+=p.g;p.y+=p.vy;p.rot+=p.rv;p.o-=p.d;p.vx*=.99;
+                    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.globalAlpha=Math.max(0,p.o);ctx.fillStyle=p.clr;
+                    ctx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz*.55);ctx.restore()});
+                if(alive)id=requestAnimationFrame(run);else ctx.clearRect(0,0,c.width,c.height);
+            }
+            run();
+        }
+
+        // ═══════════════════ ANIMATED COUNTER ═══════════════════
+        const AnimNum=memo(({val,dur=1.2,className=''})=>{
+            const[disp,setDisp]=useState(0);const prev=useRef(0);
+            useEffect(()=>{
+                const s=prev.current,e=val,st=performance.now(),ms=dur*1000;
+                let id;
+                function tick(now){const p=Math.min((now-st)/ms,1);const ez=1-Math.pow(1-p,3);setDisp(Math.round(s+(e-s)*ez));if(p<1)id=requestAnimationFrame(tick);else prev.current=e}
+                id=requestAnimationFrame(tick);return()=>cancelAnimationFrame(id);
+            },[val]);
+            return <span className={className}>{disp}</span>;
+        });
+
+        // ═══════════════════ SCROLL REVEAL ═══════════════════
+        function useReveal(delay=0){
+            const ref=useRef(null);
+            useEffect(()=>{
+                if(!ref.current)return;
+                const obs=new IntersectionObserver(([e])=>{
+                    if(e.isIntersecting){gsap.to(ref.current,{opacity:1,y:0,duration:.7,ease:'power3.out',delay});obs.disconnect()}
+                },{threshold:.15});
+                obs.observe(ref.current);return()=>obs.disconnect();
+            },[]);
+            return ref;
+        }
+
+        // ═══════════════════ INTRO ═══════════════════
+        function Intro({onDone}){
+            const box=useRef(null),bar=useRef(null),fill=useRef(null),t1=useRef(null),t2=useRef(null),ttl=useRef(null);
+            useEffect(()=>{
+                const tl=gsap.timeline({onComplete:()=>{gsap.to(box.current,{opacity:0,scale:1.08,duration:.7,ease:'power2.inOut',onComplete:onDone})}});
+                tl.to({},{}); // tiny pause
+                tl.to(bar.current,{opacity:1,duration:.4});
+                tl.to(fill.current,{width:'100%',duration:2.2,ease:'power1.inOut'});
+                tl.add(()=>{if(t1.current){const ch=t1.current.querySelectorAll('.g-char');gsap.set(t1.current,{opacity:1});gsap.fromTo(ch,{opacity:0,y:28,filter:'blur(14px)',scale:.85},{opacity:1,y:0,filter:'blur(0px)',scale:1,stagger:.035,duration:.5,ease:'back.out(1.5)'})}},'-=.6');
+                tl.add(()=>{if(t2.current){const ch=t2.current.querySelectorAll('.g-char');gsap.set(t2.current,{opacity:1});gsap.fromTo(ch,{opacity:0,y:28,filter:'blur(14px)',scale:.85},{opacity:1,y:0,filter:'blur(0px)',scale:1,stagger:.035,duration:.5,ease:'back.out(1.5)'})}},'-=.1');
+                tl.to([t1.current,t2.current],{opacity:0,y:-18,duration:.45,delay:.9,ease:'power2.in'});
+                tl.to(bar.current,{opacity:0,duration:.3},'-=.4');
+                tl.add(()=>{if(ttl.current){const ch=ttl.current.querySelectorAll('.g-char');gsap.set(ttl.current,{opacity:1});gsap.fromTo(ch,{opacity:0,y:55,filter:'blur(22px)',scale:1.35},{opacity:1,y:0,filter:'blur(0px)',scale:1,stagger:.09,duration:.85,ease:'expo.out'})}});
+                tl.to({},{duration:1.1});
+                return()=>tl.kill();
+            },[]);
+            const chars=t=>t.split('').map((c,i)=><span key={i} className="g-char">{c===' '?'\u00A0':c}</span>);
+            return(
+                <div ref={box} className="intro-container">
+                    <div ref={bar} className="intro-progress-wrap"><div ref={fill} className="intro-progress-fill"></div></div>
+                    <div ref={t1} className="intro-text-line">{chars("DON'T JUST EXIST.")}</div>
+                    <div ref={t2} className="intro-text-line" style={{marginBottom:48}}>{chars("COMPLETE YOUR 100.")}</div>
+                    <div ref={ttl} className="intro-title">{chars("100 BEFORE")}</div>
                 </div>
             );
         }
 
-        // ═══════════════════════════════════
-        // TYPEWRITER
-        // ═══════════════════════════════════
-        function Typewriter({ text, speed = 80, delay = 0 }) {
-            const [displayText, setDisplayText] = useState('');
-            const [started, setStarted] = useState(false);
-            useEffect(() => { const t = setTimeout(() => setStarted(true), delay); return () => clearTimeout(t); }, [delay]);
-            useEffect(() => {
-                if (!started) return;
-                let i = 0;
-                const timer = setInterval(() => {
-                    if (i <= text.length) { setDisplayText(text.substring(0, i)); i++; }
-                    else clearInterval(timer);
-                }, speed);
-                return () => clearInterval(timer);
-            }, [text, speed, started]);
-            return <span className="typewriter">{displayText}<span className="cursor">|</span></span>;
+        // ═══════════════════ PROGRESS RING ═══════════════════
+        function ProgressRing({done,total=100}){
+            const r=78,sw=7,nr=r-sw,circ=nr*2*Math.PI,pct=Math.min(done/total,1)*100,off=circ-(pct/100)*circ;
+            return(
+                <div className="ring-wrap glass">
+                    <svg width={r*2} height={r*2} className="ring-svg">
+                        <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#00d4ff"/><stop offset="100%" stopColor="#ff6a00"/></linearGradient></defs>
+                        <circle className="ring-bg" strokeWidth={sw} fill="transparent" r={nr} cx={r} cy={r}/>
+                        <circle className="ring-fill" stroke="url(#rg)" strokeWidth={sw} strokeLinecap="round" fill="transparent" r={nr} cx={r} cy={r}
+                            strokeDasharray={circ} strokeDashoffset={off}/>
+                    </svg>
+                    <div className="ring-center">
+                        <div className="ring-num"><AnimNum val={done}/></div>
+                        <div className="ring-lbl">of {total} goals</div>
+                    </div>
+                </div>
+            );
         }
 
-        // ═══════════════════════════════════
-        // TOAST NOTIFICATIONS
-        // ═══════════════════════════════════
-        function ToastContainer({ toasts, removeToast }) {
-            return (
-                <div className="toast-container">
-                    {toasts.map(t => (
-                        <div key={t.id} className={`toast toast-${t.type}`}>
-                            <span>{t.message}</span>
-                            <button className="toast-close" onClick={() => removeToast(t.id)}>×</button>
+        // ═══════════════════ XP SECTION ═══════════════════
+        function XPSection({xp}){
+            const lv=getLevel(xp),info=xpInLevel(xp);
+            return(
+                <div className="xp-wrap glass">
+                    <div className="lvl-badge">⚡ LEVEL <AnimNum val={lv} dur={.5}/></div>
+                    <div style={{marginTop:14}}>
+                        <div className="xp-bar-outer"><div className="xp-bar-inner" style={{width:`${info.progress}%`}}></div></div>
+                    </div>
+                    <div className="xp-labels"><span><AnimNum val={xp}/> XP</span><span>{lv*500} XP</span></div>
+                    <div style={{marginTop:16,display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+                        <div style={{textAlign:'center'}}><div style={{fontFamily:"'Orbitron'",fontSize:'1.4rem',fontWeight:800,color:'#00d4ff'}}><AnimNum val={lv}/></div><div className="ring-lbl">Level</div></div>
+                        <div style={{textAlign:'center'}}><div style={{fontFamily:"'Orbitron'",fontSize:'1.4rem',fontWeight:800,color:'#ff6a00'}}><AnimNum val={xp}/></div><div className="ring-lbl">Total XP</div></div>
+                    </div>
+                </div>
+            );
+        }
+
+        // ═══════════════════ STREAK ═══════════════════
+        function StreakSection({streak}){
+            return(
+                <div className="glass" style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
+                    <div className="streak-box">
+                        <div className="streak-flame">🔥</div>
+                        <div><div className="streak-num"><AnimNum val={streak.cur} dur={.8}/></div><div className="streak-lbl">Day Streak</div></div>
+                    </div>
+                    <div style={{marginTop:20,display:'flex',gap:6}}>
+                        {[...Array(7)].map((_,i)=>(
+                            <div key={i} style={{flex:1,height:6,borderRadius:3,background:i<streak.cur?'linear-gradient(90deg,#ff6a00,#ff8c00)':'rgba(255,255,255,0.04)',transition:'background .5s',boxShadow:i<streak.cur?'0 0 8px rgba(255,100,0,0.3)':'none'}}/>
+                        ))}
+                    </div>
+                    <div style={{marginTop:18,fontSize:'.72rem',color:'rgba(255,255,255,0.2)',letterSpacing:'.12em'}}>
+                        {streak.cur>=7?'🏆 LEGENDARY STREAK!':streak.cur>=3?'🔥 Keep it going!':'Complete a goal daily to build streaks'}
+                    </div>
+                </div>
+            );
+        }
+
+        // ═══════════════════ WEEKLY CHALLENGE ═══════════════════
+        function Challenge(){
+            const[tl,setTl]=useState({d:0,h:0,m:0,s:0});
+            const ref=useReveal(.1);
+            const ci=useMemo(()=>Math.floor(Date.now()/(7*864e5))%CHALLENGES.length,[]);
+            useEffect(()=>{
+                function eow(){const n=new Date(),e=new Date(n);e.setDate(n.getDate()+(7-n.getDay()));e.setHours(23,59,59,999);return e}
+                const t=setInterval(()=>{const df=eow()-Date.now();if(df<=0)return;
+                    setTl({d:Math.floor(df/864e5),h:Math.floor(df/36e5%24),m:Math.floor(df/6e4%60),s:Math.floor(df/1e3%60)})},1000);
+                return()=>clearInterval(t);
+            },[]);
+            return(
+                <div ref={ref} className="challenge-card">
+                    <div className="challenge-inner">
+                        <div className="challenge-tag">⚡ WEEKLY CHALLENGE</div>
+                        <div className="challenge-text">{CHALLENGES[ci]}</div>
+                        <div className="cd-row">
+                            {[['d','Days'],['h','Hrs'],['m','Min'],['s','Sec']].map(([k,l])=>(
+                                <div key={k} className="cd-item"><div className="cd-num">{String(tl[k]).padStart(2,'0')}</div><div className="cd-lbl">{l}</div></div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-            );
-        }
-
-        // ═══════════════════════════════════
-        // ANIMATED COUNTER
-        // ═══════════════════════════════════
-        function AnimatedCounter({ end, duration = 800 }) {
-            const [count, setCount] = useState(0);
-            useEffect(() => {
-                const start = Date.now();
-                const timer = setInterval(() => {
-                    const p = Math.min((Date.now() - start) / duration, 1);
-                    setCount(Math.floor((1 - Math.pow(1 - p, 3)) * end));
-                    if (p >= 1) clearInterval(timer);
-                }, 16);
-                return () => clearInterval(timer);
-            }, [end, duration]);
-            return <span>{count}</span>;
-        }
-
-        // ═══════════════════════════════════
-        // RIPPLE BUTTON
-        // ═══════════════════════════════════
-        function RippleButton({ children, className = '', onClick, disabled, type = 'button', style }) {
-            const [ripples, setRipples] = useState([]);
-            const handleClick = (e) => {
-                if (disabled) return;
-                const rect = e.currentTarget.getBoundingClientRect();
-                const id = Date.now();
-                setRipples(prev => [...prev, { x: e.clientX - rect.left, y: e.clientY - rect.top, id }]);
-                setTimeout(() => setRipples(prev => prev.filter(r => r.id !== id)), 600);
-                if (onClick) onClick(e);
-            };
-            return (
-                <button type={type} className={`ripple-btn ${className} ${disabled ? 'btn-disabled' : ''}`}
-                    onClick={handleClick} disabled={disabled} style={style}>
-                    {children}
-                    {ripples.map(r => <span key={r.id} className="ripple" style={{ left: r.x, top: r.y }} />)}
-                </button>
-            );
-        }
-
-        // ═══════════════════════════════════
-        // MODAL
-        // ═══════════════════════════════════
-        function Modal({ isOpen, onClose, title, children }) {
-            const [closing, setClosing] = useState(false);
-            const handleClose = useCallback(() => {
-                setClosing(true);
-                setTimeout(() => { setClosing(false); onClose(); }, 300);
-            }, [onClose]);
-            useEffect(() => {
-                if (!isOpen) return;
-                const esc = (e) => { if (e.key === 'Escape') handleClose(); };
-                window.addEventListener('keydown', esc);
-                return () => window.removeEventListener('keydown', esc);
-            }, [isOpen, handleClose]);
-            if (!isOpen) return null;
-            return (
-                <div className={`modal ${closing ? 'modal-closing' : ''}`} onClick={handleClose}>
-                    <div className={`modal-content ${closing ? 'modal-content-closing' : ''}`} onClick={e => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h2>{title}</h2>
-                            <button className="close-btn" onClick={handleClose}>×</button>
-                        </div>
-                        {children}
                     </div>
                 </div>
             );
         }
 
-        // ═══════════════════════════════════
-        // PROFILE FORM
-        // ═══════════════════════════════════
-        function ProfileForm({ profile, onSave, onCancel }) {
-            const [name, setName] = useState(profile?.name || '');
-            const [theme, setTheme] = useState(profile?.theme || '');
-            const [message, setMessage] = useState(profile?.message || '');
-            const [image, setImage] = useState(profile?.image || null);
-            const [saving, setSaving] = useState(false);
+        // ═══════════════════ LEADERBOARD ═══════════════════
+        function LBoard({goals}){
+            const ref=useRef(null);const titleRef=useReveal(.05);
+            const done=goals.filter(g=>g.completed).length;
+            const all=useMemo(()=>{
+                const e=[...FAKE_LB,{name:'You',av:'ME',goals:done}];return e.sort((a,b)=>b.goals-a.goals);
+            },[done]);
+            useEffect(()=>{
+                if(!ref.current)return;
+                const obs=new IntersectionObserver(([e])=>{
+                    if(e.isIntersecting){const items=ref.current.querySelectorAll('.lb-entry');
+                        gsap.to(items,{opacity:1,x:0,stagger:.06,duration:.55,ease:'power3.out'});obs.disconnect()}
+                },{threshold:.1});
+                obs.observe(ref.current);return()=>obs.disconnect();
+            },[]);
+            const gradients=['linear-gradient(135deg,#ffd700,#ffaa00)','linear-gradient(135deg,#c0c0c0,#e0e0e0)','linear-gradient(135deg,#cd7f32,#daa520)'];
+            return(
+                <div>
+                    <div ref={titleRef} className="sec-title">LEADERBOARD</div>
+                    <div ref={ref} className="lb-list">
+                        {all.map((e,i)=>(
+                            <div key={e.name} className={`lb-entry ${i===0?'t1':i===1?'t2':i===2?'t3':''} ${e.name==='You'?'me':''}`}>
+                                <div className="lb-rank" style={{color:i<3?['#ffd700','#c0c0c0','#cd7f32'][i]:'rgba(255,255,255,0.2)'}}>
+                                    {i===0?'👑':`#${i+1}`}
+                                </div>
+                                <div className="lb-avatar" style={{background:e.name==='You'?'linear-gradient(135deg,#00d4ff,#00ff88)':i<3?gradients[i]:`linear-gradient(135deg,${CAT_CLR[CATS[i%8]]},${CAT_CLR[CATS[(i+3)%8]]})`}}>
+                                    {e.av}
+                                </div>
+                                <div className="lb-name" style={{fontWeight:e.name==='You'?700:400,color:e.name==='You'?'#00d4ff':'inherit'}}>{e.name}</div>
+                                <div className="lb-goals">{e.goals}/100</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
 
-            const handleImage = (e) => {
-                if (e.target.files && e.target.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = (ev) => setImage(ev.target.result);
-                    reader.readAsDataURL(e.target.files[0]);
-                }
-            };
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                setSaving(true);
-                setTimeout(() => { onSave({ name, theme, message, image }); setSaving(false); }, 400);
-            };
-            return (
-                <form onSubmit={handleSubmit} className="profile-form">
-                    <div className="form-group">
-                        <label>Person's Name:</label>
-                        <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Enter name" required />
+        // ═══════════════════ ADD MODAL ═══════════════════
+        function AddModal({onClose,onAdd}){
+            const[txt,setTxt]=useState('');const[cat,setCat]=useState('Personal');
+            const bg=useRef(null),body=useRef(null);
+            useEffect(()=>{
+                gsap.to(bg.current,{opacity:1,duration:.3});
+                gsap.to(body.current,{y:'0%',duration:.5,ease:'back.out(1.1)'});
+            },[]);
+            const close=()=>{gsap.to(body.current,{y:'100%',duration:.3,ease:'power2.in'});gsap.to(bg.current,{opacity:0,duration:.3,onComplete:onClose})};
+            const submit=e=>{e.preventDefault();if(!txt.trim())return;onAdd({text:txt.trim(),category:cat});close()};
+            return(
+                <div ref={bg} className="modal-bg" onClick={close}>
+                    <div ref={body} className="modal-body" onClick={e=>e.stopPropagation()}>
+                        <div className="modal-title">ADD NEW GOAL</div>
+                        <form onSubmit={submit}>
+                            <div className="inp-grp">
+                                <label className="inp-lbl">What do you want to accomplish?</label>
+                                <input className="inp-field" placeholder="e.g., See the Northern Lights" value={txt} onChange={e=>setTxt(e.target.value)} autoFocus maxLength={120}/>
+                            </div>
+                            <div className="inp-grp">
+                                <label className="inp-lbl">Category</label>
+                                <div className="cat-grid">
+                                    {CATS.map(c=>(
+                                        <button key={c} type="button" className={`cat-btn ${cat===c?'on':''}`}
+                                            style={cat===c?{borderColor:CAT_CLR[c],color:CAT_CLR[c],background:`${CAT_CLR[c]}12`}:{}}
+                                            onClick={()=>setCat(c)}>{c}</button>
+                                    ))}
+                                </div>
+                            </div>
+                            <button type="submit" className="submit-btn" disabled={!txt.trim()}>ADD TO MY 100</button>
+                        </form>
                     </div>
-                    <div className="form-group">
-                        <label>Relationship Theme:</label>
-                        <select value={theme} onChange={e => setTheme(e.target.value)} required>
-                            <option value="">Select a theme</option>
-                            {Object.entries(THEMES).map(([k, t]) => <option key={k} value={k}>{t.emoji} {t.name}</option>)}
-                        </select>
+                </div>
+            );
+        }
+
+        // ═══════════════════ ACHIEVEMENT ═══════════════════
+        function Achievement({xpGain,onDone}){
+            const ref=useRef(null);
+            useEffect(()=>{
+                const tl=gsap.timeline({onComplete:onDone});
+                tl.to(ref.current,{opacity:1,scale:1,y:0,duration:.55,ease:'back.out(1.8)'});
+                tl.to(ref.current,{opacity:0,scale:1.15,y:-25,duration:.45,ease:'power2.in',delay:1.6});
+                return()=>tl.kill();
+            },[]);
+            return(
+                <div className="ach-overlay">
+                    <div ref={ref} className="ach-card">
+                        <span className="ach-icon">🏆</span>
+                        <div className="ach-title">ACHIEVEMENT UNLOCKED</div>
+                        <div className="ach-xp">+{xpGain} XP</div>
                     </div>
-                    <div className="form-group">
-                        <label>Profile Picture:</label>
-                        <input type="file" accept="image/*" onChange={handleImage} />
-                        {image && (
-                            <div className="image-preview bounce-in">
-                                <img src={image} alt="Preview" />
-                                <button type="button" className="remove-image" onClick={() => setImage(null)}>×</button>
+                </div>
+            );
+        }
+
+        // ═══════════════════ GOAL CARD ═══════════════════
+        const GoalCard=memo(({goal,idx,onToggle,onDelete})=>{
+            const ref=useRef(null);const[hs,setHs]=useState({});
+            useEffect(()=>{
+                if(!ref.current)return;
+                const obs=new IntersectionObserver(([e])=>{
+                    if(e.isIntersecting){gsap.to(ref.current,{opacity:1,y:0,duration:.5,ease:'power3.out',delay:Math.min(idx*.04,.4)});obs.disconnect()}
+                },{threshold:.1});
+                obs.observe(ref.current);return()=>obs.disconnect();
+            },[]);
+            const mm=e=>{const r=ref.current.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,cx=r.width/2,cy=r.height/2;
+                setHs({transform:`perspective(700px) rotateX(${(y-cy)/18}deg) rotateY(${(cx-x)/18}deg) translateY(-3px) scale(1.012)`})};
+            const ml=()=>setHs({transform:'perspective(700px) rotateX(0) rotateY(0) translateY(0) scale(1)'});
+            return(
+                <div ref={ref} className={`goal-card ${goal.completed?'done':''}`} style={{...hs}} onMouseMove={mm} onMouseLeave={ml} onClick={()=>onToggle(goal.id)}>
+                    <div className="g-idx">#{String(idx+1).padStart(3,'0')}</div>
+                    <div className="g-text">{goal.text}</div>
+                    <div className="g-cat" style={{color:CAT_CLR[goal.category],borderColor:`${CAT_CLR[goal.category]}30`,background:`${CAT_CLR[goal.category]}10`,border:`1px solid ${CAT_CLR[goal.category]}30`}}>{goal.category}</div>
+                    <div className={`g-check ${goal.completed?'on':''}`}>{goal.completed?'✓':''}</div>
+                    <button className="g-del" onClick={e=>{e.stopPropagation();onDelete(goal.id)}}>remove</button>
+                </div>
+            );
+        });
+
+        // ═══════════════════ DASHBOARD ═══════════════════
+        function Dashboard({state,setState}){
+            const[modal,setModal]=useState(false);
+            const[ach,setAch]=useState(null);
+            const[filter,setFilter]=useState('All');
+            const ref=useRef(null);
+            const{goals,xp,streak}=state;
+            const done=goals.filter(g=>g.completed).length;
+
+            useEffect(()=>{if(ref.current)gsap.to(ref.current,{opacity:1,duration:.8,ease:'power2.out',delay:.15})},[]);
+
+            const addGoal=useCallback(({text,category})=>{
+                if(goals.length>=100)return;
+                const ns={...state,goals:[...goals,{id:Date.now().toString(),text,category,completed:false,completedAt:null,createdAt:new Date().toISOString()}]};
+                setState(ns);save(ns);
+            },[state]);
+
+            const toggleGoal=useCallback(id=>{
+                const g=goals.find(x=>x.id===id);if(!g)return;
+                const was=g.completed;
+                const ng=goals.map(x=>x.id===id?{...x,completed:!x.completed,completedAt:!x.completed?new Date().toISOString():null}:x);
+                let nx=xp,ns={...streak};
+                if(!was){
+                    nx+=100;boom();setAch(100);
+                    const today=new Date().toDateString();
+                    if(streak.last!==today){
+                        const yd=new Date(Date.now()-864e5).toDateString();
+                        ns=streak.last===yd?{cur:streak.cur+1,last:today}:{cur:1,last:today};
+                        nx+=50;
+                    }
+                }else{nx=Math.max(0,xp-100)}
+                const newState={...state,goals:ng,xp:nx,streak:ns};setState(newState);save(newState);
+            },[state]);
+
+            const deleteGoal=useCallback(id=>{
+                const g=goals.find(x=>x.id===id);if(!g)return;
+                let nx=xp;if(g.completed)nx=Math.max(0,xp-100);
+                const ns={...state,goals:goals.filter(x=>x.id!==id),xp:nx};setState(ns);save(ns);
+            },[state]);
+
+            const filtered=useMemo(()=>{
+                if(filter==='All')return goals;if(filter==='Active')return goals.filter(g=>!g.completed);
+                if(filter==='Done')return goals.filter(g=>g.completed);return goals.filter(g=>g.category===filter);
+            },[goals,filter]);
+
+            const goalsTitleRef=useReveal(.1);
+            const filterRef=useReveal(.15);
+
+            return(
+                <div ref={ref} className="dashboard-wrap">
+                    <header className="hdr">
+                        <div className="hdr-title">100 BEFORE</div>
+                        <div className="hdr-right"><div className="lvl-badge">⚡ LVL {getLevel(xp)}</div></div>
+                    </header>
+
+                    <div className="stats-row">
+                        <ProgressRing done={done}/>
+                        <XPSection xp={xp}/>
+                        <StreakSection streak={streak}/>
+                    </div>
+
+                    <Challenge/>
+
+                    <div ref={goalsTitleRef} className="sec-title">MY GOALS ({goals.length}/100)</div>
+                    <div ref={filterRef} className="filter-bar">
+                        {['All','Active','Done',...CATS].map(f=>(
+                            <button key={f} className={`flt-btn ${filter===f?'on':''}`} onClick={()=>setFilter(f)}>{f}</button>
+                        ))}
+                    </div>
+
+                    <div className="goals-grid">
+                        {filtered.length>0?filtered.map((g,i)=>(
+                            <GoalCard key={g.id} goal={g} idx={goals.indexOf(g)} onToggle={toggleGoal} onDelete={deleteGoal}/>
+                        )):(
+                            <div className="empty-state">
+                                {goals.length===0?<>YOUR JOURNEY BEGINS HERE.<br/><span className="empty-sub">Tap + to add your first goal</span></>:<>NO GOALS MATCH THIS FILTER.</>}
                             </div>
                         )}
                     </div>
-                    <div className="form-group">
-                        <label>Your Message / Will:</label>
-                        <textarea value={message} onChange={e => setMessage(e.target.value)}
-                            placeholder="Write your message, memories, or wishes..." rows="6" required />
-                    </div>
-                    <div className="form-actions">
-                        <RippleButton className="btn btn-secondary" onClick={onCancel}>Cancel</RippleButton>
-                        <RippleButton type="submit" className="btn btn-primary" disabled={saving}>
-                            {saving ? <span className="btn-loading"><span className="spinner" /> Saving...</span>
-                                : (profile ? '✏️ Update Profile' : '💾 Save Profile')}
-                        </RippleButton>
-                    </div>
-                </form>
-            );
-        }
 
-        // ═══════════════════════════════════
-        // PROFILE CARD
-        // ═══════════════════════════════════
-        function ProfileCard({ profile, index, onClick }) {
-            const theme = THEMES[profile.theme] || THEMES.other;
-            const [hovered, setHovered] = useState(false);
-            const cardRef = useRef(null);
+                    <LBoard goals={goals}/>
 
-            const handleMouseMove = (e) => {
-                if (!cardRef.current) return;
-                const rect = cardRef.current.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - .5;
-                const y = (e.clientY - rect.top) / rect.height - .5;
-                cardRef.current.style.transform = `perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-8px) scale(1.02)`;
-            };
-            const handleMouseLeave = () => {
-                setHovered(false);
-                if (cardRef.current) cardRef.current.style.transform = '';
-            };
-            return (
-                <div ref={cardRef} className={`profile-card-item theme-${profile.theme} stagger-in`}
-                    style={{ animationDelay: `${index * .1}s` }}
-                    onClick={() => onClick(profile.id)}
-                    onMouseEnter={() => setHovered(true)}
-                    onMouseMove={handleMouseMove}
-                    onMouseLeave={handleMouseLeave}>
-                    <div className="card-image">
-                        {profile.image
-                            ? <img src={profile.image} alt={profile.name} />
-                            : <div className="no-image"><span className={hovered ? 'emoji-bounce' : ''} style={{display:'inline-block'}}>{theme.emoji}</span></div>}
-                        <div className="card-overlay"><span>View Profile →</span></div>
-                    </div>
-                    <div className="card-content">
-                        <h3>{profile.name}</h3>
-                        <span className="theme-badge" style={{ background: theme.bg, color: theme.color }}>{theme.emoji} {theme.name}</span>
-                        <p className="card-preview">{profile.message.substring(0, 80)}...</p>
-                    </div>
+                    <div className="footer">100 BEFORE — LIVE FULLY</div>
+
+                    {goals.length<100&&<button className="add-fab" onClick={()=>setModal(true)} aria-label="Add goal">+</button>}
+                    {modal&&<AddModal onClose={()=>setModal(false)} onAdd={addGoal}/>}
+                    {ach!==null&&<Achievement xpGain={ach} onDone={()=>setAch(null)}/>}
                 </div>
             );
         }
 
-        // ═══════════════════════════════════
-        // LOGIN PAGE
-        // ═══════════════════════════════════
-        function LoginPage({ onLogin }) {
-            const [password, setPassword] = useState('');
-            const [error, setError] = useState('');
-            const [shaking, setShaking] = useState(false);
-            const [loading, setLoading] = useState(false);
-
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                setLoading(true);
-                setTimeout(() => {
-                    let role = null;
-                    if (password === PASSWORDS.editor) role = 'editor';
-                    else if (password === PASSWORDS.viewer) role = 'viewer';
-                    if (role) { setError(''); onLogin(password, role); }
-                    else { setError('❌ Invalid password. Please try again.'); setShaking(true); setPassword(''); setTimeout(() => setShaking(false), 500); }
-                    setLoading(false);
-                }, 700);
-            };
-            return (
-                <div className="login-container">
-                    <ParticleBackground />
-                    <FloatingShapes />
-                    <div className={`login-box animate-in ${shaking ? 'shake' : ''}`}>
-                        <div className="logo-section">
-                            <div className="logo-icon">🕊️</div>
-                            <h1 className="logo-text">After-Me</h1>
-                            <p className="tagline"><Typewriter text="Your Digital Legacy" speed={90} delay={500} /></p>
-                        </div>
-                        <div className="login-content">
-                            <p className="intro-text fade-in-delay">This is a secure space to leave messages for your loved ones</p>
-                            <form onSubmit={handleSubmit} className="login-form">
-                                <div className="form-group slide-up-1">
-                                    <label htmlFor="pwd">Enter Master Password:</label>
-                                    <div className="input-wrapper">
-                                        <span className="input-icon">🔐</span>
-                                        <input id="pwd" type="password" className="input-with-icon" value={password}
-                                            onChange={e => setPassword(e.target.value)} placeholder="••••••••" required />
-                                    </div>
-                                </div>
-                                <RippleButton type="submit" className="login-btn slide-up-2" disabled={loading}>
-                                    {loading ? <span className="btn-loading"><span className="spinner" /> Authenticating...</span> : '🔓 Access Messages'}
-                                </RippleButton>
-                            </form>
-                            {error && <div className="error-message animate-error">{error}</div>}
-                        </div>
-                        <div className="login-footer">
-                            <p>Messages for when you're gone 💫</p>
-                            <p className="credit">Crafted with ❤️ by Vishwajeeth V</p>
-                        </div>
-                    </div>
-                </div>
+        // ═══════════════════ APP ═══════════════════
+        function App(){
+            const[phase,setPhase]=useState('intro');
+            const[state,setState]=useState(()=>load()||defaultState());
+            useEffect(()=>{initParticles()},[]);
+            return(
+                <>
+                    {phase==='intro'&&<Intro onDone={()=>setPhase('dash')}/>}
+                    {phase==='dash'&&<Dashboard state={state} setState={setState}/>}
+                </>
             );
         }
 
-        // ═══════════════════════════════════
-        // DASHBOARD PAGE
-        // ═══════════════════════════════════
-        function DashboardPage({ role, userPassword, profiles, onLogout, onViewProfile, onAddProfile }) {
-            const [showModal, setShowModal] = useState(false);
-            const [search, setSearch] = useState('');
-            const [filter, setFilter] = useState('all');
-
-            const filtered = useMemo(() =>
-                profiles.filter(p => {
-                    const s = p.name.toLowerCase().includes(search.toLowerCase()) || p.message.toLowerCase().includes(search.toLowerCase());
-                    const f = filter === 'all' || p.theme === filter;
-                    return s && f;
-                }), [profiles, search, filter]);
-
-            return (
-                <div className="dashboard-container page-enter">
-                    <header className="dashboard-header slide-down">
-                        <div className="header-content">
-                            <h1 className="header-logo"><span className="logo-emoji">🕊️</span> After-Me</h1>
-                            <div className="header-info">
-                                <span className="user-password">🔑 {userPassword.substring(0, 3)}****</span>
-                                <span className={`access-mode ${role}`}>
-                                    {role === 'editor' ? '✏️ Editor Mode' : '👁️ Viewer Mode'}
-                                </span>
-                                <RippleButton className="logout-btn" onClick={onLogout}>🚪 Logout</RippleButton>
-                            </div>
-                        </div>
-                    </header>
-                    <main className="dashboard-main">
-                        <div className="dashboard-section fade-in">
-                            <div className="section-header">
-                                <div className="section-title-area">
-                                    <h2>My Profiles</h2>
-                                    <span className="profile-count"><AnimatedCounter end={profiles.length} /> profiles</span>
-                                </div>
-                                <div className="section-controls">
-                                    <div className="search-box">
-                                        <span className="search-icon">🔍</span>
-                                        <input type="text" placeholder="Search profiles..." value={search}
-                                            onChange={e => setSearch(e.target.value)} className="search-input" />
-                                    </div>
-                                    <select value={filter} onChange={e => setFilter(e.target.value)} className="filter-select">
-                                        <option value="all">🌐 All Themes</option>
-                                        {Object.entries(THEMES).map(([k, t]) => <option key={k} value={k}>{t.emoji} {t.name}</option>)}
-                                    </select>
-                                    {role === 'editor' && (
-                                        <RippleButton className="btn btn-primary add-btn" onClick={() => setShowModal(true)}>
-                                            <span className="btn-icon">+</span> Add Profile
-                                        </RippleButton>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="profiles-grid">
-                                {filtered.length === 0 ? (
-                                    <div className="empty-state fade-in">
-                                        <div className="empty-icon">📝</div>
-                                        <p>{profiles.length === 0
-                                            ? (role === 'editor' ? 'Create your first profile to get started!' : 'No profiles yet. Check back later.')
-                                            : 'No profiles match your search.'}</p>
-                                    </div>
-                                ) : filtered.map((p, i) => <ProfileCard key={p.id} profile={p} index={i} onClick={onViewProfile} />)}
-                            </div>
-                        </div>
-                    </main>
-                    <Modal isOpen={showModal} onClose={() => setShowModal(false)} title="✨ Add New Profile">
-                        <ProfileForm onSave={(data) => { onAddProfile(data); setShowModal(false); }}
-                            onCancel={() => setShowModal(false)} />
-                    </Modal>
-                </div>
-            );
-        }
-
-        // ═══════════════════════════════════
-        // PROFILE VIEW PAGE
-        // ═══════════════════════════════════
-        function ProfileViewPage({ profileId, role, profiles, onBack, onLogout, onUpdate, onDelete }) {
-            const [showEdit, setShowEdit] = useState(false);
-            const [showConfirm, setShowConfirm] = useState(false);
-            const profile = profiles.find(p => p.id === profileId);
-
-            if (!profile) return (
-                <div className="profile-container">
-                    <div className="profile-main">
-                        <div className="not-found fade-in">
-                            <h2>Profile not found</h2>
-                            <RippleButton className="btn btn-primary" onClick={onBack} style={{marginTop:20}}>← Back to Dashboard</RippleButton>
-                        </div>
-                    </div>
-                </div>
-            );
-
-            const theme = THEMES[profile.theme] || THEMES.other;
-            return (
-                <div className="profile-container page-enter">
-                    <header className="profile-header slide-down">
-                        <RippleButton className="back-btn" onClick={onBack}>← Back</RippleButton>
-                        <h1>🕊️ After-Me</h1>
-                        <RippleButton className="logout-btn" onClick={onLogout}>🚪 Logout</RippleButton>
-                    </header>
-                    <main className="profile-main">
-                        <ParticleBackground />
-                        <div className={`profile-display theme-${profile.theme} animate-in`}>
-                            <div className="profile-image-section">
-                                {profile.image
-                                    ? <img src={profile.image} alt={profile.name} className="profile-image" />
-                                    : <div className="profile-no-image"><span className="profile-emoji-large float-anim">{theme.emoji}</span></div>}
-                            </div>
-                            <div className="profile-info-section">
-                                <h2 className="profile-name-animated">{profile.name}</h2>
-                                <span className="profile-theme-badge bounce-in" style={{ background: theme.bg, color: theme.color }}>
-                                    {theme.emoji} {theme.name}
-                                </span>
-                                <div className="profile-message">
-                                    <h3>💌 My Message</h3>
-                                    <p>{profile.message.split('\n').map((line, i) => <Fragment key={i}>{line}<br /></Fragment>)}</p>
-                                </div>
-                                <div className="profile-actions">
-                                    <RippleButton className="btn btn-secondary" onClick={onBack}>← Dashboard</RippleButton>
-                                    {role === 'editor' && (
-                                        <Fragment>
-                                            <RippleButton className="btn btn-primary" onClick={() => setShowEdit(true)}>✏️ Edit</RippleButton>
-                                            <RippleButton className="btn btn-danger" onClick={() => setShowConfirm(true)}>🗑️ Delete</RippleButton>
-                                        </Fragment>
-                                    )}
-                                </div>
-                                <div className="profile-meta">
-                                    <small>📅 Created: {new Date(profile.createdAt).toLocaleDateString()}</small>
-                                    <small>🔄 Modified: {new Date(profile.updatedAt).toLocaleDateString()}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
-
-                    <Modal isOpen={showEdit} onClose={() => setShowEdit(false)} title="✏️ Edit Profile">
-                        <ProfileForm profile={profile}
-                            onSave={(data) => { onUpdate(profileId, data); setShowEdit(false); }}
-                            onCancel={() => setShowEdit(false)} />
-                    </Modal>
-
-                    <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)} title="⚠️ Confirm Delete">
-                        <div className="confirm-delete">
-                            <p>Are you sure you want to delete <strong>{profile.name}</strong>'s profile?</p>
-                            <p className="delete-warning">This action cannot be undone.</p>
-                            <div className="form-actions">
-                                <RippleButton className="btn btn-secondary" onClick={() => setShowConfirm(false)}>Cancel</RippleButton>
-                                <RippleButton className="btn btn-danger" onClick={() => { onDelete(profileId); onBack(); }}>🗑️ Delete Forever</RippleButton>
-                            </div>
-                        </div>
-                    </Modal>
-                </div>
-            );
-        }
-
-        // ═══════════════════════════════════
-        // MAIN APP
-        // ═══════════════════════════════════
-        function App() {
-            const [page, setPage] = useState('login');
-            const [role, setRole] = useState(null);
-            const [userPassword, setUserPassword] = useState('');
-            const [selectedId, setSelectedId] = useState(null);
-            const [toasts, setToasts] = useState([]);
-            const [profiles, setProfiles] = useState(() => {
-                try { const d = localStorage.getItem(STORAGE_KEY); return d ? JSON.parse(d) : []; }
-                catch { return []; }
-            });
-
-            useEffect(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles)); }, [profiles]);
-
-            const addToast = useCallback((message, type = 'info') => {
-                const id = Date.now() + Math.random();
-                setToasts(prev => [...prev, { id, message, type }]);
-                setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3500);
-            }, []);
-            const removeToast = useCallback((id) => setToasts(prev => prev.filter(t => t.id !== id)), []);
-
-            const handleLogin = useCallback((pwd, r) => {
-                setUserPassword(pwd); setRole(r);
-                addToast(`Welcome! Logged in as ${r === 'editor' ? 'Editor ✏️' : 'Viewer 👁️'}`, 'success');
-                setPage('dashboard');
-            }, [addToast]);
-
-            const handleLogout = useCallback(() => {
-                setRole(null); setUserPassword(''); setSelectedId(null);
-                addToast('Logged out successfully 👋', 'info');
-                setPage('login');
-            }, [addToast]);
-
-            const handleViewProfile = useCallback((id) => { setSelectedId(id); setPage('profile'); }, []);
-            const handleBack = useCallback(() => { setSelectedId(null); setPage('dashboard'); }, []);
-
-            const handleAddProfile = useCallback((data) => {
-                setProfiles(prev => [...prev, {
-                    id: 'profile_' + Date.now(),
-                    ...data,
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString()
-                }]);
-                addToast('Profile created successfully! 🎉', 'success');
-            }, [addToast]);
-
-            const handleUpdateProfile = useCallback((id, data) => {
-                setProfiles(prev => prev.map(p => p.id === id ? { ...p, ...data, updatedAt: new Date().toISOString() } : p));
-                addToast('Profile updated! ✅', 'success');
-            }, [addToast]);
-
-            const handleDeleteProfile = useCallback((id) => {
-                setProfiles(prev => prev.filter(p => p.id !== id));
-                addToast('Profile deleted 🗑️', 'info');
-            }, [addToast]);
-
-            return (
-                <div className="app">
-                    <ToastContainer toasts={toasts} removeToast={removeToast} />
-                    {page === 'login' && <LoginPage onLogin={handleLogin} />}
-                    {page === 'dashboard' && (
-                        <DashboardPage role={role} userPassword={userPassword} profiles={profiles}
-                            onLogout={handleLogout} onViewProfile={handleViewProfile} onAddProfile={handleAddProfile} />
-                    )}
-                    {page === 'profile' && (
-                        <ProfileViewPage profileId={selectedId} role={role} profiles={profiles}
-                            onBack={handleBack} onLogout={handleLogout}
-                            onUpdate={handleUpdateProfile} onDelete={handleDeleteProfile} />
-                    )}
-                </div>
-            );
-        }
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        const root=ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App/>);
     </script>
 </body>
 </html>
