@@ -1,0 +1,4131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="void">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Before — Your Bucket List</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=Playfair+Display:ital,wght@0,700;1,400&family=JetBrains+Mono:wght@400;700&family=Oswald:wght@400;700&family=Bebas+Neue&family=Anton&family=Barlow+Condensed:wght@700;900&family=DM+Serif+Display:ital@0;1&family=Black+Han+Sans&family=Righteous&family=Russo+One&family=Teko:wght@600;700&family=Fjalla+One&family=Changa:wght@700;800&family=Boogaloo&family=Lilita+One&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #000;
+            --bg2: #0a0a0a;
+            --bg3: #111;
+            --card: rgba(255, 255, 255, .03);
+            --card-b: rgba(255, 255, 255, .07);
+            --card-h: rgba(255, 255, 255, .08);
+            --t100: #fff;
+            --t80: rgba(255, 255, 255, .8);
+            --t60: rgba(255, 255, 255, .6);
+            --t40: rgba(255, 255, 255, .4);
+            --t20: rgba(255, 255, 255, .2);
+            --t10: rgba(255, 255, 255, .1);
+            --glow: rgba(255, 255, 255, .12);
+            --glow-s: rgba(255, 255, 255, .06);
+            --dim: #888;
+            --acc: #fff;
+            --acc2: #666;
+            --is-dark: 1;
+            --card-rad: 14px;
+            --trans: .3s
+        }
+
+        /* THEMES */
+        [data-theme="void"] {
+            --bg: #000;
+            --bg2: #0a0a0a;
+            --bg3: #111;
+            --acc: #fff;
+            --acc2: #666
+        }
+
+        [data-theme="slate"] {
+            --bg: #0f0f12;
+            --bg2: #14141a;
+            --bg3: #22222c;
+            --card: rgba(255, 255, 255, .04);
+            --card-b: rgba(255, 255, 255, .07)
+        }
+
+        [data-theme="frost"] {
+            --bg: #e8e8ec;
+            --bg2: #f0f0f4;
+            --bg3: #fafafe;
+            --card: rgba(0, 0, 0, .04);
+            --card-b: rgba(0, 0, 0, .08);
+            --card-h: rgba(0, 0, 0, .06);
+            --t100: #111;
+            --t80: rgba(0, 0, 0, .8);
+            --t60: rgba(0, 0, 0, .55);
+            --t40: rgba(0, 0, 0, .35);
+            --t20: rgba(0, 0, 0, .15);
+            --t10: rgba(0, 0, 0, .08);
+            --glow: rgba(0, 0, 0, .08);
+            --glow-s: rgba(0, 0, 0, .04);
+            --dim: #666;
+            --acc: #111;
+            --acc2: #666;
+            --is-dark: 0
+        }
+
+        [data-theme="solar"] {
+            --bg: #0d0c0a;
+            --bg2: #1c1b17;
+            --bg3: #24231e;
+            --card: rgba(255, 245, 230, .04);
+            --card-b: rgba(255, 245, 230, .07);
+            --card-h: rgba(255, 245, 230, .1);
+            --t100: #f5f0e8;
+            --t80: rgba(245, 240, 232, .8);
+            --t60: rgba(245, 240, 232, .55);
+            --t40: rgba(245, 240, 232, .35);
+            --t20: rgba(245, 240, 232, .15);
+            --t10: rgba(245, 240, 232, .08);
+            --glow: rgba(255, 245, 230, .1);
+            --dim: #998;
+            --acc: #f5f0e8
+        }
+
+        [data-theme="matte"] {
+            --bg: #161616;
+            --bg2: #222;
+            --bg3: #2a2a2a
+        }
+
+        [data-theme="neon"] {
+            --bg: #060612;
+            --bg2: #0a0a1e;
+            --bg3: #111128;
+            --card: rgba(120, 80, 255, .06);
+            --card-b: rgba(120, 80, 255, .15);
+            --card-h: rgba(120, 80, 255, .1);
+            --t100: #e8e0ff;
+            --t80: rgba(232, 224, 255, .8);
+            --t60: rgba(232, 224, 255, .55);
+            --t40: rgba(232, 224, 255, .35);
+            --t20: rgba(232, 224, 255, .15);
+            --t10: rgba(232, 224, 255, .08);
+            --glow: rgba(120, 80, 255, .2);
+            --glow-s: rgba(120, 80, 255, .1);
+            --dim: #9070dd;
+            --acc: #b090ff;
+            --acc2: #6040bb
+        }
+
+        [data-theme="sakura"] {
+            --bg: #1a0a12;
+            --bg2: #210f19;
+            --bg3: #2e1525;
+            --card: rgba(255, 150, 180, .05);
+            --card-b: rgba(255, 150, 180, .12);
+            --card-h: rgba(255, 150, 180, .08);
+            --t100: #ffe8f0;
+            --t80: rgba(255, 232, 240, .8);
+            --t60: rgba(255, 232, 240, .55);
+            --t40: rgba(255, 232, 240, .35);
+            --t20: rgba(255, 232, 240, .15);
+            --t10: rgba(255, 232, 240, .08);
+            --glow: rgba(255, 100, 150, .15);
+            --glow-s: rgba(255, 100, 150, .08);
+            --dim: #cc7090;
+            --acc: #ff9ab4;
+            --acc2: #a0506a
+        }
+
+        [data-theme="forest"] {
+            --bg: #050f05;
+            --bg2: #0a180a;
+            --bg3: #0f200f;
+            --card: rgba(80, 200, 80, .05);
+            --card-b: rgba(80, 200, 80, .12);
+            --card-h: rgba(80, 200, 80, .08);
+            --t100: #e0f5e0;
+            --t80: rgba(224, 245, 224, .8);
+            --t60: rgba(224, 245, 224, .55);
+            --t40: rgba(224, 245, 224, .35);
+            --t20: rgba(224, 245, 224, .15);
+            --t10: rgba(224, 245, 224, .08);
+            --glow: rgba(80, 200, 80, .15);
+            --glow-s: rgba(80, 200, 80, .08);
+            --dim: #50a050;
+            --acc: #80d880;
+            --acc2: #308030
+        }
+
+        [data-theme="gold"] {
+            --bg: #0a0800;
+            --bg2: #141000;
+            --bg3: #1e1800;
+            --card: rgba(255, 200, 50, .05);
+            --card-b: rgba(255, 200, 50, .12);
+            --card-h: rgba(255, 200, 50, .08);
+            --t100: #fff8e0;
+            --t80: rgba(255, 248, 224, .8);
+            --t60: rgba(255, 248, 224, .55);
+            --t40: rgba(255, 248, 224, .35);
+            --t20: rgba(255, 248, 224, .15);
+            --t10: rgba(255, 248, 224, .08);
+            --glow: rgba(255, 200, 50, .15);
+            --glow-s: rgba(255, 200, 50, .08);
+            --dim: #aa8020;
+            --acc: #ffd060;
+            --acc2: #806010
+        }
+
+        [data-theme="cyber"] {
+            --bg: #000806;
+            --bg2: #001210;
+            --bg3: #001a18;
+            --card: rgba(0, 255, 180, .05);
+            --card-b: rgba(0, 255, 180, .15);
+            --card-h: rgba(0, 255, 180, .08);
+            --t100: #e0fff8;
+            --t80: rgba(224, 255, 248, .8);
+            --t60: rgba(224, 255, 248, .55);
+            --t40: rgba(224, 255, 248, .35);
+            --t20: rgba(224, 255, 248, .15);
+            --t10: rgba(224, 255, 248, .08);
+            --glow: rgba(0, 255, 180, .2);
+            --glow-s: rgba(0, 255, 180, .1);
+            --dim: #00aa80;
+            --acc: #00ffb4;
+            --acc2: #008060
+        }
+
+        [data-theme="crimson"] {
+            --bg: #0a0000;
+            --bg2: #140000;
+            --bg3: #1e0000;
+            --card: rgba(255, 50, 50, .05);
+            --card-b: rgba(255, 50, 50, .12);
+            --card-h: rgba(255, 50, 50, .08);
+            --t100: #ffe8e8;
+            --t80: rgba(255, 232, 232, .8);
+            --t60: rgba(255, 232, 232, .55);
+            --t40: rgba(255, 232, 232, .35);
+            --t20: rgba(255, 232, 232, .15);
+            --t10: rgba(255, 232, 232, .08);
+            --glow: rgba(255, 50, 50, .18);
+            --glow-s: rgba(255, 50, 50, .08);
+            --dim: #aa3030;
+            --acc: #ff6060;
+            --acc2: #801010
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: var(--bg);
+            color: var(--t100);
+            font-family: 'Space Grotesk', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            transition: background .6s, color .6s
+        }
+
+        canvas.bgc {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none
+        }
+
+        /* ===================== INTRO ===================== */
+        .intro {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            transition: opacity 1.8s ease;
+            overflow: hidden
+        }
+
+        .intro.out {
+            opacity: 0;
+            pointer-events: none
+        }
+
+        .intro-center {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px
+        }
+
+        .i-line {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.1rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            min-height: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            color: #fff;
+            letter-spacing: .02em;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.4s ease, transform 1.4s cubic-bezier(.2, 1, .4, 1)
+        }
+
+        .i-line.vis {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .i-line.hide {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 1s ease, transform 1s ease
+        }
+
+        .main-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            opacity: 0;
+            transform: scale(.85);
+            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(.2, 1, .4, 1)
+        }
+
+        .main-logo.vis {
+            opacity: 1;
+            transform: scale(1)
+        }
+
+        .logo-100 {
+            font-size: clamp(5rem, 14vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            color: #fff;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: -.02em;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 0 60px rgba(255, 255, 255, .4)
+        }
+
+        .logo-before {
+            font-size: clamp(5rem, 14vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            color: #fff;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: -.02em;
+            position: relative;
+            display: inline-block
+        }
+
+        .logo-before.glitch-on {
+            animation: glitch-big .7s steps(1) infinite
+        }
+
+        .logo-before.stable {
+            animation: glitch-stable 4s steps(1) infinite;
+            text-shadow: 0 0 60px rgba(255, 255, 255, .4)
+        }
+
+        @keyframes glitch-big {
+            0% {
+                clip-path: inset(0);
+                transform: translate(0);
+                text-shadow: none
+            }
+
+            10% {
+                clip-path: inset(30% 0 40% 0);
+                transform: translate(-6px, 2px);
+                text-shadow: 8px 0 rgba(255, 60, 60, .7), -8px 0 rgba(60, 60, 255, .7)
+            }
+
+            20% {
+                clip-path: inset(60% 0 10% 0);
+                transform: translate(5px, -3px);
+                text-shadow: -6px 0 rgba(255, 100, 100, .5), 6px 0 rgba(100, 100, 255, .5)
+            }
+
+            30% {
+                clip-path: inset(0);
+                transform: translate(0);
+                text-shadow: none
+            }
+
+            40% {
+                clip-path: inset(45% 0 20% 0);
+                transform: translate(-4px) scaleX(1.04);
+                text-shadow: 5px 0 rgba(255, 80, 80, .6)
+            }
+
+            50% {
+                clip-path: inset(0);
+                transform: scale(1.02);
+                text-shadow: none
+            }
+
+            60% {
+                clip-path: inset(10% 0 70% 0);
+                transform: translate(3px, -1px)
+            }
+
+            70%,
+            100% {
+                clip-path: inset(0);
+                transform: none;
+                text-shadow: 0 0 40px rgba(255, 255, 255, .3)
+            }
+        }
+
+        @keyframes glitch-stable {
+
+            0%,
+            90% {
+                clip-path: inset(0);
+                transform: translate(0)
+            }
+
+            91% {
+                clip-path: inset(40% 0 30% 0);
+                transform: translate(-3px)
+            }
+
+            92% {
+                clip-path: inset(0);
+                transform: translate(2px)
+            }
+
+            93%,
+            100% {
+                clip-path: inset(0);
+                transform: none
+            }
+        }
+
+        .scanlines {
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, .012) 2px, rgba(255, 255, 255, .012) 4px);
+            pointer-events: none;
+            z-index: 101;
+            opacity: 0;
+            transition: opacity .5s
+        }
+
+        .scanlines.vis {
+            opacity: 1
+        }
+
+        .skip-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 200;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .12);
+            color: rgba(255, 255, 255, .45);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            padding: 9px 20px;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all .3s;
+            backdrop-filter: blur(12px);
+            letter-spacing: .06em;
+            text-transform: uppercase
+        }
+
+        .skip-btn:hover {
+            background: rgba(255, 255, 255, .15);
+            color: #fff
+        }
+
+        /* Font cycle indicator */
+        .font-ring {
+            position: absolute;
+            inset: -6px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, .1);
+            animation: fring .15s ease infinite;
+            pointer-events: none
+        }
+
+        @keyframes fring {
+
+            0%,
+            100% {
+                border-color: rgba(255, 255, 255, .05)
+            }
+
+            50% {
+                border-color: rgba(255, 255, 255, .2)
+            }
+        }
+
+        /* ===================== LOGIN ===================== */
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .lw {
+            display: flex;
+            width: min(900px, 94vw);
+            min-height: 460px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: var(--card);
+            backdrop-filter: blur(40px);
+            border: 1px solid var(--card-b);
+            box-shadow: 0 16px 80px rgba(0, 0, 0, .6);
+            position: relative;
+            animation: lIn .8s cubic-bezier(.34, 1.4, .64, 1)
+        }
+
+        @keyframes lIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(.93)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .lw.shake {
+            animation: shake .5s
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            20%,
+            60% {
+                transform: translateX(-7px)
+            }
+
+            40%,
+            80% {
+                transform: translateX(7px)
+            }
+        }
+
+        .lw.glow-ok {
+            box-shadow: 0 0 100px rgba(255, 255, 255, .12) !important;
+            border-color: rgba(255, 255, 255, .2) !important
+        }
+
+        .ll {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .025), rgba(255, 255, 255, .005));
+            overflow: hidden;
+            min-height: 200px;
+            gap: 8px
+        }
+
+        .ll-big {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--t100), var(--dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 30px var(--glow));
+            animation: fl 6s ease-in-out infinite
+        }
+
+        @keyframes fl {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
+        }
+
+        .ll-sub {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(.7rem, 1.6vw, 1rem);
+            font-weight: 700;
+            letter-spacing: .5em;
+            color: var(--t40);
+            text-transform: uppercase
+        }
+
+        .ll::after {
+            content: '';
+            position: absolute;
+            width: 250%;
+            height: 250%;
+            background: radial-gradient(circle, var(--glow), transparent 55%);
+            animation: lg 9s ease infinite;
+            opacity: .3
+        }
+
+        @keyframes lg {
+
+            0%,
+            100% {
+                transform: translate(-35%, -35%)
+            }
+
+            50% {
+                transform: translate(-25%, -25%)
+            }
+        }
+
+        .lr {
+            flex: 1;
+            padding: 44px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .lr-t {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, var(--t100), var(--dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .lr-s {
+            font-size: 13px;
+            color: var(--t40);
+            margin-bottom: 28px;
+            line-height: 1.6
+        }
+
+        .ig {
+            position: relative;
+            margin-bottom: 18px
+        }
+
+        .ig input {
+            width: 100%;
+            padding: 18px 16px 10px;
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            border-radius: 10px;
+            color: var(--t100);
+            font-size: 15px;
+            font-family: 'Space Grotesk', sans-serif;
+            outline: none;
+            transition: all .3s
+        }
+
+        .ig input:focus {
+            border-color: rgba(255, 255, 255, .25);
+            background: var(--card-h);
+            box-shadow: 0 0 24px var(--glow-s)
+        }
+
+        .ig input.err {
+            border-color: rgba(200, 60, 60, .5);
+            background: rgba(200, 60, 60, .03)
+        }
+
+        .ig label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: var(--t40);
+            pointer-events: none;
+            transition: all .25s;
+            font-family: 'Space Grotesk', sans-serif
+        }
+
+        .ig input:focus+label,
+        .ig input:not(:placeholder-shown)+label {
+            top: 11px;
+            transform: none;
+            font-size: 9px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--t60)
+        }
+
+        .ig .fl {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--t40), transparent);
+            transition: all .4s;
+            border-radius: 2px
+        }
+
+        .ig input:focus~.fl {
+            left: 10%;
+            width: 80%
+        }
+
+        .btn-p {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .04));
+            border: 1px solid var(--card-b);
+            border-radius: 10px;
+            color: var(--t100);
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Syne', sans-serif;
+            cursor: pointer;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden;
+            margin-top: 6px;
+            letter-spacing: .03em
+        }
+
+        .btn-p:hover {
+            transform: scale(1.02) translateY(-2px);
+            background: linear-gradient(135deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, .07));
+            border-color: var(--t20);
+            box-shadow: 0 8px 30px var(--glow-s)
+        }
+
+        .btn-p:active {
+            transform: scale(.98)
+        }
+
+        .btn-p .shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .07), transparent);
+            animation: sh 3.5s infinite
+        }
+
+        @keyframes sh {
+            0% {
+                left: -100%
+            }
+
+            35%,
+            100% {
+                left: 100%
+            }
+        }
+
+        .rip {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .25);
+            transform: scale(0);
+            animation: rip .6s ease-out forwards;
+            pointer-events: none
+        }
+
+        @keyframes rip {
+            to {
+                transform: scale(5);
+                opacity: 0
+            }
+        }
+
+        /* ===================== DASHBOARD ===================== */
+        .dash {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh
+        }
+
+        .dh {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            padding: 0 22px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, .7);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--card-b);
+            transition: background .5s
+        }
+
+        [data-theme="frost"] .dh {
+            background: rgba(240, 240, 244, .85)
+        }
+
+        .d-logo {
+            font-family: 'Anton', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: .05em;
+            background: linear-gradient(135deg, var(--t100), var(--dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer
+        }
+
+        .hr {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .nav-tab {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--t40);
+            font-size: 11px;
+            padding: 6px 14px;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all .3s;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: .04em;
+            text-transform: uppercase
+        }
+
+        .nav-tab:hover {
+            border-color: var(--card-b);
+            color: var(--t80)
+        }
+
+        .nav-tab.act {
+            background: var(--card-h);
+            border-color: var(--card-b);
+            color: var(--t100)
+        }
+
+        .av {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--card-h);
+            border: 1px solid var(--card-b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all .3s;
+            color: var(--t60);
+            position: relative
+        }
+
+        .av:hover {
+            border-color: var(--t20);
+            transform: scale(1.05)
+        }
+
+        .av img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .av .pro-badge {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #ffd060, #aa8020);
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+            font-size: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid var(--card-b);
+            color: var(--t40);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .3s;
+            font-size: 15px
+        }
+
+        .icon-btn:hover {
+            border-color: var(--t20);
+            color: var(--t100);
+            transform: scale(1.05)
+        }
+
+        .db {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 28px 18px 100px
+        }
+
+        /* Stats Row */
+        .sr {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px
+        }
+
+        .sc {
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            border-radius: var(--card-rad);
+            padding: 20px 18px;
+            transition: all .35s;
+            position: relative;
+            overflow: hidden;
+            cursor: default
+        }
+
+        .sc::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .04), transparent 50%);
+            pointer-events: none
+        }
+
+        .sc:hover {
+            background: var(--card-h);
+            border-color: var(--t20);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .3)
+        }
+
+        .sc-icon {
+            font-size: 22px;
+            margin-bottom: 8px;
+            display: block
+        }
+
+        .sl {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--t40);
+            margin-bottom: 5px
+        }
+
+        .sv {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--t100), var(--dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .ss {
+            font-size: 10px;
+            color: var(--t20);
+            margin-top: 2px
+        }
+
+        /* Progress area */
+        .pa {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center
+        }
+
+        .rw {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            flex-shrink: 0
+        }
+
+        .rw svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg)
+        }
+
+        .rbg {
+            fill: none;
+            stroke: var(--card-b);
+            stroke-width: 6
+        }
+
+        .rfg {
+            fill: none;
+            stroke: url(#rgrad);
+            stroke-width: 6;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1.4s cubic-bezier(.4, 0, .2, 1);
+            filter: drop-shadow(0 0 8px var(--glow))
+        }
+
+        .rc {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .rpct {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: var(--t100)
+        }
+
+        .rlbl {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--t40);
+            margin-top: 2px
+        }
+
+        .rglow {
+            position: absolute;
+            inset: 18px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--glow-s), transparent 70%);
+            animation: rpulse 3.5s ease-in-out infinite
+        }
+
+        @keyframes rpulse {
+
+            0%,
+            100% {
+                opacity: .3;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .6;
+                transform: scale(1.06)
+            }
+        }
+
+        .xa {
+            flex: 1;
+            min-width: 240px
+        }
+
+        .xlv {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--t80)
+        }
+
+        .xlv span {
+            font-size: .72rem;
+            color: var(--t40);
+            font-weight: 400;
+            margin-left: 8px
+        }
+
+        .xt {
+            width: 100%;
+            height: 8px;
+            background: var(--card-b);
+            border-radius: 100px;
+            overflow: hidden;
+            position: relative
+        }
+
+        .xf {
+            height: 100%;
+            background: linear-gradient(90deg, var(--t20), var(--t80));
+            border-radius: 100px;
+            transition: width 1.2s cubic-bezier(.4, 0, .2, 1);
+            position: relative
+        }
+
+        .xf::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 8px;
+            height: 100%;
+            background: var(--t100);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--glow);
+            opacity: .6
+        }
+
+        .xs {
+            font-size: 10px;
+            color: var(--t20);
+            margin-top: 5px
+        }
+
+        .stk-b {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 12px;
+            margin-top: 12px;
+            color: var(--t60);
+            cursor: default
+        }
+
+        .flm {
+            display: inline-block;
+            animation: flm 1s ease infinite
+        }
+
+        @keyframes flm {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(-3deg)
+            }
+
+            50% {
+                transform: scale(1.2) rotate(3deg)
+            }
+        }
+
+        /* Section headers */
+        .shdr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        .stit {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--t100), var(--dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .fr {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap
+        }
+
+        .fb {
+            background: transparent;
+            border: 1px solid var(--card-b);
+            color: var(--t40);
+            font-size: 11px;
+            padding: 5px 13px;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all .3s;
+            font-family: 'Space Grotesk', sans-serif
+        }
+
+        .fb.act {
+            background: var(--card-h);
+            border-color: var(--t20);
+            color: var(--t100)
+        }
+
+        .abtn {
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            color: var(--t60);
+            font-size: 12px;
+            padding: 7px 18px;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all .3s;
+            font-family: 'Space Grotesk', sans-serif
+        }
+
+        .abtn:hover {
+            background: var(--card-h);
+            color: var(--t100);
+            border-color: var(--t20)
+        }
+
+        /* Goal grid */
+        .gg {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 12px
+        }
+
+        .gc {
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            border-radius: var(--card-rad);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all .4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: gci .4s ease forwards;
+            opacity: 0
+        }
+
+        .gc::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .03), transparent 50%);
+            pointer-events: none
+        }
+
+        .gc:hover {
+            background: var(--card-h);
+            border-color: var(--t20);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .25);
+            transform: translateY(-2px)
+        }
+
+        .gc.dn .gtxt {
+            text-decoration: line-through;
+            opacity: .3
+        }
+
+        .gc.dn {
+            border-color: rgba(255, 255, 255, .04)
+        }
+
+        @keyframes gci {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .gtop {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px
+        }
+
+        .gchk {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--t20);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .35s;
+            margin-top: 1px
+        }
+
+        .gchk.on {
+            background: var(--t20);
+            border-color: var(--t40);
+            box-shadow: 0 0 12px var(--glow)
+        }
+
+        .gchk svg {
+            width: 11px;
+            height: 11px;
+            opacity: 0;
+            transition: .3s;
+            color: var(--t100)
+        }
+
+        .gchk.on svg {
+            opacity: 1
+        }
+
+        .gtxt {
+            font-size: 13.5px;
+            line-height: 1.55;
+            color: var(--t60);
+            flex: 1;
+            transition: all .3s
+        }
+
+        .gdel {
+            opacity: 0;
+            background: none;
+            border: none;
+            color: var(--t20);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 3px;
+            transition: all .3s;
+            flex-shrink: 0;
+            line-height: 1
+        }
+
+        .gc:hover .gdel {
+            opacity: 1
+        }
+
+        .gdel:hover {
+            color: var(--t60)
+        }
+
+        .gcat {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--t20);
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            align-self: flex-start;
+            margin-top: -2px
+        }
+
+        .gimg {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--card-b)
+        }
+
+        .gir {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .gib {
+            font-size: 9px;
+            color: var(--t40);
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            padding: 3px 9px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all .3s;
+            font-family: 'Space Grotesk', sans-serif
+        }
+
+        .gib:hover {
+            color: var(--t100);
+            border-color: var(--t20)
+        }
+
+        .gnote {
+            font-size: 11px;
+            color: var(--t20);
+            padding: 6px 10px;
+            background: var(--card);
+            border-left: 2px solid var(--card-b);
+            border-radius: 0 6px 6px 0;
+            line-height: 1.5;
+            font-style: italic
+        }
+
+        .gpri {
+            display: flex;
+            align-items: center;
+            gap: 4px
+        }
+
+        .gstar {
+            font-size: 11px;
+            cursor: pointer;
+            transition: all .2s;
+            opacity: .3
+        }
+
+        .gstar.on {
+            opacity: 1
+        }
+
+        .gstar:hover {
+            transform: scale(1.2)
+        }
+
+        /* Badges */
+        .bdgr {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 4px
+        }
+
+        .bdg {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all .4s;
+            position: relative;
+            cursor: default;
+            flex-direction: column
+        }
+
+        .bdg.lk {
+            opacity: .18;
+            filter: grayscale(1)
+        }
+
+        .bdg:not(.lk):hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 20px var(--glow);
+            border-color: var(--t20)
+        }
+
+        .bdg-t {
+            position: absolute;
+            bottom: -26px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 8px;
+            color: var(--t40);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+            background: var(--bg3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--card-b)
+        }
+
+        .bdg:hover .bdg-t {
+            opacity: 1
+        }
+
+        .bdg.pop {
+            animation: bpop .6s cubic-bezier(.34, 1.56, .64, 1)
+        }
+
+        @keyframes bpop {
+            0% {
+                transform: scale(0) rotate(-200deg)
+            }
+
+            100% {
+                transform: scale(1) rotate(0)
+            }
+        }
+
+        /* Weekly challenge */
+        .wcc {
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            border-radius: var(--card-rad);
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .wcc::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .04), transparent 40%);
+            pointer-events: none
+        }
+
+        .wt {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--t40);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .wg {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: var(--t80)
+        }
+
+        .cdr {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .cdu {
+            text-align: center;
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            border-radius: 8px;
+            padding: 8px 12px;
+            min-width: 52px
+        }
+
+        .cdn {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--t100)
+        }
+
+        .cdl {
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--t20);
+            margin-top: 2px
+        }
+
+        /* Leaderboard */
+        .lbr {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .lbr-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            border-radius: 10px;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .lbr-item:hover {
+            background: var(--card-h);
+            border-color: var(--t20);
+            transform: translateX(3px)
+        }
+
+        .lbr-item.me {
+            border-color: rgba(255, 255, 255, .15);
+            background: rgba(255, 255, 255, .04)
+        }
+
+        .lbr-item.me::before {
+            content: 'YOU';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 8px;
+            letter-spacing: .1em;
+            color: var(--t20);
+            font-family: 'Space Grotesk', sans-serif
+        }
+
+        .lbr-rank {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--t40);
+            width: 28px;
+            text-align: center
+        }
+
+        .lbr-rank.gold {
+            color: #ffd060
+        }
+
+        .lbr-rank.silver {
+            color: #c0c0c0
+        }
+
+        .lbr-rank.bronze {
+            color: #cd7f32
+        }
+
+        .lbr-av {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--card-h);
+            border: 1px solid var(--card-b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+            overflow: hidden
+        }
+
+        .lbr-av img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .lbr-info {
+            flex: 1
+        }
+
+        .lbr-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t80)
+        }
+
+        .lbr-sub {
+            font-size: 10px;
+            color: var(--t40);
+            margin-top: 2px
+        }
+
+        .lbr-xp {
+            font-family: 'Syne', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--t60)
+        }
+
+        .lbr-badge {
+            font-size: 12px;
+            margin-left: 4px
+        }
+
+        /* Pricing */
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px
+        }
+
+        .price-card {
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            border-radius: 18px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: all .4s
+        }
+
+        .price-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(0, 0, 0, .4)
+        }
+
+        .price-card.popular {
+            border-color: rgba(255, 255, 255, .2);
+            background: rgba(255, 255, 255, .05)
+        }
+
+        .price-card.popular::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 8px;
+            letter-spacing: .12em;
+            color: var(--t40);
+            padding: 3px 10px;
+            border: 1px solid var(--card-b);
+            border-radius: 100px
+        }
+
+        .price-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--t60);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 8px
+        }
+
+        .price-amt {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--t100);
+            line-height: 1;
+            margin-bottom: 4px
+        }
+
+        .price-amt span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--t40)
+        }
+
+        .price-per {
+            font-size: 11px;
+            color: var(--t40);
+            margin-bottom: 20px
+        }
+
+        .price-feat {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px
+        }
+
+        .price-feat li {
+            font-size: 13px;
+            color: var(--t60);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .price-feat li::before {
+            content: '✓';
+            color: var(--t40);
+            flex-shrink: 0
+        }
+
+        .price-feat li.locked {
+            color: var(--t20)
+        }
+
+        .price-feat li.locked::before {
+            content: '✕';
+            color: rgba(200, 60, 60, .4)
+        }
+
+        .price-btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .3s;
+            letter-spacing: .03em
+        }
+
+        .price-btn.primary {
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid var(--card-b);
+            color: var(--t100)
+        }
+
+        .price-btn.primary:hover {
+            background: rgba(255, 255, 255, .18);
+            transform: scale(1.02)
+        }
+
+        .price-btn.disabled {
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            color: var(--t40);
+            cursor: default
+        }
+
+        .trial-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 200, 50, .08);
+            border: 1px solid rgba(255, 200, 50, .2);
+            border-radius: 100px;
+            padding: 4px 12px;
+            font-size: 11px;
+            color: rgba(255, 200, 50, .8);
+            margin-bottom: 20px
+        }
+
+        /* Settings panel */
+        .settings-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0, 0, 0, .6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fi .35s ease
+        }
+
+        @keyframes fi {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .settings-panel {
+            background: var(--bg3);
+            border: 1px solid var(--card-b);
+            border-radius: 24px;
+            width: min(700px, 94vw);
+            max-height: 88vh;
+            overflow-y: auto;
+            animation: spi .45s cubic-bezier(.34, 1.5, .64, 1)
+        }
+
+        @keyframes spi {
+            from {
+                opacity: 0;
+                transform: scale(.88) translateY(40px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .sp-header {
+            padding: 24px 28px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background: var(--bg3);
+            border-radius: 24px 24px 0 0;
+            z-index: 2;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--card-b)
+        }
+
+        .sp-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--t100), var(--dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .sp-close {
+            background: none;
+            border: 1px solid var(--card-b);
+            color: var(--t40);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .3s
+        }
+
+        .sp-close:hover {
+            border-color: var(--t20);
+            color: var(--t100)
+        }
+
+        .sp-body {
+            padding: 24px 28px
+        }
+
+        .sp-section {
+            margin-bottom: 28px
+        }
+
+        .sp-sec-title {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .14em;
+            color: var(--t40);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .sp-sec-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--card-b)
+        }
+
+        /* Themes grid */
+        .thr {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px
+        }
+
+        .tho {
+            cursor: pointer;
+            transition: all .3s;
+            text-align: center;
+            position: relative
+        }
+
+        .tho:hover {
+            transform: translateY(-3px)
+        }
+
+        .thp {
+            width: 100%;
+            height: 52px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .tho.act .thp {
+            border-color: var(--t60);
+            box-shadow: 0 0 16px var(--glow)
+        }
+
+        .thn {
+            font-size: 9px;
+            color: var(--t40);
+            margin-top: 5px;
+            letter-spacing: .04em
+        }
+
+        .th-lock {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity .3s
+        }
+
+        .tho:hover .th-lock {
+            opacity: 1
+        }
+
+        .th-lock.show {
+            opacity: 1;
+            font-size: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            color: rgba(255, 200, 50, .7)
+        }
+
+        /* Toggles & sliders */
+        .srow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--card-b)
+        }
+
+        .srow:last-child {
+            border: none
+        }
+
+        .slbl {
+            font-size: 13px;
+            color: var(--t60)
+        }
+
+        .slbl small {
+            display: block;
+            font-size: 10px;
+            color: var(--t40);
+            margin-top: 1px
+        }
+
+        .slw {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .slw input[type="range"] {
+            -webkit-appearance: none;
+            width: 90px;
+            height: 3px;
+            background: var(--card-b);
+            border-radius: 100px;
+            outline: none;
+            cursor: pointer
+        }
+
+        .slw input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 13px;
+            height: 13px;
+            background: var(--t60);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .slw input[type="range"]::-webkit-slider-thumb:hover {
+            background: var(--t100);
+            transform: scale(1.2)
+        }
+
+        .tsw {
+            width: 40px;
+            height: 22px;
+            background: var(--card-b);
+            border-radius: 100px;
+            position: relative;
+            cursor: pointer;
+            transition: background .3s;
+            border: none;
+            flex-shrink: 0
+        }
+
+        .tsw.on {
+            background: rgba(255, 255, 255, .2)
+        }
+
+        .tsw::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--t40);
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: all .3s
+        }
+
+        .tsw.on::after {
+            left: 21px;
+            background: var(--t100);
+            box-shadow: 0 0 8px var(--glow)
+        }
+
+        /* Collapsible */
+        .chdr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 8px 0;
+            margin-bottom: 8px
+        }
+
+        .carr {
+            transition: transform .3s;
+            color: var(--t40);
+            font-size: 10px
+        }
+
+        .carr.o {
+            transform: rotate(180deg)
+        }
+
+        .cbody {
+            overflow: hidden;
+            transition: max-height .45s ease, opacity .35s;
+            max-height: 0;
+            opacity: 0
+        }
+
+        .cbody.o {
+            max-height: 5000px;
+            opacity: 1
+        }
+
+        /* Modal */
+        .mov {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(0, 0, 0, .6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fi .3s
+        }
+
+        .moc {
+            background: var(--bg3);
+            border: 1px solid var(--card-b);
+            border-radius: 18px;
+            padding: 28px;
+            width: min(480px, 92vw);
+            animation: mi .4s cubic-bezier(.34, 1.56, .64, 1);
+            max-height: 80vh;
+            overflow-y: auto
+        }
+
+        @keyframes mi {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(.95)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .moc h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, var(--t100), var(--dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .moc textarea,
+        .moc input[type="text"],
+        .moc select {
+            width: 100%;
+            padding: 12px;
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            border-radius: 8px;
+            color: var(--t100);
+            font-size: 13px;
+            font-family: 'Space Grotesk', sans-serif;
+            outline: none;
+            transition: border-color .3s;
+            line-height: 1.6
+        }
+
+        .moc select option {
+            background: var(--bg3);
+            color: var(--t100)
+        }
+
+        .moc textarea:focus,
+        .moc input[type="text"]:focus {
+            border-color: var(--t20)
+        }
+
+        .moc label {
+            font-size: 11px;
+            color: var(--t40);
+            display: block;
+            margin-bottom: 5px;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: .08em
+        }
+
+        .moa {
+            display: flex;
+            gap: 8px;
+            margin-top: 18px;
+            justify-content: flex-end
+        }
+
+        .moa button {
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: 'Syne', sans-serif;
+            cursor: pointer;
+            transition: all .3s;
+            font-weight: 600;
+            letter-spacing: .03em
+        }
+
+        .mcb {
+            background: none;
+            border: 1px solid var(--card-b);
+            color: var(--t40)
+        }
+
+        .mcb:hover {
+            border-color: var(--t20);
+            color: var(--t100)
+        }
+
+        .mfb {
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid var(--card-b);
+            color: var(--t100)
+        }
+
+        .mfb:hover {
+            background: rgba(255, 255, 255, .18)
+        }
+
+        /* Empty state */
+        .es {
+            text-align: center;
+            padding: 70px 20px
+        }
+
+        .es-i {
+            font-size: 3.5rem;
+            margin-bottom: 18px;
+            opacity: .1;
+            animation: esf 4s ease-in-out infinite
+        }
+
+        @keyframes esf {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-10px)
+            }
+        }
+
+        .es-t {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--t100), var(--dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .es-s {
+            font-size: 13px;
+            color: var(--t40);
+            max-width: 380px;
+            margin: 0 auto 28px;
+            line-height: 1.7
+        }
+
+        .es-a {
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid var(--t20);
+            color: var(--t100);
+            font-size: 14px;
+            padding: 13px 30px;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all .3s;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700
+        }
+
+        .es-a:hover {
+            background: rgba(255, 255, 255, .14);
+            transform: scale(1.03)
+        }
+
+        /* Confetti & XP Burst */
+        .cfc {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999
+        }
+
+        .cfp {
+            position: absolute;
+            border-radius: 50%;
+            animation: cfb .8s ease forwards
+        }
+
+        @keyframes cfb {
+            0% {
+                transform: translate(0, 0) scale(1.2);
+                opacity: 1
+            }
+
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0
+            }
+        }
+
+        .xpb {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--t100);
+            text-shadow: 0 0 20px var(--glow);
+            animation: xpu 1.1s ease forwards
+        }
+
+        @keyframes xpu {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1)
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(-30px) scale(1.15)
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-60px) scale(1.3)
+            }
+        }
+
+        /* Big celebration */
+        .big-cel {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .big-cel-inner {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            color: #fff;
+            text-align: center;
+            animation: bigCel 2.5s ease forwards;
+            text-shadow: 0 0 60px rgba(255, 255, 255, .4)
+        }
+
+        @keyframes bigCel {
+            0% {
+                opacity: 0;
+                transform: scale(.5)
+            }
+
+            20% {
+                opacity: 1;
+                transform: scale(1.05)
+            }
+
+            80% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(.9) translateY(-30px)
+            }
+        }
+
+        /* Tutorial / Guide character */
+        .guide-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 400;
+            background: rgba(0, 0, 0, .7);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 0;
+            animation: fi .4s
+        }
+
+        .guide-box {
+            width: min(700px, 96vw);
+            height: min(480px, 85vh);
+            background: var(--bg3);
+            border: 1px solid var(--card-b);
+            border-radius: 24px 24px 0 0;
+            position: relative;
+            overflow: hidden;
+            animation: guideUp .6s cubic-bezier(.34, 1.4, .64, 1)
+        }
+
+        @keyframes guideUp {
+            from {
+                transform: translateY(100%)
+            }
+
+            to {
+                transform: translateY(0)
+            }
+        }
+
+        .guide-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(120, 80, 255, .05), rgba(255, 80, 180, .05));
+            pointer-events: none
+        }
+
+        .guide-char {
+            position: absolute;
+            bottom: 0;
+            left: 40px;
+            width: min(180px, 35vw);
+            animation: guideBob 3s ease-in-out infinite
+        }
+
+        @keyframes guideBob {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-12px)
+            }
+        }
+
+        .guide-char svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(180, 100, 255, .4))
+        }
+
+        .guide-bubble {
+            position: absolute;
+            left: min(200px, 40vw);
+            top: 50%;
+            transform: translateY(-50%);
+            right: 24px;
+            background: var(--card);
+            border: 1px solid var(--card-b);
+            border-radius: 16px;
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto
+        }
+
+        .guide-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            color: rgba(180, 100, 255, .8);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .guide-text {
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: var(--t80);
+            min-height: 80px
+        }
+
+        .guide-text .cursor {
+            animation: blink .7s step-end infinite
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0
+            }
+        }
+
+        .guide-steps {
+            display: flex;
+            gap: 5px;
+            margin-top: 14px;
+            flex-wrap: wrap
+        }
+
+        .guide-step-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--card-b);
+            transition: all .3s;
+            cursor: pointer
+        }
+
+        .guide-step-dot.act {
+            background: rgba(180, 100, 255, .7);
+            width: 18px;
+            border-radius: 4px
+        }
+
+        .guide-btns {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px
+        }
+
+        .guide-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .3s;
+            border: 1px solid var(--card-b)
+        }
+
+        .guide-btn.primary {
+            background: rgba(180, 100, 255, .15);
+            color: rgba(180, 100, 255, .9);
+            border-color: rgba(180, 100, 255, .3)
+        }
+
+        .guide-btn.primary:hover {
+            background: rgba(180, 100, 255, .25)
+        }
+
+        .guide-btn.sec {
+            background: var(--card);
+            color: var(--t40)
+        }
+
+        .guide-btn.sec:hover {
+            color: var(--t100)
+        }
+
+        /* Background canvas */
+        canvas.bgc {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--t10);
+            border-radius: 3px
+        }
+
+        /* Floating action button */
+        .fab {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 20;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid var(--card-b);
+            color: var(--t100);
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .3s;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .4)
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, .18);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .5)
+        }
+
+        /* Pro banner */
+        .pro-banner {
+            background: linear-gradient(135deg, rgba(255, 200, 50, .08), rgba(255, 200, 50, .03));
+            border: 1px solid rgba(255, 200, 50, .2);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: rgba(255, 200, 50, .8)
+        }
+
+        .pro-banner strong {
+            color: rgba(255, 220, 80, 1);
+            font-family: 'Syne', sans-serif
+        }
+
+        /* Sound visualization */
+        .sound-wave {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            height: 16px
+        }
+
+        .sound-bar {
+            width: 3px;
+            background: var(--t40);
+            border-radius: 2px;
+            animation: soundWave var(--d) ease-in-out infinite;
+            height: var(--h)
+        }
+
+        @keyframes soundWave {
+
+            0%,
+            100% {
+                transform: scaleY(1)
+            }
+
+            50% {
+                transform: scaleY(2.5)
+            }
+        }
+
+        /* Responsive */
+        @media(max-width:700px) {
+            .lw {
+                flex-direction: column
+            }
+
+            .ll {
+                min-height: 160px
+            }
+
+            .lr {
+                padding: 28px 22px
+            }
+
+            .sr {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .gg {
+                grid-template-columns: 1fr
+            }
+
+            .pa {
+                flex-direction: column
+            }
+
+            .rw {
+                width: 140px;
+                height: 140px
+            }
+
+            .guide-char {
+                width: 100px;
+                left: 10px
+            }
+
+            .guide-bubble {
+                left: 120px
+            }
+
+            .main-logo {
+                gap: 10px
+            }
+        }
+
+        @media(max-width:440px) {
+            .sr {
+                grid-template-columns: 1fr
+            }
+
+            .nav-tab {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <svg style="position:absolute;width:0;height:0">
+        <defs>
+            <linearGradient id="rgrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fff" />
+                <stop offset="100%" stop-color="#666" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.23.9/babel.min.js"></script>
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback, useMemo, createContext, useContext, memo, Fragment } = React;
+
+        /* ===== CONSTANTS ===== */
+        const SK = 'hb_v5';
+        const XPG = 100; const XPL = 500;
+        const CATS = ['Travel', 'Health', 'Learn', 'Create', 'Adventure', 'Social', 'Career', 'Finance', 'Family', 'Fun'];
+        const MFONTS = [
+            'Impact,sans-serif', '"Bebas Neue",sans-serif', '"Anton",sans-serif', '"Barlow Condensed",sans-serif',
+            '"Oswald",sans-serif', '"Black Han Sans",sans-serif', '"Russo One",sans-serif', '"Teko",sans-serif',
+            '"Fjalla One",sans-serif', '"Changa",sans-serif', '"Boogaloo",sans-serif', '"Lilita One",sans-serif',
+            '"Righteous",sans-serif', '"DM Serif Display",serif', '"Syne",sans-serif', '"JetBrains Mono",monospace',
+            'Georgia,serif', '"Playfair Display",serif', '"Barlow Condensed",sans-serif', 'Impact,sans-serif',
+            '"Bebas Neue",sans-serif', '"Anton",sans-serif'
+        ];
+
+        const ALL_THEMES = [
+            { id: 'void', n: 'Void', c: ['#000', '#111', '#222'], free: true },
+            { id: 'slate', n: 'Slate', c: ['#0f0f12', '#1a1a22', '#2a2a36'], free: true },
+            { id: 'frost', n: 'Frost', c: ['#e8e8ec', '#f0f0f4', '#fff'], free: true },
+            { id: 'solar', n: 'Solar', c: ['#0d0c0a', '#1c1b17', '#2e2d27'], free: true },
+            { id: 'matte', n: 'Matte', c: ['#161616', '#222', '#333'], free: true },
+            { id: 'neon', n: 'Neon', c: ['#060612', '#0d0d20', '#180a30'], free: false },
+            { id: 'sakura', n: 'Sakura', c: ['#1a0a12', '#280f1a', '#3a1525'], free: false },
+            { id: 'forest', n: 'Forest', c: ['#050f05', '#0a180a', '#0f200f'], free: false },
+            { id: 'gold', n: 'Gold', c: ['#0a0800', '#141000', '#1e1800'], free: false },
+            { id: 'cyber', n: 'Cyber', c: ['#000806', '#001210', '#001a18'], free: false },
+            { id: 'crimson', n: 'Crimson', c: ['#0a0000', '#140000', '#1e0000'], free: false },
+        ];
+
+        const BADGES = [
+            { id: 'b1', i: '⭐', n: 'First Step', d: 'Complete 1 goal', ck: (g) => g.filter(x => x.done).length >= 1 },
+            { id: 'b5', i: '🌱', n: 'Getting Started', d: 'Complete 5 goals', ck: (g) => g.filter(x => x.done).length >= 5 },
+            { id: 'b10', i: '🔥', n: 'On Fire', d: 'Complete 10 goals', ck: (g) => g.filter(x => x.done).length >= 10 },
+            { id: 'b25', i: '💎', n: 'Quarter Century', d: 'Complete 25 goals', ck: (g) => g.filter(x => x.done).length >= 25 },
+            { id: 'b50', i: '🏆', n: 'Halfway There', d: 'Complete 50 goals', ck: (g) => g.filter(x => x.done).length >= 50 },
+            { id: 'b100', i: '👑', n: 'Legend', d: 'Complete all 100', ck: (g) => g.filter(x => x.done).length >= 100 },
+            { id: 's7', i: '⚡', n: 'Week Warrior', d: '7-day streak', ck: (g, s) => s >= 7 },
+            { id: 's30', i: '🌟', n: 'Unstoppable', d: '30-day streak', ck: (g, s) => s >= 30 },
+            { id: 'photo', i: '📸', n: 'Storyteller', d: 'Add a photo to a goal', ck: (g) => g.some(x => x.photo) },
+            { id: 'cat', i: '🗂️', n: 'Organizer', d: 'Use 3+ categories', ck: (g) => new Set(g.filter(x => x.cat).map(x => x.cat)).size >= 3 },
+            { id: 'lv5', i: '🎯', n: 'High Level', d: 'Reach Level 5', ck: (g, s, x) => Math.floor(x / XPL) >= 5 },
+            { id: 'lv10', i: '🚀', n: 'Ascended', d: 'Reach Level 10', ck: (g, s, x) => Math.floor(x / XPL) >= 10 },
+        ];
+
+        /* No fake users — leaderboard is Pranav vs PranavR only */
+
+        const TUTORIAL_STEPS = [
+            { title: "Hi! I'm Luna! 🌙", text: "Welcome to 100 Before — your ultimate bucket list tracker! I'm Luna, your guide. I'll show you around this magical place where dreams become goals, and goals become legends! ✨" },
+            { title: "Your Goal Board", text: "This is where your 100 goals live! Each card is a dream waiting to be conquered. Click the circle to mark it done, add photos of your achievements, and organize by category! 🎯" },
+            { title: "XP & Levels ⚡", text: "Every goal you complete earns you 100 XP! Level up, unlock achievements, and climb the leaderboard. The more you do, the higher you go! Think of it like a real-life RPG! 🎮" },
+            { title: "Badges & Achievements 🏆", text: "Complete goals in certain patterns to unlock secret badges! From 'First Step' to 'Legend' — each badge tells your story. Some are easy, some are legendary. Can you get them all?" },
+            { title: "Weekly Challenges ⚡", text: "Every week, a random goal becomes your Weekly Challenge! Beat it before the timer runs out for bonus glory. Don't miss your chance! 🏃‍♀️" },
+            { title: "Leaderboard ⚔️", text: "It's personal! The leaderboard shows a head-to-head battle between Pranav and PranavR. XP, goals, streak, level, and badges — every stat is compared side by side. Who will win? 🥇" },
+            { title: "Themes & Settings 🎨", text: "Make 100 Before yours! Choose from 11 stunning themes (Pro gets 6 exclusive ones), customize sounds, animations, and more in Settings. Free users get a 7-day Pro trial — enjoy it! ✨" },
+            { title: "You're Ready! 🚀", text: "That's everything, champ! Remember: 100 goals. One extraordinary life. Start with what excites you most and the rest will follow. Luna believes in you! Now go make history! 🌟" },
+        ];
+
+        /* ===== ACCOUNTS ===== */
+        const ACCOUNTS = {
+            'Pranav': { pass: '123', pro: true, trialEnd: null },
+            'PranavR': { pass: '321', pro: false, trialEnd: new Date(Date.now() + 7 * 864e5).toISOString() },
+        };
+
+        /* ===== AUDIO ENGINE ===== */
+        let audioCtx = null;
+        function getAudio() {
+            if (!audioCtx) try { audioCtx = new (window.AudioContext || window.webkitAudioContext)() } catch (e) { }
+            return audioCtx;
+        }
+        function playTone(freq, dur, type, vol, delay) {
+            const a = getAudio(); if (!a || !window._soundOn) return;
+            try {
+                const g = a.createGain(); const o = a.createOscillator();
+                o.type = type || 'sine'; o.frequency.value = freq;
+                g.gain.setValueAtTime(0, .001);
+                g.gain.linearRampToValueAtTime(vol || .15, a.currentTime + (delay || 0) + .01);
+                g.gain.exponentialRampToValueAtTime(.001, a.currentTime + (delay || 0) + dur);
+                o.connect(g); g.connect(a.destination);
+                o.start(a.currentTime + (delay || 0)); o.stop(a.currentTime + (delay || 0) + dur + .05);
+            } catch (e) { }
+        }
+        function sfxComplete() {
+            [0, .08, .16, .24].forEach(function (d, i) {
+                playTone([523, 659, 784, 1047][i], .18, 'sine', .12, d);
+            });
+        }
+        function sfxClick() { playTone(440, .06, 'sine', .07) }
+        function sfxDelete() { playTone(200, .15, 'sawtooth', .06) }
+        function sfxBadge() {
+            [0, .1, .2, .3, .4].forEach(function (d, i) {
+                playTone([440, 550, 660, 770, 880][i], .2, 'triangle', .1, d);
+            });
+        }
+        function sfxNav() { playTone(330, .08, 'sine', .06) }
+        function sfxOpen() { playTone(500, .12, 'sine', .08); playTone(700, .12, 'sine', .06, .05) }
+        function sfxLevelUp() {
+            [0, .15, .3, .45].forEach(function (d, i) {
+                playTone([261, 330, 392, 523][i], .3, 'triangle', .12, d);
+            });
+        }
+        window._soundOn = true;
+
+        /* ===== STORAGE ===== */
+        function ld(uname) {
+            try {
+                const r = localStorage.getItem(SK + '_' + uname); if (!r) return null;
+                const d = JSON.parse(r);
+                return {
+                    u: d.u || uname, goals: Array.isArray(d.goals) ? d.goals : [], xp: d.xp || 0, streak: d.streak || 1,
+                    la: d.la || new Date().toISOString().split('T')[0], av: d.av || null,
+                    wgi: d.wgi != null ? d.wgi : null, we: d.we || new Date(Date.now() + 7 * 864e5).toISOString(),
+                    th: d.th || 'void', mi: d.mi != null ? d.mi : 1, bg: d.bg != null ? d.bg : true,
+                    ub: Array.isArray(d.ub) ? d.ub : [], gs: !!d.gs, snd: d.snd != null ? d.snd : true,
+                    tutorial: d.tutorial != null ? d.tutorial : true, gcat: d.gcat || 'all', notedGoals: d.notedGoals || {}
+                };
+            } catch (e) { return null }
+        }
+        function sv(d, uname) {
+            try { localStorage.setItem(SK + '_' + (uname || d.u), JSON.stringify(d)) } catch (e) { }
+        }
+        function mkUser(u) {
+            return {
+                u, goals: [], xp: 0, streak: 1, la: new Date().toISOString().split('T')[0],
+                av: null, wgi: null, we: new Date(Date.now() + 7 * 864e5).toISOString(), th: 'void',
+                mi: 1, bg: true, ub: [], gs: false, snd: true, tutorial: true, gcat: 'all', notedGoals: {}
+            };
+        }
+        function rsStreak(d) {
+            const t = new Date().toISOString().split('T')[0]; if (d.la === t) return d;
+            const y = new Date(Date.now() - 864e5).toISOString().split('T')[0];
+            return { ...d, streak: d.la === y ? d.streak + 1 : 1, la: t, xp: d.xp + 10 };
+        }
+        function isPro(uname) {
+            const acc = ACCOUNTS[uname]; if (!acc) return false;
+            if (acc.pro) return true;
+            if (acc.trialEnd && new Date(acc.trialEnd) > new Date()) return true;
+            return false;
+        }
+        function trialDaysLeft(uname) {
+            const acc = ACCOUNTS[uname]; if (!acc || !acc.trialEnd) return 0;
+            const diff = new Date(acc.trialEnd) - new Date();
+            return Math.max(0, Math.ceil(diff / 864e5));
+        }
+
+        /* ===== THEME CTX ===== */
+        const TC = createContext({ th: 'void', setTh: () => { } });
+        function TP({ init, children }) {
+            const [th, setTh] = useState(init || 'void');
+            useEffect(() => { document.documentElement.setAttribute('data-theme', th) }, [th]);
+            return <TC.Provider value={{ th, setTh }}>{children}</TC.Provider>;
+        }
+
+        /* ===== ANIMATED NUMBER ===== */
+        function useAN(target, dur = 900) {
+            const [v, setV] = useState(target); const pr = useRef(target); const af = useRef(0);
+            useEffect(() => {
+                const fr = pr.current; const st = performance.now();
+                function tick(now) {
+                    const p = Math.min((now - st) / dur, 1); const e = 1 - Math.pow(1 - p, 3);
+                    setV(Math.round(fr + (target - fr) * e));
+                    if (p < 1) af.current = requestAnimationFrame(tick); else pr.current = target;
+                }
+                af.current = requestAnimationFrame(tick);
+                return () => cancelAnimationFrame(af.current);
+            }, [target, dur]);
+            return v;
+        }
+
+        /* ===== PARTICLES ===== */
+        const Particles = memo(function ({ intensity = 1, dark = true }) {
+            const cr = useRef(null); const pts = useRef([]); const mo = useRef({ x: -9e3, y: -9e3 }); const af = useRef(0);
+            useEffect(() => {
+                const c = cr.current; if (!c) return; const ctx = c.getContext('2d');
+                function resize() { c.width = innerWidth; c.height = innerHeight }
+                resize(); const N = Math.min(Math.floor(55 * intensity), 90); pts.current = [];
+                for (let i = 0; i < N; i++)pts.current.push({
+                    x: Math.random() * c.width, y: Math.random() * c.height,
+                    vx: (Math.random() - .5) * .3 * intensity, vy: (Math.random() - .5) * .3 * intensity,
+                    sz: Math.random() * 1.4 + .4, op: Math.random() * .22 + .04
+                });
+                function draw() {
+                    ctx.clearRect(0, 0, c.width, c.height); const col = dark ? '255,255,255' : '0,0,0';
+                    pts.current.forEach(p => {
+                        p.x += p.vx; p.y += p.vy;
+                        if (p.x < 0) p.x = c.width; if (p.x > c.width) p.x = 0;
+                        if (p.y < 0) p.y = c.height; if (p.y > c.height) p.y = 0;
+                        const dx = mo.current.x - p.x, dy = mo.current.y - p.y;
+                        if (dx * dx + dy * dy < 12000) { p.x -= dx * .003; p.y -= dy * .003 }
+                        ctx.beginPath(); ctx.arc(p.x, p.y, p.sz, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(${col},${p.op})`; ctx.fill();
+                    });
+                    for (let i = 0; i < pts.current.length; i++)for (let j = i + 1; j < pts.current.length; j++) {
+                        const dx = pts.current[i].x - pts.current[j].x, dy = pts.current[i].y - pts.current[j].y, d2 = dx * dx + dy * dy;
+                        if (d2 < 11000) {
+                            ctx.beginPath(); ctx.moveTo(pts.current[i].x, pts.current[i].y);
+                            ctx.lineTo(pts.current[j].x, pts.current[j].y);
+                            ctx.strokeStyle = `rgba(${col},${0.03 * (1 - d2 / 11000)})`; ctx.lineWidth = .5; ctx.stroke()
+                        }
+                    }
+                    af.current = requestAnimationFrame(draw);
+                }
+                af.current = requestAnimationFrame(draw);
+                const mm = e => { mo.current = { x: e.clientX, y: e.clientY } };
+                const ml = () => { mo.current = { x: -9e3, y: -9e3 } };
+                addEventListener('resize', resize); addEventListener('mousemove', mm); addEventListener('mouseleave', ml);
+                return () => {
+                    cancelAnimationFrame(af.current); removeEventListener('resize', resize);
+                    removeEventListener('mousemove', mm); removeEventListener('mouseleave', ml)
+                };
+            }, [intensity, dark]);
+            return <canvas ref={cr} className="bgc" />;
+        });
+
+        /* ===== ORBIT BG ===== */
+        const OrbitBG = memo(function ({ intensity = 1, dark = true }) {
+            const cr = useRef(null); const af = useRef(0);
+            useEffect(() => {
+                const c = cr.current; if (!c) return; const ctx = c.getContext('2d');
+                function resize() { c.width = innerWidth; c.height = innerHeight }
+                resize();
+                const orbs = [{ r: 60, sp: .0004 * intensity, a: 0, sz: 2.5 }, { r: 120, sp: .00025 * intensity, a: 1.2, sz: 2 },
+                { r: 190, sp: .00016 * intensity, a: 2.5, sz: 1.8 }, { r: 270, sp: .00011 * intensity, a: 4, sz: 1.5 },
+                { r: 370, sp: .00007 * intensity, a: 5.5, sz: 1.2 }];
+                function draw() {
+                    ctx.clearRect(0, 0, c.width, c.height); const cx = c.width / 2, cy = c.height / 2;
+                    const col = dark ? '255,255,255' : '0,0,0';
+                    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 14);
+                    g.addColorStop(0, `rgba(${col},.06)`); g.addColorStop(1, 'transparent');
+                    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, 14, 0, Math.PI * 2); ctx.fill();
+                    orbs.forEach(o => {
+                        ctx.beginPath(); ctx.arc(cx, cy, o.r, 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(${col},.025)`; ctx.lineWidth = .5; ctx.stroke();
+                        o.a += o.sp;
+                        const px = cx + Math.cos(o.a) * o.r, py = cy + Math.sin(o.a) * o.r;
+                        ctx.beginPath(); ctx.arc(px, py, o.sz, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(${col},.12)`; ctx.fill();
+                    });
+                    af.current = requestAnimationFrame(draw);
+                }
+                af.current = requestAnimationFrame(draw);
+                addEventListener('resize', resize);
+                return () => { cancelAnimationFrame(af.current); removeEventListener('resize', resize) };
+            }, [intensity, dark]);
+            return <canvas ref={cr} className="bgc" />;
+        });
+
+        /* ===== INTRO ===== */
+        function Intro({ onDone }) {
+            const [phase, setPhase] = useState(-1);
+            const [lineVis, setLineVis] = useState(false);
+            const [lineHide, setLineHide] = useState(false);
+            const [logoVis, setLogoVis] = useState(false);
+            const [mf, setMf] = useState(MFONTS[0]);
+            const [locked, setLocked] = useState(false);
+            const [glitch, setGlitch] = useState(false);
+            const [glitchStable, setGlitchStable] = useState(false);
+            const [scan, setScan] = useState(false);
+            const ts = useRef([]); const mi = useRef(null);
+
+            const LINES = ['You have 100 chances.', 'Most people never finish.', 'This is where you do.', 'Your story starts now.'];
+
+            useEffect(() => {
+                const t = (fn, ms) => { const id = setTimeout(fn, ms); ts.current.push(id); return id };
+                let lineIdx = 0;
+                function showLine() {
+                    if (lineIdx >= LINES.length) {
+                        // Show logo
+                        t(() => { setPhase(4); setLogoVis(true) }, 200);
+                        // Font cycling
+                        t(() => {
+                            let idx = 0;
+                            mi.current = setInterval(() => {
+                                idx++;
+                                if (idx >= MFONTS.length) {
+                                    clearInterval(mi.current);
+                                    setMf('"Anton",sans-serif');
+                                    setLocked(true);
+                                    t(() => setGlitch(true), 300);
+                                    t(() => setGlitch(false), 1200);
+                                    t(() => setGlitchStable(true), 1300);
+                                    t(() => setScan(true), 1400);
+                                    t(() => setScan(false), 2200);
+                                    t(() => onDone(), 3200);
+                                } else setMf(MFONTS[idx]);
+                            }, 90);
+                        }, 600);
+                        return;
+                    }
+                    setLineHide(false); setPhase(lineIdx);
+                    t(() => setLineVis(true), 100);
+                    t(() => setLineHide(true), 2600);
+                    t(() => { setLineVis(false); lineIdx++; t(() => showLine(), 700) }, 3400);
+                }
+                t(() => showLine(), 600);
+                return () => { ts.current.forEach(clearTimeout); if (mi.current) clearInterval(mi.current) };
+            }, []);
+
+            function skip() { ts.current.forEach(clearTimeout); if (mi.current) clearInterval(mi.current); onDone() }
+
+            return <>
+                <div className="intro">
+                    <div className="intro-center">
+                        {phase < 4 && <div className={`i-line${lineVis ? ' vis' : ''}${lineHide ? ' hide' : ''}`}>
+                            {LINES[phase] || ''}
+                        </div>}
+                        {phase >= 4 && <div className={`main-logo${logoVis ? ' vis' : ''}`}>
+                            <div className="logo-100" style={{ fontFamily: locked ? '"Anton",sans-serif' : mf }}>100</div>
+                            <div className={`logo-before${glitch ? ' glitch-on' : ''}${glitchStable ? ' stable' : ''}`}
+                                style={{ fontFamily: locked ? '"Anton",sans-serif' : mf }}>
+                                BEFORE
+                            </div>
+                        </div>}
+                    </div>
+                </div>
+                <div className={`scanlines${scan ? ' vis' : ''}`} />
+                <button className="skip-btn" onClick={skip}>Skip →</button>
+            </>;
+        }
+
+        /* ===== CONFETTI ===== */
+        function Confetti({ x, y, onDone }) {
+            useEffect(() => { const t = setTimeout(onDone, 900); return () => clearTimeout(t) }, []);
+            const dots = useMemo(() => {
+                const arr = []; for (let i = 0; i < 22; i++) {
+                    const a = Math.PI * 2 * i / 22; const v = 20 + Math.random() * 60;
+                    arr.push({ tx: Math.cos(a) * v, ty: Math.sin(a) * v - 20, sz: 2 + Math.random() * 4, c: 130 + Math.floor(Math.random() * 125) });
+                } return arr;
+            }, []);
+            return <div className="cfc" style={{ left: x, top: y }}>
+                {dots.map((d, i) => <div key={i} className="cfp" style={{
+                    width: d.sz, height: d.sz,
+                    background: `rgb(${d.c},${d.c},${d.c})`,
+                    '--tx': d.tx + 'px', '--ty': d.ty + 'px', animationDelay: (i * .025) + 's'
+                }} />)}
+            </div>;
+        }
+
+        /* ===== XP BURST ===== */
+        function XPBurst({ x, y, amt, onDone }) {
+            useEffect(() => { const t = setTimeout(onDone, 1200); return () => clearTimeout(t) }, []);
+            return <div className="xpb" style={{ left: x - 24, top: y - 10 }}>+{amt} XP</div>;
+        }
+
+        /* ===== BIG CELEBRATION ===== */
+        function BigCel({ text, onDone }) {
+            useEffect(() => { const t = setTimeout(onDone, 2600); return () => clearTimeout(t) }, []);
+            return <div className="big-cel"><div className="big-cel-inner">{text}</div></div>;
+        }
+
+        /* ===== PROGRESS RING ===== */
+        function Ring({ done, total }) {
+            const pct = total > 0 ? done / total : 0;
+            const circ = 2 * Math.PI * 65;
+            const off = circ * (1 - pct);
+            const dp = useAN(Math.round(pct * 100));
+            return <div className="rw">
+                <div className="rglow" />
+                <svg viewBox="0 0 150 150">
+                    <circle cx={75} cy={75} r={65} className="rbg" />
+                    <circle cx={75} cy={75} r={65} className="rfg" strokeDasharray={circ} strokeDashoffset={off} />
+                </svg>
+                <div className="rc">
+                    <div className="rpct">{dp}%</div>
+                    <div className="rlbl">Complete</div>
+                </div>
+            </div>;
+        }
+
+        /* ===== WEEKLY CHALLENGE ===== */
+        function WC({ goal, endDate }) {
+            const [now, setNow] = useState(Date.now());
+            useEffect(() => { const iv = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(iv) }, []);
+            if (!goal) return null;
+            const diff = Math.max(0, new Date(endDate).getTime() - now);
+            const d = Math.floor(diff / 864e5), h = Math.floor(diff % 864e5 / 36e5);
+            const m = Math.floor(diff % 36e5 / 6e4), s = Math.floor(diff % 6e4 / 1e3);
+            return <div className="wcc">
+                <div className="wt"><span className="flm">⚡</span> Weekly Challenge</div>
+                <div className="wg">{goal.text}</div>
+                {goal.done
+                    ? <div style={{ fontSize: 12, color: 'var(--t40)' }}>✓ Completed! Great job!</div>
+                    : <div className="cdr">
+                        {[[d, 'Days'], [h, 'Hrs'], [m, 'Min'], [s, 'Sec']].map(([v, l], i) =>
+                            <div key={i} className="cdu">
+                                <div className="cdn">{String(v).padStart(2, '0')}</div>
+                                <div className="cdl">{l}</div>
+                            </div>)}
+                    </div>}
+            </div>;
+        }
+
+        /* ===== COLLAPSIBLE ===== */
+        function Col({ title, children, startOpen = true }) {
+            const [open, setOpen] = useState(startOpen);
+            function toggle() { sfxNav(); setOpen(!open) }
+            return <div style={{ marginBottom: 24 }}>
+                <div className="chdr" onClick={toggle}>
+                    <div className="stit">{title}</div>
+                    <span className={`carr${open ? ' o' : ''}`}>▼</span>
+                </div>
+                <div className={`cbody${open ? ' o' : ''}`}>{children}</div>
+            </div>;
+        }
+
+        /* ===== GOAL CARD ===== */
+        const GC = memo(function ({ goal, index, onToggle, onDelete, onPhoto, onRemovePhoto, onNote, grayS, isPro }) {
+            const cardRef = useRef(null); const fileRef = useRef(null);
+            const [showNote, setShowNote] = useState(false);
+            const [noteVal, setNoteVal] = useState(goal.note || '');
+
+            function tilt(e) {
+                if (!cardRef.current || innerWidth < 768) return;
+                const r = cardRef.current.getBoundingClientRect();
+                const rx = (e.clientX - r.left) / r.width - .5;
+                const ry = (e.clientY - r.top) / r.height - .5;
+                cardRef.current.style.transform = `perspective(900px) rotateY(${rx * 7}deg) rotateX(${-ry * 7}deg) scale(1.02)`;
+            }
+            function untilt() { if (cardRef.current) cardRef.current.style.transform = '' }
+            function onFile(e) {
+                const f = e.target.files && e.target.files[0]; if (!f) return;
+                const reader = new FileReader();
+                reader.onload = ev => onPhoto(goal.id, ev.target.result);
+                reader.readAsDataURL(f); e.target.value = '';
+            }
+            function saveNote() { onNote(goal.id, noteVal); setShowNote(false) }
+
+            return <div ref={cardRef} className={`gc${goal.done ? ' dn' : ''}`}
+                style={{ animationDelay: (index * 25) + 'ms' }} onMouseMove={tilt} onMouseLeave={untilt}>
+                <div className="gtop" onClick={e => onToggle(goal.id, e)}>
+                    <div className={`gchk${goal.done ? ' on' : ''}`}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                    </div>
+                    <div className="gtxt">{goal.text}</div>
+                    <button className="gdel" onClick={e => { e.stopPropagation(); sfxDelete(); onDelete(goal.id) }} title="Delete">✕</button>
+                </div>
+                {goal.cat && <div className="gcat">{goal.cat}</div>}
+                {goal.note && !showNote && <div className="gnote">{goal.note}</div>}
+                {goal.photo && <img src={goal.photo} className="gimg" style={{ filter: grayS ? 'grayscale(1)' : 'none' }} alt="" />}
+                <div className="gir">
+                    <button className="gib" onClick={() => { fileRef.current && fileRef.current.click() }}>
+                        {goal.photo ? '📷 Change' : '📷 Photo'}
+                    </button>
+                    {goal.photo && <button className="gib" onClick={() => onRemovePhoto(goal.id)}>Remove</button>}
+                    <button className="gib" onClick={() => { sfxClick(); setShowNote(!showNote); setNoteVal(goal.note || '') }}>
+                        {goal.note ? '✏️ Note' : '+ Note'}
+                    </button>
+                </div>
+                {showNote && <div>
+                    <textarea value={noteVal} onChange={e => setNoteVal(e.target.value)}
+                        placeholder="Add a note about this goal..." rows={2}
+                        style={{
+                            width: '100%', padding: '8px', background: 'var(--card)', border: '1px solid var(--card-b)',
+                            borderRadius: '7px', color: 'var(--t100)', fontFamily: 'Space Grotesk', fontSize: 12, outline: 'none', resize: 'vertical'
+                        }}
+                        onClick={e => e.stopPropagation()} />
+                    <div style={{ display: 'flex', gap: 6, marginTop: 5 }}>
+                        <button className="gib" onClick={saveNote}>Save</button>
+                        <button className="gib" onClick={() => setShowNote(false)}>Cancel</button>
+                    </div>
+                </div>}
+                <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onFile} />
+            </div>;
+        });
+
+        /* ===== LEADERBOARD ===== */
+        function Leaderboard({ data, uname, isPro }) {
+            // Load the other account's saved data for real comparison
+            const otherName = uname === 'Pranav' ? 'PranavR' : 'Pranav';
+            const otherRaw = useMemo(() => {
+                try { const r = localStorage.getItem(SK + '_' + otherName); return r ? JSON.parse(r) : null } catch (e) { return null }
+            }, [otherName]);
+
+            const me = {
+                n: uname, xp: data.xp, done: data.goals.filter(g => g.done).length,
+                streak: data.streak, av: data.av, isPro: isPro, isMe: true,
+                level: Math.floor(data.xp / XPL), goals: data.goals.length,
+                badges: data.ub ? data.ub.length : 0
+            };
+            const other = {
+                n: otherName,
+                xp: otherRaw ? otherRaw.xp || 0 : 0,
+                done: otherRaw ? (otherRaw.goals || []).filter(g => g.done).length : 0,
+                streak: otherRaw ? otherRaw.streak || 0 : 0,
+                av: otherRaw ? otherRaw.av : null,
+                isPro: isPro(otherName) || false,
+                isMe: false,
+                level: otherRaw ? Math.floor((otherRaw.xp || 0) / XPL) : 0,
+                goals: otherRaw ? (otherRaw.goals || []).length : 0,
+                badges: otherRaw ? (otherRaw.ub || []).length : 0,
+                neverLoggedIn: !otherRaw
+            };
+
+            const winner = me.xp >= other.xp ? me : other;
+            const meLeading = me.xp >= other.xp;
+            const diff = Math.abs(me.xp - other.xp);
+
+            const stats = [
+                { label: 'Total XP', meVal: me.xp.toLocaleString(), otherVal: other.xp.toLocaleString(), meBetter: me.xp > other.xp, icon: '⚡' },
+                { label: 'Goals Done', meVal: me.done, otherVal: other.done, meBetter: me.done > other.done, icon: '✅' },
+                { label: 'Day Streak', meVal: me.streak + 'd', otherVal: other.streak + 'd', meBetter: me.streak > other.streak, icon: '🔥' },
+                { label: 'Level', meVal: me.level, otherVal: other.level, meBetter: me.level > other.level, icon: '🎯' },
+                { label: 'Goals Added', meVal: me.goals, otherVal: other.goals, meBetter: me.goals > other.goals, icon: '📋' },
+                { label: 'Badges', meVal: me.badges, otherVal: other.badges, meBetter: me.badges > other.badges, icon: '🏆' },
+            ];
+
+            return <div>
+                {/* Header banner */}
+                <div style={{ textAlign: 'center', padding: '20px 0 28px', position: 'relative' }}>
+                    <div style={{ fontSize: 11, letterSpacing: '.14em', color: 'var(--t40)', textTransform: 'uppercase', marginBottom: 14 }}>
+                        Head-to-Head
+                    </div>
+                    {/* VS Banner */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0, position: 'relative' }}>
+                        {/* Me card */}
+                        <div style={{
+                            flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
+                            padding: '20px 12px', background: meLeading ? 'rgba(255,255,255,.04)' : 'var(--card)',
+                            border: '1px solid ' + (meLeading ? 'rgba(255,255,255,.15)' : 'var(--card-b)'),
+                            borderRadius: '16px 0 0 16px', transition: 'all .4s',
+                            boxShadow: meLeading ? '0 0 30px var(--glow-s)' : 'none'
+                        }}>
+                            <div style={{
+                                width: 52, height: 52, borderRadius: '50%', background: 'var(--card-h)',
+                                border: '2px solid ' + (meLeading ? 'rgba(255,255,255,.3)' : 'var(--card-b)'),
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, overflow: 'hidden', position: 'relative'
+                            }}>
+                                {me.av && me.av.startsWith('data:') ? <img src={me.av} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" /> : uname[0].toUpperCase()}
+                                {me.isPro && <div style={{
+                                    position: 'absolute', bottom: -2, right: -2, width: 16, height: 16,
+                                    background: 'linear-gradient(135deg,#ffd060,#aa8020)', borderRadius: '50%',
+                                    border: '2px solid var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 7
+                                }}>👑</div>}
+                            </div>
+                            <div style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1rem', color: 'var(--t100)' }}>{uname}</div>
+                            <div style={{ fontSize: 10, color: 'var(--t40)' }}>{me.isPro ? 'Pro Member 👑' : 'Free Trial'}</div>
+                            <div style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1.4rem', color: 'var(--t100)' }}>{me.xp.toLocaleString()}</div>
+                            <div style={{ fontSize: 9, letterSpacing: '.1em', color: 'var(--t40)', textTransform: 'uppercase' }}>Total XP</div>
+                            {meLeading && <div style={{
+                                fontSize: 10, color: 'rgba(255,200,50,.8)', padding: '3px 10px',
+                                background: 'rgba(255,200,50,.08)', border: '1px solid rgba(255,200,50,.2)', borderRadius: 100, marginTop: 4
+                            }}>
+                                🥇 Leading by {diff.toLocaleString()} XP
+                            </div>}
+                        </div>
+
+                        {/* VS badge */}
+                        <div style={{
+                            width: 44, height: 44, borderRadius: '50%', background: 'var(--bg3)',
+                            border: '1px solid var(--card-b)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontFamily: 'Syne', fontWeight: 800, fontSize: '.75rem', color: 'var(--t40)',
+                            flexShrink: 0, zIndex: 2, position: 'relative', margin: '0 -1px'
+                        }}>VS</div>
+
+                        {/* Other card */}
+                        <div style={{
+                            flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
+                            padding: '20px 12px', background: !meLeading ? 'rgba(255,255,255,.04)' : 'var(--card)',
+                            border: '1px solid ' + (!meLeading ? 'rgba(255,255,255,.15)' : 'var(--card-b)'),
+                            borderRadius: '0 16px 16px 0', transition: 'all .4s',
+                            boxShadow: !meLeading ? '0 0 30px var(--glow-s)' : 'none'
+                        }}>
+                            <div style={{
+                                width: 52, height: 52, borderRadius: '50%', background: 'var(--card-h)',
+                                border: '2px solid ' + (!meLeading ? 'rgba(255,255,255,.3)' : 'var(--card-b)'),
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, overflow: 'hidden', position: 'relative'
+                            }}>
+                                {other.av && other.av.startsWith('data:') ? <img src={other.av} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" /> : otherName[0].toUpperCase()}
+                                {isPro(otherName) && <div style={{
+                                    position: 'absolute', bottom: -2, right: -2, width: 16, height: 16,
+                                    background: 'linear-gradient(135deg,#ffd060,#aa8020)', borderRadius: '50%',
+                                    border: '2px solid var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 7
+                                }}>👑</div>}
+                            </div>
+                            <div style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1rem', color: 'var(--t100)' }}>{otherName}</div>
+                            <div style={{ fontSize: 10, color: 'var(--t40)' }}>{isPro(otherName) ? 'Pro Member 👑' : 'Free Trial'}</div>
+                            <div style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1.4rem', color: 'var(--t100)' }}>
+                                {other.neverLoggedIn ? '—' : other.xp.toLocaleString()}
+                            </div>
+                            <div style={{ fontSize: 9, letterSpacing: '.1em', color: 'var(--t40)', textTransform: 'uppercase' }}>Total XP</div>
+                            {!meLeading && !other.neverLoggedIn && <div style={{
+                                fontSize: 10, color: 'rgba(255,200,50,.8)', padding: '3px 10px',
+                                background: 'rgba(255,200,50,.08)', border: '1px solid rgba(255,200,50,.2)', borderRadius: 100, marginTop: 4
+                            }}>
+                                🥇 Leading by {diff.toLocaleString()} XP
+                            </div>}
+                            {other.neverLoggedIn && <div style={{ fontSize: 10, color: 'var(--t20)', marginTop: 4, textAlign: 'center' }}>
+                                Not logged in yet
+                            </div>}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Stat-by-stat comparison */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {stats.map((s, i) => {
+                        const otherBetter = !s.meBetter && s.meVal !== s.otherVal;
+                        return <div key={i} style={{
+                            display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 8, alignItems: 'center',
+                            padding: '12px 16px', background: 'var(--card)', border: '1px solid var(--card-b)',
+                            borderRadius: 10, transition: 'all .3s', animation: `gci .3s ease ${i * 40}ms forwards`, opacity: 0
+                        }}>
+                            {/* Me side */}
+                            <div style={{ textAlign: 'right' }}>
+                                <div style={{
+                                    fontFamily: 'Syne', fontWeight: 800, fontSize: '1.1rem',
+                                    color: s.meBetter ? 'var(--t100)' : 'var(--t40)', transition: 'color .3s'
+                                }}>{s.meVal}</div>
+                            </div>
+                            {/* Center label */}
+                            <div style={{ textAlign: 'center', minWidth: 90 }}>
+                                <div style={{ fontSize: 11, marginBottom: 2 }}>{s.icon}</div>
+                                <div style={{ fontSize: 9, letterSpacing: '.08em', color: 'var(--t40)', textTransform: 'uppercase' }}>{s.label}</div>
+                                {/* Bar comparison */}
+                                <div style={{ display: 'flex', height: 3, background: 'var(--card-b)', borderRadius: 2, marginTop: 5, overflow: 'hidden', gap: 1 }}>
+                                    <div style={{
+                                        background: s.meBetter ? 'var(--t60)' : 'var(--t20)', borderRadius: '2px 0 0 2px',
+                                        flex: me[s.label === 'Total XP' ? 'xp' : s.label === 'Goals Done' ? 'done' : s.label === 'Day Streak' ? 'streak' : s.label === 'Level' ? 'level' : s.label === 'Goals Added' ? 'goals' : 'badges'] || 1,
+                                        transition: 'flex .8s ease'
+                                    }} />
+                                    <div style={{
+                                        background: otherBetter ? 'var(--t60)' : 'var(--t20)', borderRadius: '0 2px 2px 0',
+                                        flex: other[s.label === 'Total XP' ? 'xp' : s.label === 'Goals Done' ? 'done' : s.label === 'Day Streak' ? 'streak' : s.label === 'Level' ? 'level' : s.label === 'Goals Added' ? 'goals' : 'badges'] || 1,
+                                        transition: 'flex .8s ease'
+                                    }} />
+                                </div>
+                            </div>
+                            {/* Other side */}
+                            <div style={{ textAlign: 'left' }}>
+                                <div style={{
+                                    fontFamily: 'Syne', fontWeight: 800, fontSize: '1.1rem',
+                                    color: otherBetter ? 'var(--t100)' : 'var(--t40)', transition: 'color .3s'
+                                }}>
+                                    {other.neverLoggedIn ? '—' : s.otherVal}
+                                </div>
+                            </div>
+                        </div>;
+                    })}
+                </div>
+
+                {/* Motivational footer */}
+                <div style={{
+                    textAlign: 'center', marginTop: 24, padding: '16px', background: 'var(--card)',
+                    border: '1px solid var(--card-b)', borderRadius: 12
+                }}>
+                    {other.neverLoggedIn
+                        ? <div style={{ fontSize: 13, color: 'var(--t40)', lineHeight: 1.7 }}>
+                            <strong style={{ color: 'var(--t60)' }}>No data yet for {otherName}.</strong><br />
+                            Log in as {otherName} to start comparing!
+                        </div>
+                        : meLeading
+                            ? <div style={{ fontSize: 13, color: 'var(--t60)', lineHeight: 1.7 }}>
+                                You're ahead by <strong style={{ color: 'var(--t100)' }}>{diff.toLocaleString()} XP</strong>! 🔥 Keep it up — don't let {otherName} catch you!
+                            </div>
+                            : me.xp === other.xp
+                                ? <div style={{ fontSize: 13, color: 'var(--t60)' }}>It's a tie! ⚔️ Time to break ahead!</div>
+                                : <div style={{ fontSize: 13, color: 'var(--t60)', lineHeight: 1.7 }}>
+                                    {otherName} is ahead by <strong style={{ color: 'var(--t100)' }}>{diff.toLocaleString()} XP</strong>. ⚡ Complete more goals to take the lead!
+                                </div>}
+                </div>
+            </div>;
+        }
+
+        /* ===== GUIDE / TUTORIAL ===== */
+        function Guide({ onClose }) {
+            const [step, setStep] = useState(0);
+            const [text, setText] = useState('');
+            const [typing, setTyping] = useState(true);
+            const tiRef = useRef(null);
+
+            useEffect(() => {
+                setText(''); setTyping(true);
+                const full = TUTORIAL_STEPS[step].text;
+                let i = 0;
+                tiRef.current = setInterval(() => {
+                    setText(full.slice(0, i + 1)); i++;
+                    if (i >= full.length) { clearInterval(tiRef.current); setTyping(false) }
+                }, 22);
+                return () => clearInterval(tiRef.current);
+            }, [step]);
+
+            function next() {
+                sfxNav();
+                if (step < TUTORIAL_STEPS.length - 1) setStep(step + 1);
+                else onClose();
+            }
+            function prev() { sfxNav(); if (step > 0) setStep(step - 1) }
+            function goStep(i) { sfxNav(); setStep(i) }
+
+            return <div className="guide-overlay" onClick={onClose}>
+                <div className="guide-box" onClick={e => e.stopPropagation()}>
+                    <div className="guide-bg" />
+                    {/* Anime character SVG */}
+                    <div className="guide-char">
+                        <svg viewBox="0 0 180 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            {/* Body */}
+                            <ellipse cx="90" cy="240" rx="40" ry="60" fill="rgba(60,20,100,.8)" />
+                            {/* Dress details */}
+                            <path d="M55 220 Q90 280 125 220 Q115 300 90 310 Q65 300 55 220Z" fill="rgba(80,30,130,.9)" />
+                            {/* Arms */}
+                            <ellipse cx="48" cy="235" rx="12" ry="28" fill="rgba(60,20,100,.7)" transform="rotate(-10 48 235)" />
+                            <ellipse cx="132" cy="235" rx="12" ry="28" fill="rgba(60,20,100,.7)" transform="rotate(10 132 235)" />
+                            {/* Hands */}
+                            <circle cx="43" cy="262" r="10" fill="#f8d0e0" />
+                            <circle cx="137" cy="262" r="10" fill="#f8d0e0" />
+                            {/* Neck */}
+                            <rect x="80" y="142" width="20" height="22" rx="8" fill="#f8d0e0" />
+                            {/* Head */}
+                            <ellipse cx="90" cy="110" rx="50" ry="56" fill="#f8d0e0" />
+                            {/* Hair back */}
+                            <ellipse cx="90" cy="85" rx="52" ry="40" fill="#1a0830" />
+                            {/* Hair front */}
+                            <path d="M42 90 Q36 50 60 35 Q90 20 120 35 Q144 50 138 90" fill="#1a0830" />
+                            {/* Hair strands */}
+                            <path d="M42 90 Q35 110 40 140" stroke="#1a0830" strokeWidth="8" strokeLinecap="round" fill="none" />
+                            <path d="M138 90 Q145 110 140 140" stroke="#1a0830" strokeWidth="8" strokeLinecap="round" fill="none" />
+                            <path d="M52 70 Q45 100 48 130" stroke="#1a0830" strokeWidth="6" strokeLinecap="round" fill="none" />
+                            <path d="M128 70 Q135 100 132 130" stroke="#1a0830" strokeWidth="6" strokeLinecap="round" fill="none" />
+                            {/* Eyes - large anime */}
+                            <ellipse cx="72" cy="108" rx="14" ry="16" fill="#0a001a" />
+                            <ellipse cx="108" cy="108" rx="14" ry="16" fill="#0a001a" />
+                            {/* Eye color */}
+                            <ellipse cx="72" cy="110" rx="10" ry="12" fill="#6020c0" />
+                            <ellipse cx="108" cy="110" rx="10" ry="12" fill="#6020c0" />
+                            {/* Eye glow */}
+                            <ellipse cx="72" cy="110" rx="10" ry="12" fill="rgba(180,100,255,.4)" />
+                            <ellipse cx="108" cy="110" rx="10" ry="12" fill="rgba(180,100,255,.4)" />
+                            {/* Pupils */}
+                            <ellipse cx="72" cy="112" rx="5" ry="7" fill="#1a0040" />
+                            <ellipse cx="108" cy="112" rx="5" ry="7" fill="#1a0040" />
+                            {/* Eye shine */}
+                            <circle cx="76" cy="106" r="3" fill="rgba(255,255,255,.9)" />
+                            <circle cx="112" cy="106" r="3" fill="rgba(255,255,255,.9)" />
+                            <circle cx="68" cy="116" r="1.5" fill="rgba(255,255,255,.5)" />
+                            <circle cx="104" cy="116" r="1.5" fill="rgba(255,255,255,.5)" />
+                            {/* Eyebrows */}
+                            <path d="M60 93 Q72 88 82 92" stroke="#1a0830" strokeWidth="3" strokeLinecap="round" fill="none" />
+                            <path d="M98 92 Q108 88 120 93" stroke="#1a0830" strokeWidth="3" strokeLinecap="round" fill="none" />
+                            {/* Blush */}
+                            <ellipse cx="57" cy="122" rx="12" ry="6" fill="rgba(255,100,130,.25)" />
+                            <ellipse cx="123" cy="122" rx="12" ry="6" fill="rgba(255,100,130,.25)" />
+                            {/* Smile */}
+                            <path d="M78 132 Q90 142 102 132" stroke="#cc6080" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                            {/* Cat ears */}
+                            <path d="M48 65 L38 30 L68 55Z" fill="#1a0830" />
+                            <path d="M132 65 L142 30 L112 55Z" fill="#1a0830" />
+                            <path d="M52 62 L44 38 L65 55Z" fill="rgba(180,80,200,.4)" />
+                            <path d="M128 62 L136 38 L115 55Z" fill="rgba(180,80,200,.4)" />
+                            {/* Star accessories in hair */}
+                            <text x="26" y="55" fontSize="16" fill="rgba(255,200,50,.8)">✦</text>
+                            <text x="138" y="50" fontSize="12" fill="rgba(180,100,255,.8)">✦</text>
+                            {/* Glowing eyes effect */}
+                            <ellipse cx="72" cy="110" rx="14" ry="16" fill="none" stroke="rgba(180,100,255,.3)" strokeWidth="2" />
+                            <ellipse cx="108" cy="110" rx="14" ry="16" fill="none" stroke="rgba(180,100,255,.3)" strokeWidth="2" />
+                            {/* Moon necklace */}
+                            <path d="M78 152 Q90 162 102 152" stroke="rgba(180,100,255,.6)" strokeWidth="1.5" fill="none" />
+                            <circle cx="90" cy="162" r="5" fill="rgba(180,100,255,.5)" />
+                        </svg>
+                    </div>
+                    <div className="guide-bubble">
+                        <div className="guide-name">
+                            <span style={{ fontSize: 16 }}>🌙</span> Luna
+                            <span style={{ fontSize: 10, color: 'var(--t20)', fontWeight: 400, letterSpacing: 0 }}>your guide</span>
+                        </div>
+                        <div style={{ fontFamily: 'Syne', fontSize: '0.85rem', fontWeight: 700, color: 'var(--t60)', marginBottom: 8 }}>
+                            {TUTORIAL_STEPS[step].title}
+                        </div>
+                        <div className="guide-text">
+                            {text}{typing && <span className="cursor">|</span>}
+                        </div>
+                        <div className="guide-steps">
+                            {TUTORIAL_STEPS.map((_, i) => <div key={i} className={`guide-step-dot${i === step ? ' act' : ''}`} onClick={() => goStep(i)} />)}
+                        </div>
+                        <div className="guide-btns">
+                            {step > 0 && <button className="guide-btn sec" onClick={prev}>← Back</button>}
+                            <button className="guide-btn primary" onClick={next}>
+                                {step < TUTORIAL_STEPS.length - 1 ? 'Next →' : 'Let\'s Go! 🚀'}
+                            </button>
+                            <button className="guide-btn sec" onClick={onClose} style={{ marginLeft: 'auto' }}>Skip</button>
+                        </div>
+                    </div>
+                </div>
+            </div>;
+        }
+
+        /* ===== ADD MODAL ===== */
+        function AddModal({ count, onAdd, onClose }) {
+            const [text, setText] = useState('');
+            const [cat, setCat] = useState('');
+            function submit() {
+                const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+                if (lines.length > 0) { onAdd(lines, cat); sfxClick(); }
+                onClose();
+            }
+            return <div className="mov" onClick={onClose}>
+                <div className="moc" onClick={e => e.stopPropagation()}>
+                    <h3>Add New Goals</h3>
+                    <div style={{ fontSize: 11, color: 'var(--t40)', marginBottom: 12 }}>{count}/100 goals used · One goal per line</div>
+                    <textarea value={text} onChange={e => setText(e.target.value)}
+                        placeholder={"Learn to surf\nVisit Japan\nWrite a song"} rows={5} autoFocus />
+                    <label>Category (optional)</label>
+                    <select value={cat} onChange={e => setCat(e.target.value)}>
+                        <option value="">No category</option>
+                        {CATS.map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                    <div className="moa">
+                        <button className="mcb" onClick={onClose}>Cancel</button>
+                        <button className="mfb" onClick={submit}>Add Goals</button>
+                    </div>
+                </div>
+            </div>;
+        }
+
+        /* ===== SETTINGS PANEL ===== */
+        function Settings({ data, onUpdate, onClose, isPro, uname }) {
+            const ctx = useContext(TC);
+            const theme = ctx.th;
+            const setTheme = ctx.setTh;
+            const [trialNote, setTrialNote] = useState(false);
+
+            function chTh(tid, free) {
+                if (!free && !isPro) { setTrialNote(true); setTimeout(() => setTrialNote(false), 3000); return }
+                sfxClick(); setTheme(tid); onUpdate({ ...data, th: tid });
+            }
+            function persist(nd) { onUpdate(nd) }
+
+            return <div className="settings-overlay" onClick={onClose}>
+                <div className="settings-panel" onClick={e => e.stopPropagation()}>
+                    <div className="sp-header">
+                        <div className="sp-title">⚙️ Settings</div>
+                        <button className="sp-close" onClick={() => { sfxClick(); onClose() }}>✕</button>
+                    </div>
+                    <div className="sp-body">
+
+                        {/* Account */}
+                        <div className="sp-section">
+                            <div className="sp-sec-title">Account</div>
+                            <div style={{
+                                display: 'flex', alignItems: 'center', gap: 12, padding: '12px',
+                                background: 'var(--card)', borderRadius: 10, border: '1px solid var(--card-b)'
+                            }}>
+                                <div className="av" style={{ width: 44, height: 44, fontSize: 18 }}>
+                                    {data.av ? <img src={data.av} alt="" /> : uname[0]}
+                                    {isPro && <div className="pro-badge">👑</div>}
+                                </div>
+                                <div>
+                                    <div style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: '1rem' }}>{uname}</div>
+                                    <div style={{ fontSize: 11, color: 'var(--t40)', marginTop: 2 }}>
+                                        {isPro ? ACCOUNTS[uname]?.pro ? 'Pro Member 👑' : 'Free Trial 🎁' : 'Free Plan'}
+                                        {!isPro && ' · ' + trialDaysLeft(uname) + ' trial days left'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Pricing shortcut */}
+                        {!isPro && <div className="sp-section">
+                            <div className="sp-sec-title">Upgrade</div>
+                            <div className="trial-badge"><span>🎁</span><span>7-day free trial active — {trialDaysLeft(uname)} days left!</span></div>
+                            <div style={{ fontSize: 12, color: 'var(--t40)', marginBottom: 10 }}>Unlock all themes and premium features.</div>
+                        </div>}
+
+                        {/* Themes */}
+                        <div className="sp-section">
+                            <div className="sp-sec-title">Themes</div>
+                            {trialNote && <div style={{
+                                fontSize: 11, color: 'rgba(255,200,50,.8)', marginBottom: 8,
+                                padding: '6px 10px', background: 'rgba(255,200,50,.06)', borderRadius: 6, border: '1px solid rgba(255,200,50,.2)'
+                            }}>
+                                🔒 This theme requires Pro. Upgrade to unlock!
+                            </div>}
+                            <div className="thr">
+                                {ALL_THEMES.map(t => {
+                                    const locked = !t.free && !isPro;
+                                    return <div key={t.id} className={`tho${theme === t.id ? ' act' : ''}`} onClick={() => chTh(t.id, t.free || isPro)}>
+                                        <div className="thp" style={{ background: `linear-gradient(135deg,${t.c[0]},${t.c[1]},${t.c[2]})` }}>
+                                            {locked && <div className="th-lock show">🔒</div>}
+                                        </div>
+                                        <div className="thn">{t.n}</div>
+                                    </div>;
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Display */}
+                        <div className="sp-section">
+                            <div className="sp-sec-title">Display</div>
+                            <div className="srow">
+                                <div className="slbl">Background Animations<small>Particle effects</small></div>
+                                <button className={`tsw${data.bg ? ' on' : ''}`} onClick={() => persist({ ...data, bg: !data.bg })} />
+                            </div>
+                            <div className="srow">
+                                <div className="slbl">Motion Intensity<small>Animation speed</small></div>
+                                <div className="slw">
+                                    <span style={{ fontSize: 10, color: 'var(--t20)' }}>Low</span>
+                                    <input type="range" min="0.1" max="2" step="0.1" value={data.mi}
+                                        onChange={e => persist({ ...data, mi: parseFloat(e.target.value) })} />
+                                    <span style={{ fontSize: 10, color: 'var(--t20)' }}>High</span>
+                                </div>
+                            </div>
+                            <div className="srow">
+                                <div className="slbl">Grayscale Photos<small>Black & white memory style</small></div>
+                                <button className={`tsw${data.gs ? ' on' : ''}`} onClick={() => persist({ ...data, gs: !data.gs })} />
+                            </div>
+                        </div>
+
+                        {/* Sound */}
+                        <div className="sp-section">
+                            <div className="sp-sec-title">Sound</div>
+                            <div className="srow">
+                                <div className="slbl">Sound Effects<small>UI sounds & celebrations</small></div>
+                                <button className={`tsw${data.snd ? ' on' : ''}`} onClick={() => {
+                                    const ns = !data.snd; window._soundOn = ns; persist({ ...data, snd: ns });
+                                    if (ns) sfxClick();
+                                }} />
+                            </div>
+                            {data.snd && <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 8, opacity: .5 }}>
+                                <div className="sound-wave">
+                                    {[1, 2, 3, 4, 5].map((b, i) => <div key={i} className="sound-bar" style={{ '--d': (0.4 + i * .08) + 's', '--h': (4 + b * 3) + 'px', animationDelay: (i * .07) + 's' }} />)}
+                                </div>
+                                <span style={{ fontSize: 10, color: 'var(--t40)', marginLeft: 8 }}>Sounds active</span>
+                            </div>}
+                        </div>
+
+                        {/* Privacy */}
+                        <div className="sp-section">
+                            <div className="sp-sec-title">Data</div>
+                            <div className="srow">
+                                <div className="slbl">Show Tutorial<small>Restart the guide</small></div>
+                                <button className="gib" onClick={() => { persist({ ...data, tutorial: true }); onClose(); sfxClick() }}
+                                    style={{ padding: '6px 14px', borderRadius: 8 }}>Restart Luna's Guide</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>;
+        }
+
+        /* ===== PRICING PAGE ===== */
+        function Pricing({ isPro, uname, onClose }) {
+            const trial = trialDaysLeft(uname);
+            return <div>
+                <div style={{ textAlign: 'center', marginBottom: 28 }}>
+                    <div style={{
+                        fontFamily: 'Syne', fontSize: '1.8rem', fontWeight: 800, marginBottom: 8,
+                        background: 'linear-gradient(135deg,var(--t100),var(--dim))', WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent', backgroundClip: 'text'
+                    }}>
+                        Unlock Your Full Potential
+                    </div>
+                    <div style={{ color: 'var(--t40)', fontSize: 13, maxWidth: 500, margin: '0 auto', lineHeight: 1.7 }}>
+                        100 Before is free forever. Pro unlocks exclusive themes, advanced features, and bragging rights.
+                    </div>
+                </div>
+                {!isPro && trial > 0 && <div style={{ textAlign: 'center', marginBottom: 24 }}>
+                    <div className="trial-badge" style={{ display: 'inline-flex' }}>
+                        <span>🎁</span><span>Free trial active — {trial} days remaining!</span>
+                    </div>
+                </div>}
+                <div className="price-grid">
+                    {/* Free */}
+                    <div className="price-card">
+                        <div className="price-name">Free</div>
+                        <div className="price-amt">$0<span>/mo</span></div>
+                        <div className="price-per">Forever free</div>
+                        <ul className="price-feat">
+                            <li>Up to 100 goals</li>
+                            <li>5 base themes</li>
+                            <li>XP & level system</li>
+                            <li>Basic badges</li>
+                            <li>Weekly challenges</li>
+                            <li>Photo attachments</li>
+                            <li className="locked">6 exclusive themes</li>
+                            <li className="locked">Pro leaderboard badge</li>
+                            <li className="locked">Priority support</li>
+                        </ul>
+                        <button className={`price-btn${isPro ? '' ? ' primary' : ' disabled' : ' disabled'}`}>
+                            {isPro ? 'Downgrade' : 'Current Plan'}
+                        </button>
+                    </div>
+                    {/* Pro */}
+                    <div className="price-card popular">
+                        <div className="price-name">Pro</div>
+                        <div className="price-amt">$4<span>.99/mo</span></div>
+                        <div className="price-per">Billed monthly · Cancel anytime</div>
+                        <ul className="price-feat">
+                            <li>Everything in Free</li>
+                            <li>All 11 themes</li>
+                            <li>Pro leaderboard badge 👑</li>
+                            <li>All achievement badges</li>
+                            <li>Advanced goal notes</li>
+                            <li>Priority support</li>
+                            <li>Future features first</li>
+                            <li>Your name in credits</li>
+                            <li>Luna's Pro dialogue 🌙</li>
+                        </ul>
+                        <button className={`price-btn primary`}
+                            style={isPro ? { background: 'rgba(255,200,50,.15)', borderColor: 'rgba(255,200,50,.3)', color: 'rgba(255,220,80,1)' } : {}}>
+                            {isPro ? '✓ Current Plan' : 'Upgrade to Pro'}
+                        </button>
+                    </div>
+                    {/* Lifetime */}
+                    <div className="price-card">
+                        <div className="price-name">Lifetime</div>
+                        <div className="price-amt">$49<span> once</span></div>
+                        <div className="price-per">Pay once, own forever</div>
+                        <ul className="price-feat">
+                            <li>Everything in Pro</li>
+                            <li>Lifetime updates</li>
+                            <li>Exclusive lifetime badge</li>
+                            <li>Beta features access</li>
+                            <li>Supporter status</li>
+                            <li>Custom goal categories</li>
+                            <li>Data export (JSON/CSV)</li>
+                            <li>1-on-1 goal consultation</li>
+                            <li>Early access to v2</li>
+                        </ul>
+                        <button className="price-btn primary">Get Lifetime</button>
+                    </div>
+                </div>
+            </div>;
+        }
+
+        /* ===== LOGIN ===== */
+        function Login({ onLogin }) {
+            const [user, setUser] = useState(''); const [pass, setPass] = useState('');
+            const [err, setErr] = useState(false); const [ok, setOk] = useState(false);
+            const [vis, setVis] = useState(false);
+            useEffect(() => { setTimeout(() => setVis(true), 100) }, []);
+
+            function submit(e) {
+                e.preventDefault(); sfxClick();
+                const acc = ACCOUNTS[user];
+                if (acc && acc.pass === pass) { setErr(false); setOk(true); setTimeout(() => onLogin(user), 900) }
+                else { setErr(true); setOk(false); setTimeout(() => setErr(false), 600) }
+            }
+            function doRip(e) {
+                const btn = e.currentTarget; const r = btn.getBoundingClientRect();
+                const rip = document.createElement('span'); rip.className = 'rip';
+                rip.style.left = (e.clientX - r.left) + 'px'; rip.style.top = (e.clientY - r.top) + 'px';
+                btn.appendChild(rip); setTimeout(() => rip.remove(), 700);
+            }
+
+            return <div className="login-screen" style={{ opacity: vis ? 1 : 0, transition: 'opacity .7s' }}>
+                <form onSubmit={submit} className={`lw${err ? ' shake' : ''}${ok ? ' glow-ok' : ''}`}
+                    style={{ opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(40px)', transition: 'opacity .7s ease .15s,transform .7s ease .15s' }}>
+                    <div className="ll">
+                        <div className="ll-big">100</div>
+                        <div className="ll-sub">Before</div>
+                    </div>
+                    <div className="lr">
+                        <div className="lr-t">Welcome Back</div>
+                        <div className="lr-s">Sign in to continue your bucket list journey.</div>
+                        <div className="ig">
+                            <input type="text" placeholder=" " value={user} onChange={e => setUser(e.target.value)} className={err ? 'err' : ''} />
+                            <label>Username</label><div className="fl" />
+                        </div>
+                        <div className="ig">
+                            <input type="password" placeholder=" " value={pass} onChange={e => setPass(e.target.value)} className={err ? 'err' : ''} />
+                            <label>Password</label><div className="fl" />
+                        </div>
+                        {err && <div style={{ fontSize: 11, color: 'rgba(200,70,70,.8)', marginBottom: 8, marginTop: -6 }}>Invalid credentials.</div>}
+                        <button type="submit" className="btn-p" onClick={doRip}>
+                            <span className="shine" />Sign In
+                        </button>
+                        <div style={{
+                            marginTop: 18, padding: '12px', background: 'var(--card)', border: '1px solid var(--card-b)',
+                            borderRadius: 8, fontSize: 11, color: 'var(--t40)', lineHeight: 1.8
+                        }}>
+                            <div style={{ color: 'var(--t60)', fontWeight: 600, marginBottom: 4 }}>Test Accounts:</div>
+                            <div>👑 <strong style={{ color: 'var(--t60)' }}>Pranav / 123</strong> — Pro Member</div>
+                            <div>🆓 <strong style={{ color: 'var(--t60)' }}>PranavR / 321</strong> — Free (7-day trial)</div>
+                        </div>
+                    </div>
+                </form>
+            </div>;
+        }
+
+        /* ===== DASHBOARD ===== */
+        function Dashboard({ data, onUpdate, onLogout, uname }) {
+            const ctx = useContext(TC); const theme = ctx.th; const setTheme = ctx.setTh;
+            const pro = isPro(uname);
+
+            const [activeTab, setActiveTab] = useState('goals');
+            const [modal, setModal] = useState(false);
+            const [settings, setSettings] = useState(false);
+            const [guide, setGuide] = useState(data.tutorial);
+            const [filter, setFilter] = useState('all');
+            const [catFilter, setCatFilter] = useState('all');
+            const [cfd, setCfd] = useState(null);
+            const [xbd, setXbd] = useState(null);
+            const [popB, setPopB] = useState(null);
+            const [bigCel, setBigCel] = useState(null);
+            const avRef = useRef(null);
+            const prevLevel = useRef(Math.floor((data.xp || 0) / XPL));
+
+            const completed = data.goals.filter(g => g.done).length;
+            const total = data.goals.length;
+            const level = Math.floor(data.xp / XPL);
+            const xpInLv = data.xp % XPL;
+            const remaining = Math.max(0, total - completed);
+            const isDark = theme !== 'frost';
+            const weeklyGoal = data.wgi != null && data.goals[data.wgi] ? data.goals[data.wgi] : null;
+
+            const animXP = useAN(data.xp);
+            const animDone = useAN(completed);
+            const animStreak = useAN(data.streak);
+            const animRem = useAN(remaining);
+
+            useEffect(() => {
+                window._soundOn = data.snd !== false;
+                if (data.goals.length > 0 && new Date(data.we).getTime() < Date.now()) {
+                    const inc = data.goals.filter(g => !g.done);
+                    const pool = inc.length > 0 ? inc : data.goals;
+                    const idx = data.goals.indexOf(pool[Math.floor(Math.random() * pool.length)]);
+                    persist({ ...data, wgi: idx, we: new Date(Date.now() + 7 * 864e5).toISOString() });
+                }
+            }, []);
+
+            function persist(nd) { onUpdate(nd) }
+
+            const filteredGoals = useMemo(() => {
+                let g = data.goals;
+                if (filter === 'done') g = g.filter(x => x.done);
+                if (filter === 'todo') g = g.filter(x => !x.done);
+                if (catFilter !== 'all') g = g.filter(x => x.cat === catFilter);
+                return g;
+            }, [data.goals, filter, catFilter]);
+
+            const usedCats = useMemo(() => [...new Set(data.goals.filter(g => g.cat).map(g => g.cat))], [data.goals]);
+
+            function toggleGoal(id, e) {
+                const goal = data.goals.find(g => g.id === id); if (!goal) return;
+                const wasDone = goal.done;
+                const newGoals = data.goals.map(g => g.id === id ? { ...g, done: !g.done, doneAt: !g.done ? new Date().toISOString() : null } : g);
+                const xpD = wasDone ? -XPG : XPG;
+                let nd = { ...data, goals: newGoals, xp: Math.max(0, data.xp + xpD) };
+                if (!wasDone) {
+                    sfxComplete();
+                    const newBadges = BADGES.filter(b => nd.ub.indexOf(b.id) === -1 && b.ck(nd.goals, nd.streak, nd.xp));
+                    if (newBadges.length > 0) {
+                        nd = { ...nd, ub: [...nd.ub, ...newBadges.map(b => b.id)] };
+                        setPopB(newBadges[0]); setTimeout(() => setPopB(null), 2500);
+                        sfxBadge();
+                    }
+                    const newLevel = Math.floor(nd.xp / XPL);
+                    if (newLevel > prevLevel.current) { prevLevel.current = newLevel; sfxLevelUp(); setBigCel('🎉 LEVEL ' + newLevel + '! 🎉') }
+                    if (nd.goals.filter(g => g.done).length === 100) setBigCel('👑 LEGEND! 100/100! 👑');
+                    const rect = e && e.currentTarget ? e.currentTarget.getBoundingClientRect() : null;
+                    if (rect) {
+                        setCfd({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, key: Date.now() });
+                        setXbd({ x: rect.left + rect.width / 2, y: rect.top, amt: XPG, key: Date.now() });
+                    }
+                } else { sfxClick() }
+                persist(nd);
+            }
+
+            function deleteGoal(id) {
+                const goal = data.goals.find(g => g.id === id);
+                const newGoals = data.goals.filter(g => g.id !== id);
+                const xpD = goal && goal.done ? -XPG : 0;
+                let nd = { ...data, goals: newGoals, xp: Math.max(0, data.xp + xpD) };
+                if (nd.wgi != null && nd.wgi >= newGoals.length) nd.wgi = newGoals.length > 0 ? 0 : null;
+                persist(nd);
+            }
+
+            function addGoals(texts, cat) {
+                const nextId = data.goals.length > 0 ? Math.max(...data.goals.map(g => g.id)) + 1 : 1;
+                const cap = 100 - data.goals.length;
+                const ng = texts.slice(0, cap).map((t, i) => ({ id: nextId + i, text: t, done: false, doneAt: null, photo: null, cat: cat || '', note: '' }));
+                let nd = { ...data, goals: [...data.goals, ...ng] };
+                if (nd.wgi == null && nd.goals.length > 0) {
+                    const inc = nd.goals.filter(g => !g.done);
+                    const pool = inc.length > 0 ? inc : nd.goals;
+                    nd.wgi = nd.goals.indexOf(pool[Math.floor(Math.random() * pool.length)]);
+                }
+                sfxOpen(); persist(nd);
+            }
+
+            function setPhoto(id, src) { persist({ ...data, goals: data.goals.map(g => g.id === id ? { ...g, photo: src } : g) }) }
+            function rmPhoto(id) { persist({ ...data, goals: data.goals.map(g => g.id === id ? { ...g, photo: null } : g) }) }
+            function setNote(id, note) { persist({ ...data, goals: data.goals.map(g => g.id === id ? { ...g, note } : g) }) }
+
+            function onAvFile(e) {
+                const f = e.target.files && e.target.files[0]; if (!f) return;
+                const reader = new FileReader(); reader.onload = ev => persist({ ...data, av: ev.target.result });
+                reader.readAsDataURL(f); e.target.value = '';
+            }
+
+            function closeGuide() { persist({ ...data, tutorial: false }); setGuide(false) }
+
+            function switchTab(t) { sfxNav(); setActiveTab(t) }
+
+            return <>
+                {data.bg && <Particles intensity={data.mi} dark={isDark} />}
+                {data.bg && <OrbitBG intensity={data.mi} dark={isDark} />}
+
+                <div className="dash">
+                    <header className="dh">
+                        <div className="d-logo" onClick={() => switchTab('goals')}>100 BEFORE</div>
+                        <div className="hr">
+                            {['goals', 'leaderboard', 'pricing'].map(t => <button key={t} className={`nav-tab${activeTab === t ? ' act' : ''}`}
+                                onClick={() => switchTab(t)}>
+                                {t === 'goals' ? 'Goals' : t === 'leaderboard' ? 'Leaderboard' : 'Pricing'}
+                            </button>)}
+                            <button className="icon-btn" title="Settings" onClick={() => { sfxOpen(); setSettings(true) }}>⚙️</button>
+                            <button className="icon-btn" title="Guide" onClick={() => { sfxOpen(); setGuide(true) }}>🌙</button>
+                            <div className="av" onClick={() => avRef.current && avRef.current.click()} title="Upload avatar">
+                                {data.av ? <img src={data.av} alt="" /> : uname[0].toUpperCase()}
+                                {pro && <div className="pro-badge">👑</div>}
+                            </div>
+                            <input ref={avRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onAvFile} />
+                            <button className="icon-btn" style={{ fontSize: 12, fontFamily: 'Space Grotesk' }} onClick={onLogout}>Out</button>
+                        </div>
+                    </header>
+
+                    <div className="db">
+
+                        {/* === GOALS TAB === */}
+                        {activeTab === 'goals' && <>
+                            {!pro && <div className="pro-banner">
+                                <span>🎁</span>
+                                <div>
+                                    <strong>Free Trial Active</strong> — {trialDaysLeft(uname)} days left. Enjoy all Pro themes and features!
+                                    <button onClick={() => switchTab('pricing')} style={{
+                                        marginLeft: 12, fontSize: 11, padding: '3px 10px',
+                                        borderRadius: 100, border: '1px solid rgba(255,200,50,.3)', background: 'transparent',
+                                        color: 'rgba(255,200,50,.8)', cursor: 'pointer', fontFamily: 'Space Grotesk'
+                                    }}>Upgrade →</button>
+                                </div>
+                            </div>}
+
+                            {/* Progress */}
+                            <div className="pa">
+                                <Ring done={completed} total={total || 1} />
+                                <div className="xa">
+                                    <div className="xlv">Level {level}<span>{animXP} XP total</span></div>
+                                    <div className="xt"><div className="xf" style={{ width: (total > 0 ? (xpInLv / XPL) * 100 : 0) + '%' }} /></div>
+                                    <div className="xs">{XPL - xpInLv} XP to Level {level + 1}</div>
+                                    <div className="stk-b"><span className="flm">🔥</span> {animStreak}-day streak</div>
+                                </div>
+                            </div>
+
+                            {/* Stats */}
+                            <div className="sr">
+                                {[
+                                    { icon: '✅', label: 'Completed', val: animDone, sub: `of ${total} goals` },
+                                    { icon: '🎯', label: 'Remaining', val: animRem, sub: 'to go' },
+                                    { icon: '⚡', label: 'Level', val: level, sub: (total > 0 ? Math.round(xpInLv / XPL * 100) : 0) + '% to next' },
+                                    { icon: '🔥', label: 'Streak', val: animStreak, sub: 'days in a row' },
+                                ].map(s => <div key={s.label} className="sc">
+                                    <span className="sc-icon">{s.icon}</span>
+                                    <div className="sl">{s.label}</div>
+                                    <div className="sv">{s.val}</div>
+                                    <div className="ss">{s.sub}</div>
+                                </div>)}
+                            </div>
+
+                            {/* Badges */}
+                            <Col title="🏆 Achievements">
+                                <div className="bdgr">
+                                    {BADGES.map(b => {
+                                        const unlocked = data.ub.indexOf(b.id) !== -1;
+                                        return <div key={b.id} className={`bdg${unlocked ? '' : ' lk'}${popB && popB.id === b.id ? ' pop' : ''}`} title={b.n + ': ' + b.d}>
+                                            {b.i}
+                                            <div className="bdg-t">{b.n}</div>
+                                        </div>;
+                                    })}
+                                </div>
+                                {popB && <div style={{
+                                    fontSize: 12, color: 'var(--t60)', marginTop: 18, padding: '10px 14px',
+                                    background: 'var(--card)', border: '1px solid var(--card-b)', borderRadius: 8,
+                                    animation: 'gci .4s ease'
+                                }}>
+                                    🎉 Badge Unlocked: <strong>{popB.n}</strong> {popB.i}
+                                </div>}
+                            </Col>
+
+                            {/* Weekly Challenge */}
+                            {weeklyGoal && <WC goal={weeklyGoal} endDate={data.we} />}
+
+                            {/* Goals section */}
+                            <Col title="📋 My Goals">
+                                {total > 0 ? <div className="shdr">
+                                    <div className="fr">
+                                        {[['all', `All (${total})`], ['todo', `To Do (${total - completed})`], ['done', `Done (${completed})`]].map(([v, l]) =>
+                                            <button key={v} className={`fb${filter === v ? ' act' : ''}`} onClick={() => { sfxClick(); setFilter(v) }}>{l}</button>)}
+                                        {usedCats.length > 0 && <>
+                                            <div style={{ width: 1, height: 16, background: 'var(--card-b)', margin: '0 2px' }} />
+                                            {usedCats.map(c => <button key={c} className={`fb${catFilter === c ? ' act' : ''}`}
+                                                onClick={() => { sfxClick(); setCatFilter(catFilter === c ? 'all' : c) }}>{c}</button>)}
+                                        </>}
+                                    </div>
+                                    {total < 100 && <button className="abtn" onClick={() => { sfxOpen(); setModal(true) }}>+ Add Goals</button>}
+                                </div> : null}
+
+                                {total === 0 ? <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                                    <div style={{ fontSize: '3rem', marginBottom: 16, opacity: .1, animation: 'esf 4s ease-in-out infinite' }}>◎</div>
+                                    <div style={{
+                                        fontFamily: 'Syne', fontSize: '1.3rem', fontWeight: 800, marginBottom: 10,
+                                        background: 'linear-gradient(135deg,var(--t100),var(--dim))', WebkitBackgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent', backgroundClip: 'text'
+                                    }}>Your Journey Begins Here</div>
+                                    <div style={{ fontSize: 13, color: 'var(--t40)', maxWidth: 360, margin: '0 auto 24px', lineHeight: 1.7 }}>
+                                        100 chances to do something remarkable. Add your first goal.
+                                    </div>
+                                    <button className="es-a" onClick={() => { sfxOpen(); setModal(true) }}>+ Add Your First Goal</button>
+                                </div> : <>
+                                    <div className="gg">
+                                        {filteredGoals.map((g, i) => <GC key={g.id} goal={g} index={i}
+                                            onToggle={toggleGoal} onDelete={deleteGoal}
+                                            onPhoto={setPhoto} onRemovePhoto={rmPhoto} onNote={setNote}
+                                            grayS={data.gs} isPro={pro} />)}
+                                    </div>
+                                    {filteredGoals.length === 0 && <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--t20)', fontSize: 13 }}>
+                                        {filter === 'done' ? 'No completed goals yet — go get one! 🚀' : 'All done for this filter! 🎉'}
+                                    </div>}
+                                </>}
+                            </Col>
+                        </>}
+
+                        {/* === LEADERBOARD TAB === */}
+                        {activeTab === 'leaderboard' && <Col title="⚔️ Pranav vs PranavR" startOpen={true}>
+                            <Leaderboard data={data} uname={uname} isPro={isPro} />
+                        </Col>}
+
+                        {/* === PRICING TAB === */}
+                        {activeTab === 'pricing' && <Pricing isPro={pro} uname={uname} onClose={() => setActiveTab('goals')} />}
+                    </div>
+                </div>
+
+                {/* FAB add button */}
+                {activeTab === 'goals' && total < 100 && <button className="fab" onClick={() => { sfxOpen(); setModal(true) }} title="Add Goals">+</button>}
+
+                {/* Overlays */}
+                {modal && <AddModal count={total} onAdd={addGoals} onClose={() => setModal(false)} />}
+                {settings && <Settings data={data} onUpdate={nd => {
+                    const updated = { ...nd }; persist(updated);
+                    if (updated.th !== theme) { setTheme(updated.th) }
+                }} onClose={() => setSettings(false)} isPro={pro} uname={uname} />}
+                {guide && <Guide onClose={closeGuide} />}
+                {cfd && <Confetti x={cfd.x} y={cfd.y} key={cfd.key} onDone={() => setCfd(null)} />}
+                {xbd && <XPBurst x={xbd.x} y={xbd.y} amt={xbd.amt} key={xbd.key} onDone={() => setXbd(null)} />}
+                {bigCel && <BigCel text={bigCel} onDone={() => setBigCel(null)} />}
+            </>;
+        }
+
+        /* ===== ROOT ===== */
+        function App() {
+            const [phase, setPhase] = useState('intro');
+            const [uname, setUname] = useState(null);
+            const [data, setData] = useState(null);
+
+            useEffect(() => {
+                if (data && uname) sv(data, uname);
+            }, [data, uname]);
+
+            const introDone = useCallback(() => { setPhase(uname ? 'dashboard' : 'login') }, [uname]);
+
+            function handleLogin(u) {
+                let d = ld(u); if (!d) d = mkUser(u);
+                d = rsStreak(d); setUname(u); setData(d); sv(d, u); setPhase('dashboard');
+            }
+            function handleUpdate(nd) { setData(nd); if (uname) sv(nd, uname) }
+            function handleLogout() { setData(null); setUname(null); setPhase('login') }
+
+            const currentTheme = (data && data.th) || 'void';
+
+            return <TP init={currentTheme}>
+                <AppInner phase={phase} data={data} uname={uname}
+                    onIntroDone={introDone} onLogin={handleLogin} onUpdate={handleUpdate} onLogout={handleLogout} />
+            </TP>;
+        }
+
+        function AppInner({ phase, data, uname, onIntroDone, onLogin, onUpdate, onLogout }) {
+            const ctx = useContext(TC); const theme = ctx.th; const isDark = theme !== 'frost';
+            if (phase === 'intro') return <>
+                <Particles intensity={1} dark={true} />
+                <Intro onDone={onIntroDone} />
+            </>;
+            if (phase === 'login') return <>
+                <Particles intensity={.7} dark={isDark} />
+                <OrbitBG intensity={.5} dark={isDark} />
+                <Login onLogin={onLogin} />
+            </>;
+            if (phase === 'dashboard' && data) return <Dashboard data={data} onUpdate={onUpdate} onLogout={onLogout} uname={uname} />;
+            return null;
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+
+</html>
